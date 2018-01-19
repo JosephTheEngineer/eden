@@ -187,7 +187,7 @@ void SettingsMenu::load(){
     World::getWorld->player->health_option=properties[S_HEALTH].value;
 	World::getWorld->player->invertcam=FALSE;
 	World::getWorld->hud->use_joystick=TRUE;
-    World::getWorld->terrain->tgen->genCaves=FALSE;
+    World::getWorld->terrain->tgen->genCaves=TRUE;
     World::getWorld->bestGraphics=properties[S_AUTOJUMP].value;
     CREATURES_ON=properties[S_CREATURES].value;
     

@@ -1368,7 +1368,7 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
       //  clear();
         BOOL gen_default=FALSE;
        g_terrain_type=9;
-        if(g_terrain_type==0){
+       /* if(g_terrain_type==0){
             makeDirt();
         }else if(g_terrain_type==1){
            // makeMars();
@@ -1386,7 +1386,8 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
             makeBeach();
         }else if(g_terrain_type==7){
             makeMix();
-        }else if(g_terrain_type==8){
+        */
+        /*}else*/ if(g_terrain_type==8){
             genflat=TRUE;
         }else if(g_terrain_type==9){
             gen_default=TRUE;

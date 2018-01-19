@@ -27,7 +27,7 @@ TerrainGenerator::TerrainGenerator(Terrain* parent){
     init();
 	ter=parent;
 	LEVEL_SEED=0;
-    genCaves=FALSE;
+    genCaves=TRUE;
     
 	
 	

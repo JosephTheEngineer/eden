@@ -205,7 +205,7 @@ World::World(){
   //  FLIPPED=FALSE;
     Resources::getResources->playMenuTune();
    // [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+   // [[UIApplication sharedApplication] setStatusBarHidden:YES];
    // [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
     
      //tg2_init();
