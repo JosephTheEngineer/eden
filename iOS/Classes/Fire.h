@@ -8,10 +8,7 @@
 #ifndef Eden_Fire_h
 #define Eden_Fire_h
 
-
-
 #import "Vector.h"
-
 
 class Fire
 {
@@ -30,6 +27,5 @@ private:
     void renderFireSprites();
     
 };
-
 
 #endif
