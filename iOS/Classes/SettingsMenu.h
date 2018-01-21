@@ -12,14 +12,17 @@
 
 #import "Texture2D.h"
 #import "Input.h"
-typedef struct{
+typedef struct
+{
 	int value;
 	NSString* name;
 	CGRect box;
 	Texture2D* tex;
-}property;
+}
+property;
 #define NUM_PROP 5
-class SettingsMenu{
+class SettingsMenu
+{
 public:
     SettingsMenu();
     void update(float etime);
@@ -30,9 +33,7 @@ public:
 	
 	CGRect rect_settings;
 	
-	
 	Button rect_save;
-	
 	
 	Button rect_on[NUM_PROP];
 	
@@ -41,7 +42,4 @@ public:
 	property properties[NUM_PROP];
 };
 
-
 #endif
-
-

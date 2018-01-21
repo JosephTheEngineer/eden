@@ -14,7 +14,7 @@
 extern "C" {
 #define n_particles 7
 #define max_fparticles 6000
-#define max_bb 500
+#define max_bb 5000
 #define SMOKE_SIZER 90
 
 static unsigned short pindices[max_fparticles];
@@ -38,7 +38,7 @@ typedef struct
 }
     firenode;
     
-static firenode list[max_bb];
+    static firenode list[max_bb];
     }
 static int list_size;
 static int num_particles;

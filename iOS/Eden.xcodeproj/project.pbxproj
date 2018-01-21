@@ -773,7 +773,6 @@
 		C6A9B15713C92F980074190B /* ipad~sky.png in Resources */ = {isa = PBXBuildFile; fileRef = C6A9B14213C92F980074190B /* ipad~sky.png */; };
 		C6A9B15A13C93AE40074190B /* ipad~back.png in Resources */ = {isa = PBXBuildFile; fileRef = C6A9B15813C93AE40074190B /* ipad~back.png */; };
 		C6A9B15B13C93AE40074190B /* ipad~world_unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = C6A9B15913C93AE40074190B /* ipad~world_unselected.png */; };
-		C6AE407313C38A580068685C /* Appirater.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6AE407113C38A580068685C /* Appirater.mm */; };
 		C6AE407513C3917D0068685C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6AE407413C3917D0068685C /* SystemConfiguration.framework */; };
 		C6AE407713C3919E0068685C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6AE407613C3919E0068685C /* CFNetwork.framework */; };
 		C6AE407A13C3DF250068685C /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = C6AE407813C3DF240068685C /* md5.c */; };
@@ -845,9 +844,8 @@
 		C6FD459612905ECC005FC996 /* jump.png in Resources */ = {isa = PBXBuildFile; fileRef = C6FD455912905ECC005FC996 /* jump.png */; };
 		C6FD459C12905ECC005FC996 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = C6FD455F12905ECC005FC996 /* save.png */; };
 		F6045ABF2010E89200517B90 /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6045ABE2010E89200517B90 /* assets.xcassets */; };
-		F60AE0ED201225E100FA82EE /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F9BED01EDCACB000FF47B7 /* libCocosDenshion.a */; };
-		F60AE0EF2012269D00FA82EE /* libFlurry_8.3.4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F60AE0EE2012269D00FA82EE /* libFlurry_8.3.4.a */; };
-		F6910DE520110771002BCFB5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6910DE420110771002BCFB5 /* AudioToolbox.framework */; };
+		F64BCDD12014B4E2008224C4 /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F9BED01EDCACB000FF47B7 /* libCocosDenshion.a */; };
+		F66BD54F2013540A00303511 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66BD54E2013540A00303511 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -900,7 +898,6 @@
 		194671641A805F5000B0E5A3 /* creature_destruction_05.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = creature_destruction_05.mp3; path = new_sound/creature_destruction_05.mp3; sourceTree = "<group>"; };
 		194EDC351A7722B300342AEB /* Flame_256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flame_256.png; sourceTree = "<group>"; };
 		194EDC371A788E2300342AEB /* Flame_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flame_512.png; sourceTree = "<group>"; };
-		194EDC3A1A79C9D700342AEB /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		194EDC3D1A79CAA200342AEB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		195A1F971AA68FDC002A59C3 /* libcocos2d iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcocos2d iOS.a"; sourceTree = "<group>"; };
 		195A1FA11AA81588002A59C3 /* ipad~triangle_border_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ipad~triangle_border_active.png"; sourceTree = "<group>"; };
@@ -1046,7 +1043,6 @@
 		19DF68CF1A84302B00E462A1 /* CDOpenALSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
 		19DF68D11A84302B00E462A1 /* CocosDenshion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
 		19DF68D21A84302B00E462A1 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
-		19E52AE01A84418200C9CD48 /* libFlurry_6.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_6.0.0.a; sourceTree = "<group>"; };
 		19F806B21AA2605200ACD338 /* VKeyboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VKeyboard.h; sourceTree = "<group>"; };
 		19F806B31AA260CC00ACD338 /* VKeyboard.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VKeyboard.mm; sourceTree = "<group>"; };
 		19F9BED01EDCACB000FF47B7 /* libCocosDenshion.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCocosDenshion.a; sourceTree = "<group>"; };
@@ -1689,8 +1685,6 @@
 		C6A9B14213C92F980074190B /* ipad~sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ipad~sky.png"; path = "ipad_menu/ipad~sky.png"; sourceTree = "<group>"; };
 		C6A9B15813C93AE40074190B /* ipad~back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ipad~back.png"; path = "ipad_menu/ipad~back.png"; sourceTree = "<group>"; };
 		C6A9B15913C93AE40074190B /* ipad~world_unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ipad~world_unselected.png"; path = "ipad_menu/ipad~world_unselected.png"; sourceTree = "<group>"; };
-		C6AE407113C38A580068685C /* Appirater.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Appirater.mm; sourceTree = "<group>"; };
-		C6AE407213C38A580068685C /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
 		C6AE407413C3917D0068685C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C6AE407613C3919E0068685C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C6AE407813C3DF240068685C /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
@@ -1816,7 +1810,9 @@
 		F6045ABD2010E63800517B90 /* Eden.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Eden.entitlements; path = Eden/Eden.entitlements; sourceTree = "<group>"; };
 		F6045ABE2010E89200517B90 /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = assets.xcassets; sourceTree = "<group>"; };
 		F60AE0EE2012269D00FA82EE /* libFlurry_8.3.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_8.3.4.a; path = flurry/libFlurry_8.3.4.a; sourceTree = "<group>"; };
-		F6910DE420110771002BCFB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		F60F293F20124A1600301A4B /* Eden-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eden-Bridging-Header.h"; sourceTree = "<group>"; };
+		F66BD54C201353F100303511 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		F66BD54E2013540A00303511 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1845,11 +1841,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F60AE0EF2012269D00FA82EE /* libFlurry_8.3.4.a in Frameworks */,
-				F60AE0ED201225E100FA82EE /* libCocosDenshion.a in Frameworks */,
+				F64BCDD12014B4E2008224C4 /* libCocosDenshion.a in Frameworks */,
+				C6E46669127E210800D509D1 /* OpenAL.framework in Frameworks */,
+				F66BD54F2013540A00303511 /* AudioToolbox.framework in Frameworks */,
+				C6E46680127E22AE00D509D1 /* CoreAudio.framework in Frameworks */,
 				194EDC3E1A79CAA200342AEB /* Security.framework in Frameworks */,
 				C6AE407713C3919E0068685C /* CFNetwork.framework in Frameworks */,
-				F6910DE520110771002BCFB5 /* AudioToolbox.framework in Frameworks */,
 				C6AE407513C3917D0068685C /* SystemConfiguration.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -1857,8 +1854,6 @@
 				19F9BECF1EDCAC0900FF47B7 /* libcocos2d iOS.a in Frameworks */,
 				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
 				C68DD0F712637D470072CBF0 /* CoreGraphics.framework in Frameworks */,
-				C6E46669127E210800D509D1 /* OpenAL.framework in Frameworks */,
-				C6E46680127E22AE00D509D1 /* CoreAudio.framework in Frameworks */,
 				C6E4671E127E4BB800D509D1 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1931,6 +1926,7 @@
 				C64A25A4141BDF0C00FED97A /* Toolbar.mm */,
 				C6591E1E1280830C00136044 /* Util */,
 				C60398CA127F31CB00D465BE /* Views */,
+				F60F293F20124A1600301A4B /* Eden-Bridging-Header.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1952,8 +1948,6 @@
 			children = (
 				19F9BED01EDCACB000FF47B7 /* libCocosDenshion.a */,
 				192495EF1C10FE9600A2020B /* libcocos2d iOS.a */,
-				19E52AE01A84418200C9CD48 /* libFlurry_6.0.0.a */,
-				194EDC3A1A79C9D700342AEB /* Flurry.h */,
 			);
 			path = flurry;
 			sourceTree = "<group>";
@@ -2592,8 +2586,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F66BD54E2013540A00303511 /* AudioToolbox.framework */,
+				F66BD54C201353F100303511 /* AudioUnit.framework */,
 				F60AE0EE2012269D00FA82EE /* libFlurry_8.3.4.a */,
-				F6910DE420110771002BCFB5 /* AudioToolbox.framework */,
 				195A1F971AA68FDC002A59C3 /* libcocos2d iOS.a */,
 				194EDC3D1A79CAA200342AEB /* Security.framework */,
 				C6AE407613C3919E0068685C /* CFNetwork.framework */,
@@ -2673,8 +2668,6 @@
 				C62923D313C581ED007BB907 /* glue.c */,
 				C62923D413C581ED007BB907 /* glu.h */,
 				C62923D513C581ED007BB907 /* error.c */,
-				C6AE407113C38A580068685C /* Appirater.mm */,
-				C6AE407213C38A580068685C /* Appirater.h */,
 				C68DD0E712637CEB0072CBF0 /* OpenGL_Internal.h */,
 				C60878FC126B736600F51CAB /* Frustum.h */,
 				C60878FD126B736600F51CAB /* Frustum.mm */,
@@ -3192,10 +3185,11 @@
 					};
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = BWKYA8QX4Q;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InterAppAudio = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -4074,7 +4068,6 @@
 				C67F54C512CF966000F6DA2B /* Menu_background.mm in Sources */,
 				C6B673C713B09934005BF47C /* FileDownload.mm in Sources */,
 				C644651613B372F9007D8EA0 /* zpipe.c in Sources */,
-				C6AE407313C38A580068685C /* Appirater.mm in Sources */,
 				C6AE407A13C3DF250068685C /* md5.c in Sources */,
 				C62923D613C581ED007BB907 /* registry.c in Sources */,
 				C62923D713C581ED007BB907 /* project.c in Sources */,
@@ -4659,13 +4652,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_ENTITLEMENTS = Eden/Eden.entitlements;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.0;
 				DEVELOPMENT_TEAM = BWKYA8QX4Q;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -4679,7 +4672,11 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
 				INFOPLIST_FILE = "Eden-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/flurry";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/flurry",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
 				PRODUCT_NAME = Eden;
@@ -4688,6 +4685,9 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Eden-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7s armv7 arm64";
 			};
@@ -4699,13 +4699,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_ENTITLEMENTS = Eden/Eden.entitlements;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.0;
 				DEVELOPMENT_TEAM = BWKYA8QX4Q;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -4718,7 +4718,11 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
 				INFOPLIST_FILE = "Eden-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/flurry";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/flurry",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
 				PRODUCT_NAME = Eden;
@@ -4727,6 +4731,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Eden-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7s armv7 arm64";
@@ -4882,13 +4888,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_ENTITLEMENTS = Eden/Eden.entitlements;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 2.0;
 				DEVELOPMENT_TEAM = BWKYA8QX4Q;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -4901,7 +4907,11 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
 				INFOPLIST_FILE = "Eden-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/flurry";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/flurry",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
 				PRODUCT_NAME = Eden;
@@ -4910,6 +4920,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Eden-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7s armv7 arm64";
@@ -4970,13 +4982,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_ENTITLEMENTS = Eden/Eden.entitlements;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 2.0;
 				DEVELOPMENT_TEAM = BWKYA8QX4Q;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -4989,7 +5001,11 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES;
 				INFOPLIST_FILE = "Eden-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/flurry";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/flurry",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
 				PRODUCT_NAME = Eden;
@@ -4998,6 +5014,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Eden-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7s armv7 arm64";

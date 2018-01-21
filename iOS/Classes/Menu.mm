@@ -14,7 +14,9 @@
 #import "zpipe.h"
 #import "FileArchive.h"
 #import "Alert.h"
+#import "TerrainGen2.h"
 
+extern int g_terrain_type;
 
 //@synthesize loading,showsettings,sbar,is_sharing,
 //			showlistscreen,selected_world,shared_list,shareutil;
@@ -25,8 +27,8 @@ extern float P_ASPECT_RATIO;
 
 
 static float fade_out=0;
-Menu::Menu(){
-   
+Menu::Menu()
+{
     fade_out=0;
     settings=new SettingsMenu();
     menu_back=new Menu_background();
@@ -35,19 +37,20 @@ Menu::Menu(){
 	rect_name.size.height=83*.77f;
 	rect_name.origin.x=SCREEN_WIDTH/2-rect_name.size.width/2;
     rect_name.origin.y=SCREEN_HEIGHT-rect_name.size.height-10;
-    if(IS_IPAD&&!IS_RETINA){
+    if(IS_IPAD&&!IS_RETINA)
+    {
         rect_name.origin.x=SCREEN_WIDTH/2-(591/SCALE_WIDTH)/2.0f;
         rect_name.origin.y-=10;
     }
 	
-
 	rect_loading.size.width=150;
 	rect_loading.size.height=40;
 	rect_loading.origin.x=SCREEN_WIDTH/2-rect_loading.size.width/2;
 	rect_loading.origin.y=SCREEN_HEIGHT-123;
 	rect_loading.size.width=SCREEN_WIDTH;
 	rect_loading.origin.x=0;
-    if(IS_IPAD){
+    if(IS_IPAD)
+    {
         rect_loading.origin.y-=10;
     }
 	sbar=new statusbar(rect_loading);
@@ -56,13 +59,13 @@ Menu::Menu(){
     share_menu=new ShareMenu();
 	fnbar->clear();
 	
-	
 	world_list=NULL;
 	selected_world=NULL;
 	this->loadWorlds();
 	
 	WorldNode* node=world_list;
-	while(node!=NULL){
+	while(node!=NULL)
+    {
 		node->rect.size.width=70;
 		node->rect.size.height=70;
 		node->rect.origin.x=(SCREEN_WIDTH/2);
@@ -99,35 +102,32 @@ Menu::Menu(){
 	rect_share.size.width=70;
 	rect_share.size.height=70;
     if(!IS_IPAD)
-	rect_share.origin.x=0;
-    else{
-    rect_share.origin.x=20;    
+        rect_share.origin.x=0;
+    else
+    {
+        rect_share.origin.x=20;
     }
 	rect_share.origin.y=11;
-	
 	
 	rect_loadshared.size.width=70;
 	rect_loadshared.size.height=70;
 	rect_loadshared.origin.x=SCREEN_WIDTH-70;
 	rect_loadshared.origin.y=11;
 	
-	
-	
 	rect_delete.size.width=70;
 	rect_delete.size.height=70;
     if(!IS_IPAD)
         rect_delete.origin.x=0;
-    else{
+    else
+    {
         rect_delete.origin.x=20;    
     }
 	rect_delete.origin.y=(SCREEN_HEIGHT-70);
-	
 	
 	rect_create.size.width=70;
 	rect_create.size.height=70;
 	rect_create.origin.x=(SCREEN_WIDTH-70);
 	rect_create.origin.y=(SCREEN_HEIGHT-70);
-	
 	
 	shareutil=[[ShareUtil alloc] init];
 	showsettings=FALSE;
@@ -138,7 +138,6 @@ Menu::Menu(){
 	
     shared_list=new SharedList();
 	
-    
    /*  WorldNode* new_world;
     
     ///sample terrain gens
@@ -206,47 +205,54 @@ Menu::Menu(){
     [fnbar setStatus:selected_world->display_name :9999];*/
     
     
-    /*
-     if(g_terrain_type==0){
-     makeDirt();
-     }else if(g_terrain_type==1){
-     makeMars();
-     }else if(g_terrain_type==2){
-     makePonyWorld();
-     }else if(g_terrain_type==3){
-     makeMountains();
-     }else if(g_terrain_type==4){
-     makeDesert();
-     }*/
     
-	
+     if(g_terrain_type==0)
+     {
+     makeDirt();
+     }
+     else if(g_terrain_type==2)
+     {
+     makePonies();
+     }
+     else if(g_terrain_type==3)
+     {
+         makeRiverTrees(GSIZE/2,0,GSIZE,GSIZE,550);
+         makeMountains(0,0,GSIZE/2-32,GSIZE,550);
+         makeTransition(GSIZE/2-32,0,GSIZE/2,GSIZE);
+     }
+     else if(g_terrain_type==4)
+     {
+     makeDesert();
+     }
 }
-void Menu::activate(){
+void Menu::activate()
+{
     fade_out=0;
 	sbar->setStatus(@"Choose world to load" ,99999);
-    if(selected_world!=NULL){
+    if(selected_world!=NULL)
+    {
 	fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
     }
 	share_menu->activate();
 	shared_list->activate();
 }
-void Menu::deactivate(){
+
+void Menu::deactivate()
+{
     sbar->clear();
     fnbar->clear();
     share_menu->deactivate();
 	shared_list->deactivate();
-	
 }
-void Menu::loadWorlds(){
+
+void Menu::loadWorlds()
+{
 	world_list=NULL;
 	selected_world=NULL;
 	NSError* err;
     NSString* ppath=[[NSString alloc] initWithUTF8String:World::getWorld->fm->documents->c_str()];
-	NSArray* dirContents = [[NSFileManager defaultManager] 
-							
+	NSArray* dirContents = [[NSFileManager defaultManager]
 							contentsOfDirectoryAtPath:ppath error:&err];
-    
-    
     //readIndex();
 	world_list_end=world_list;
     int dirc=(int)[dirContents count];
@@ -264,11 +270,11 @@ void Menu::loadWorlds(){
     if(reloadDir){
         dirContents=[[NSFileManager defaultManager]
          contentsOfDirectoryAtPath:ppath error:&err];
-        
         dirc=(int)[dirContents count];
     }
     
-	for(int i=0;i<dirc;i++){
+	for(int i=0;i<dirc;i++)
+    {
 		NSString* file_name=[dirContents objectAtIndex:i];
         NSLog(@"%@",file_name);
         if([file_name isEqualToString:@"Eden.eden.archive"])continue;
@@ -276,19 +282,19 @@ void Menu::loadWorlds(){
         
         NSString* wut=[file_name pathExtension];
         wut=[wut uppercaseString];
-        if([wut isEqualToString:@"PNG"]){
+        if([wut isEqualToString:@"PNG"])
+        {
             continue;
         }
         if(![wut isEqualToString:@"EDEN"])
             continue;
-        
         NSString* real_name=nsstring(World::getWorld->fm->getName(cpstring(file_name)).c_str());
         if(real_name==NULL){
             real_name=@"Unknown World";
         }
-        
 		NSLog(@"'%@'",real_name);
-        if([real_name isEqualToString:@"error~"]){
+        if([real_name isEqualToString:@"error~"])
+        {
             continue;
         }
         
@@ -299,94 +305,110 @@ void Menu::loadWorlds(){
 		node->file_name=new std::string(cpstring(file_name));
 		
 		
-		if(world_list_end==NULL){
+		if(world_list_end==NULL)
+        {
 			world_list_end=node;
 			world_list=node;
 			selected_world=node;
 			fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
-		}else{
+		}
+        else
+        {
 			world_list_end->next=node;
 			node->prev=world_list_end;
 			world_list_end=node;			
 		}
-		
-		
 	}
-	if(world_list==NULL){
+	if(world_list==NULL)
+    {
 		WorldNode* new_world;
 		new_world=(WorldNode*)malloc(sizeof(WorldNode));
 		memset(new_world,0,sizeof(WorldNode));
         new_world->display_name=new std::string(cpstring(settings->getNewWorldName()));
 		new_world->file_name=new std::string(cpstring([NSString stringWithFormat:@"%@.eden",genhash()]));
-		
-		
         addWorld(new_world);
 		if(selected_world)
 		fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
 	}
 }
-void Menu::addWorld(WorldNode* node){
-	if(world_list_end==NULL){
+
+void Menu::addWorld(WorldNode* node)
+{
+	if(world_list_end==NULL)
+    {
 		world_list_end=node;
 		world_list=node;
 		selected_world=node;		
-	}else{
+	}
+    else
+    {
 		world_list_end->next=node;
 		node->prev=world_list_end;
 		world_list_end=node;			
 	}
 }
-void Menu::removeWorld(WorldNode* node){
+
+void Menu::removeWorld(WorldNode* node)
+{
 	if(node==NULL)return;
-	if(node==selected_world){
+	if(node==selected_world)
+    {
 		if(node->prev)
 			selected_world=node->prev;
-		else {
+		else
+        {
 			selected_world=node->next;
 		}
 	}
 	if(node==world_list_end)world_list_end=node->prev;
 	if(node==world_list)world_list=node->next;
-	if(node->prev){
+	if(node->prev)
+    {
 		node->prev->next=node->next;
 	}
-	if(node->next){
+	if(node->next)
+    {
 		node->next->prev=node->prev;
 	}
-	
 	free(node);
 	if(selected_world)
 		fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
-	else{
+	else
+    {
 		fnbar->setStatus(@"" ,9999);
 	}
 }
+
 static const int usage_id=7;
 #define SPACE 75
-void Menu::update(float etime){
+void Menu::update(float etime)
+{
 	menu_back->update(etime);
-	if(is_sharing){
+	if(is_sharing)
+    {
 		share_menu->update(etime);
 		return;
 	}
-    if(loading){
+    if(loading)
+    {
         if(loading>=4&&LOW_MEM_DEVICE)
         fade_out+=etime/2;
         return;
     }
-	if(loading_world_list){
+	if(loading_world_list)
+    {
 		loading_world_list=0;
         shared_list->finished_list_dl=FALSE;
-        
 		[shareutil getSharedWorldList];
 		showlistscreen=TRUE;
-        
 	}
-	if(showsettings){
+	if(showsettings)
+    {
 		settings->update(etime);
 		return;
 	}
-	if(showlistscreen){
+	if(showlistscreen)
+    {
 		shared_list->update(etime);
 		
 	}
@@ -401,20 +423,23 @@ void Menu::update(float etime){
 	}
 	activeRightArrow=FALSE;
 	activeLeftArrow=FALSE;
-	if(selected_world!=NULL){
+	if(selected_world!=NULL)
+    {
 		selected_world->rect.size.width=85;
 		selected_world->rect.size.height=85;
 		selected_world->rect.origin.x=(SCREEN_WIDTH/2-selected_world->rect.size.width/2);
 		selected_world->rect.origin.y=130;
 		selected_world->tex=Resources::getResources->getMenuTex(MENU_BLOCK_SELECTED);
-		if(selected_world->prev!=NULL){
+		if(selected_world->prev!=NULL)
+        {
 			activeLeftArrow=TRUE;
 			selected_world->prev->rect.size.width=85;
 			selected_world->prev->rect.size.height=85;
 			selected_world->prev->rect.origin.x=
-				(SCREEN_WIDTH/2-selected_world->rect.size.width/2)-SPACE;
+            (SCREEN_WIDTH/2-selected_world->rect.size.width/2)-SPACE;
 			selected_world->prev->rect.origin.y=130;	
-			if(selected_world->prev->prev!=NULL){
+			if(selected_world->prev->prev!=NULL)
+            {
 				selected_world->prev->prev->rect.size.width=85;
 				selected_world->prev->prev->rect.size.height=85;
 				selected_world->prev->prev->rect.origin.x=
@@ -422,21 +447,24 @@ void Menu::update(float etime){
 				selected_world->prev->prev->rect.origin.y=130;					
 			}
 		}
-		if(selected_world->next!=NULL){
+		if(selected_world->next!=NULL)
+        {
 			activeRightArrow=TRUE;	
 			selected_world->next->rect.size.width=85;
 			selected_world->next->rect.size.height=85;
 			selected_world->next->rect.origin.x=(SCREEN_WIDTH/2-selected_world->rect.size.width/2)
 												+SPACE;
 			selected_world->next->rect.origin.y=130;	
-			if(selected_world->next->next!=NULL){
+			if(selected_world->next->next!=NULL)
+            {
 				selected_world->next->next->rect.size.width=85;
 				selected_world->next->next->rect.size.height=85;
 				selected_world->next->next->rect.origin.x=(SCREEN_WIDTH/2-selected_world->rect.size.width/2)
 				+SPACE*2;
 				selected_world->next->next->rect.origin.y=130;	
 				
-				if(selected_world->next->next->next!=NULL){		
+				if(selected_world->next->next->next!=NULL)
+                {
 					selected_world->next->next->next->rect.origin.x=(SCREEN_WIDTH/2-selected_world->rect.size.width/2)
 					+SPACE*3;
 				}
@@ -444,8 +472,10 @@ void Menu::update(float etime){
 		}
 	}
     //646-770-1244
-	while(node!=NULL){
-		if(!node->rect.size.width){
+	while(node!=NULL)
+    {
+		if(!node->rect.size.width)
+        {
 			node->anim.size.width=0;
 			node->anim.size.height=0;
 		}
@@ -455,10 +485,10 @@ void Menu::update(float etime){
     itouch* touches=input->getTouches();
 	sbar->update(etime);
     
-   
-    
-	for(int i=0;i<MAX_TOUCHES;i++){
-		if(touches[i].inuse==0&&touches[i].down==M_DOWN){
+	for(int i=0;i<MAX_TOUCHES;i++)
+    {
+		if(touches[i].inuse==0&&touches[i].down==M_DOWN)
+        {
 			touches[i].inuse=usage_id;
 			inbox3(touches[i].mx,touches[i].my,&right_arrow);            
 			inbox3(touches[i].mx,touches[i].my,&rect_options);
@@ -468,81 +498,84 @@ void Menu::update(float etime){
 			inbox3(touches[i].mx,touches[i].my,&rect_share);
 			inbox3(touches[i].mx,touches[i].my,&rect_loadshared);                
             WorldNode* node=world_list;
-			while(node!=NULL){
+			while(node!=NULL)
+            {
                 inbox3(touches[i].mx,touches[i].my,&(node->anim));
                 node=node->next;
             }
 		}			
-		if(touches[i].inuse==usage_id&&touches[i].down==M_RELEASE){
-			
+		if(touches[i].inuse==usage_id&&touches[i].down==M_RELEASE)
+        {
 			WorldNode* node=world_list;
-			while(node!=NULL){
+			while(node!=NULL)
+            {
                 inbox2(touches[i].mx,touches[i].my,&(node->anim));
-				if(inbox2(touches[i].mx,touches[i].my,&(node->rect))){	
-					if(node==selected_world){					
-						if(delete_mode){	
-							if(selected_world){
-                               /* if(!World::getWorld->FLIPPED){
-                                    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
-                                }
-                                else{
-                                    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
-                                    
-                                }*/
+				if(inbox2(touches[i].mx,touches[i].my,&(node->rect)))
+                {
+					if(node==selected_world)
+                    {
+						if(delete_mode)
+                        {
+							if(selected_world)
+                            {
                                 showAlertDeleteConfirm([NSString stringWithFormat:@"Are you sure you want to delete \"%s\"?",selected_world->display_name->c_str()]);
-                                 
-                                
-
                                 delete_mode=FALSE;
 							}
 							break;
-							
-						}else if(share_mode){
+						}
+                        else if(share_mode)
+                        {
 							share_mode=FALSE;
 							
-							
-							if(World::getWorld->fm->worldExists(*node->file_name,TRUE)){
+							if(World::getWorld->fm->worldExists(*node->file_name,TRUE))
+                            {
 								sbar->setStatus(@"Sharing world..." ,2);
 								is_sharing=TRUE;
 								share_menu->beginShare(node);
-							}else{
+							}
+                            else
+                            {
 								sbar->setStatus(@"World is empty" ,2);
 							}
-							
-							
-						
-						}else{
-                            if(loading==0){
+						}
+                        else
+                        {
+                            if(loading==0)
+                            {
 							loading=1;
 							sbar->setStatus(@"Loading " ,9999);
                             }
 						}	
-					}else{
+					}
+                    else
+                    {
 						selected_world=node;
 						fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
 					}
 				}
 				node=node->next;
 			}
-			if(delete_mode){
+			if(delete_mode)
+            {
 				sbar->clear();
 				delete_mode=FALSE;
 			}
-			if(share_mode){
+			if(share_mode)
+            {
 				sbar->clear();
 				share_mode=FALSE;
-			}
-			
-			if(inbox2(touches[i].mx,touches[i].my,&rect_options)){				
+            }
+			if(inbox2(touches[i].mx,touches[i].my,&rect_options))
+            {
 				showsettings=TRUE;				
 			}
-			if(inbox2(touches[i].mx,touches[i].my,&rect_create)){
+			if(inbox2(touches[i].mx,touches[i].my,&rect_create))
+            {
 				WorldNode* new_world;
 				new_world=(WorldNode*)malloc(sizeof(WorldNode));
 				memset(new_world,0,sizeof(WorldNode));
                 new_world->display_name=new std::string(cpstring(settings->getNewWorldName()));
 				new_world->file_name=new std::string(cpstring([NSString stringWithFormat:@"%@.eden",genhash()]));
-				
 				
 				addWorld(new_world);
 				selected_world=new_world;				
@@ -550,59 +583,54 @@ void Menu::update(float etime){
 							   ,2);
 				fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
 			}
-			if(inbox2(touches[i].mx,touches[i].my,&left_arrow)){
-				if(selected_world&&selected_world->prev){
+			if(inbox2(touches[i].mx,touches[i].my,&left_arrow))
+            {
+				if(selected_world&&selected_world->prev)
+                {
 					selected_world=selected_world->prev;
 					fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
 				}
 			}
-			if(inbox2(touches[i].mx,touches[i].my,&right_arrow)){
-				if(selected_world&&selected_world->next){
+			if(inbox2(touches[i].mx,touches[i].my,&right_arrow))
+            {
+				if(selected_world&&selected_world->next)
+                {
 					selected_world=selected_world->next;
 					fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
 				}
 			}
-			if(inbox2(touches[i].mx,touches[i].my,&rect_delete)){
+			if(inbox2(touches[i].mx,touches[i].my,&rect_delete))
+            {
 				sbar->setStatus(@"Choose world to delete" ,9999);
 				delete_mode=TRUE;					
 			}
-			if(inbox2(touches[i].mx,touches[i].my,&rect_share)){
+			if(inbox2(touches[i].mx,touches[i].my,&rect_share))
+            {
 				sbar->setStatus(@"Choose world to share" ,9999);
 				share_mode=TRUE;					
 			}
-			if(inbox2(touches[i].mx,touches[i].my,&rect_loadshared)){		
+			if(inbox2(touches[i].mx,touches[i].my,&rect_loadshared))
+            {
 				sbar->setStatus(@"Getting world list. ",2);
 				loading_world_list=1;
-							
 			}
 			touches[i].inuse=0;
 			touches[i].down=M_NONE;
 		}
 	}
-			
-	/*Input* input=[Input getInput];
-	if(input.click){
-		
-		
-	}*/
-	
 }
 
-BOOL Menu::loadShared(SharedListNode* sharedNode){
+BOOL Menu::loadShared(SharedListNode* sharedNode)
+{
     NSString* rfile_name=[NSString stringWithFormat:@"%s/%@",World::getWorld->fm->documents->c_str(),sharedNode->file_name];
 
     const char* fname=[rfile_name cStringUsingEncoding:NSUTF8StringEncoding];
-  //  NSString* new_name=[NSString stringWithFormat:@"%@/%@.archive",World::getWorld->fm.documents,sharedNode->file_name];
-   // const char* cnewname=[new_name cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    
-  //  rename(fname,cnewname);
     NSString* temp_name=[NSString stringWithFormat:@"%s/temp",World::getWorld->fm->documents->c_str()];
     const char* tname=[temp_name cStringUsingEncoding:NSUTF8StringEncoding];
     
-    
-   FILE* fsource = fopen(fname, "rb");
-    if(!fsource){
+    FILE* fsource = fopen(fname, "rb");
+    if(!fsource)
+    {
         NSLog(@"cant open %s",fname);
         return FALSE;
     }
@@ -617,7 +645,6 @@ BOOL Menu::loadShared(SharedListNode* sharedNode){
     NSLog(@"source: %s\ndest: %s\n",fname,tname);
      int ret=decompressFile(fsource, fdest);
   
-    
     fclose(fsource);
     fclose(fdest);
     remove(fname);
@@ -628,76 +655,61 @@ BOOL Menu::loadShared(SharedListNode* sharedNode){
         return FALSE;
     }
     
-    
 	WorldNode* new_world;
 	new_world=(WorldNode*)malloc(sizeof(WorldNode));
 	memset(new_world,0,sizeof(WorldNode));
     new_world->display_name=new std::string(cpstring(sharedNode->name));
 	new_world->file_name=new std::string(cpstring(sharedNode->file_name));
-	
-	
+
 	addWorld(new_world);
 	selected_world=new_world;
     fnbar->setStatus(nsstring(*selected_world->display_name),9999);
-    
-    
-   // addToIndex([selected_world->file_name cStringUsingEncoding:NSUTF8StringEncoding],selected_world->display_name);
-   
-   // addToIndex([selected_world->file_name cStringUsingEncoding:NSUTF8StringEncoding],selected_world->display_name);
-	
-   
-	//[shareutil loadShared:sharedNode->file_name];
 	return TRUE;	
 	
 }
-void Menu::refreshfn(){
+void Menu::refreshfn()
+{
  fnbar->setStatus(nsstring(*selected_world->display_name) ,9999);
-	
 }
-void Menu::render(){
+void Menu::render()
+{
     Graphics::prepareMenu();
-	
-    
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    
-    
-		glColor4f(1.0, 1.0, 1.0, 1.0f);
+    glColor4f(1.0, 1.0, 1.0, 1.0f);
 	menu_back->render();
 	
-	
-	
-	if(showsettings){
+	if(showsettings)
+    {
 		settings->render();
         Graphics::endMenu();
-		
 		return;
 	}
-	if(showlistscreen){
+	if(showlistscreen)
+    {
 		shared_list->render();
         Graphics::endMenu();
-		
 		return;
 	}
-	if(is_sharing==1){
+	if(is_sharing==1)
+    {
 		share_menu->render();
         Graphics::endMenu();
-		
 		return;
 	}
-		glColor4f(1.0, 1.0, 1.0, 1.0f);
-	//[Graphics drawRect:20:20:SCREEN_WIDTH-20:SCREEN_HEIGHT-20];
+    glColor4f(1.0, 1.0, 1.0, 1.0f);
 	
     if(IS_IPAD&&!IS_RETINA)
         Resources::getResources->getMenuTex(MENU_LOGO)->drawText(rect_name);
     else
-	Resources::getResources->getMenuTex(MENU_LOGO)->drawInRect2(rect_name);
+        Resources::getResources->getMenuTex(MENU_LOGO)->drawInRect2(rect_name);
 	glColor4f(1.0, 1.0, 1.0, 1.0f);
 	WorldNode* node=world_list;
 	
-	while(node!=NULL){		
-		if(node->anim.size.width||node->rect.size.width){
+	while(node!=NULL)
+    {
+		if(node->anim.size.width||node->rect.size.width)
+        {
 			Vector vec;
 			vec.z=0;
 			vec.x=node->rect.origin.x-node->anim.origin.x;
@@ -711,13 +723,12 @@ void Menu::render(){
 			node->anim.size.width+=d;
 			node->anim.size.height+=d;
 			float d2=node->rect.size.width-node->anim.size.width;
-			if((d>=0&&d2<=0)||(d<=0&&d2>=0)){
+			if((d>=0&&d2<=0)||(d<=0&&d2>=0))
+            {
 				node->anim.size.width=node->rect.size.width;
 				node->anim.size.height=node->rect.size.height;
 			}
 
-			
-		
 			node->anim.origin.x+=(vec.x*10);
 			node->anim.origin.y+=(vec.y*10);
 			
@@ -725,30 +736,32 @@ void Menu::render(){
 			vec2.z=0;
 			vec2.x=node->rect.origin.x-node->anim.origin.x;
 			vec2.y=node->rect.origin.y-node->anim.origin.y;
-			if((vec2.x>=0&&vec.x<=0)||(vec2.x<=0&&vec.x>=0)){
+			if((vec2.x>=0&&vec.x<=0)||(vec2.x<=0&&vec.x>=0))
+            {
 				node->anim.origin.x=node->rect.origin.x;
 				node->anim.origin.y=node->rect.origin.y;
 			}
             float nn=85;
             if(IS_IPAD)
                 nn=115/SCALE_HEIGHT;
-            if(node->anim.size.width<nn){
-               
+            if(node->anim.size.width<nn)
+            {
                 if(node==selected_world)
                     Resources::getResources->getMenuTex(MENU_BLOCK_SELECTED)->drawButton2(node->anim);
-                else {
+                else
+                {
                     Resources::getResources->getMenuTex(MENU_BLOCK_UNSELECTED)->drawButton2(node->anim);
                 }
-               
-                
-            }else{
+            }
+            else
+            {
 			if(node==selected_world)
 			Resources::getResources->getMenuTex(MENU_BLOCK_SELECTED)->drawButton(node->anim);
-			else {
+			else
+            {
 				Resources::getResources->getMenuTex(MENU_BLOCK_UNSELECTED)->drawButton(node->anim);
 			}
             }
-
 		}
 		node=node->next;
 	}
@@ -777,115 +790,101 @@ void Menu::render(){
 	glEnable(GL_TEXTURE_2D);
 	sbar->render();
 	fnbar->render();
-    if(AUTO_LOAD&&loading==0){
-       
-        
+    if(AUTO_LOAD&&loading==0)
+    {
         loading=2;
     }
-	if(loading){
+	if(loading)
+    {
 		if(loading==2){
-			if(selected_world!=NULL){
-				
-				//NSString* wname=selected_world->file_name;
+			if(selected_world!=NULL)
+            {
                 if(World::getWorld->fm->worldExists(*selected_world->file_name,TRUE)){
-				//[[World getWorld] loadWorld:wname];
                     loading=4;
                 }
-                else{
+                else
+                {
                     extern int g_terrain_type;
-                        
                     g_terrain_type=0;
-                    /*if([selected_world->display_name isEqualToString:@"Mountains"]){
-                        g_terrain_type=3;
-                    }else if([selected_world->display_name isEqualToString:@"Red planet"]){
-                        g_terrain_type=1;
-                    }else if([selected_world->display_name isEqualToString:@"River Trees"]){
-                        g_terrain_type=2;
-                    }else if([selected_world->display_name isEqualToString:@"Desert"]){
-                        g_terrain_type=4;
-                    }else if([selected_world->display_name isEqualToString:@"Ponies"]){
-                        g_terrain_type=5;
-                    }else if([selected_world->display_name isEqualToString:@"Normal"]){
-                        g_terrain_type=0;
-                    }*/
-                  //  g_terrain_type=2;
                    
-                    //loading=4;
-                    /*new world prompt
+                    //new world prompt
                     if(!World::getWorld->FLIPPED){
                         [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
                     }
                     else{
                         [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
                         
-                    }*/
-                    
+                    }
+            
                     showAlertWorldType();
                     
                     loading++;
                 }
-				
-				//[sbar clear];
 			}
-		}else if(loading==4){
-            if(LOW_MEM_DEVICE){
-                if(fade_out>=1.0f){
-                    
-           
+		}else if(loading==4)
+        {
+            if(LOW_MEM_DEVICE)
+            {
+                if(fade_out>=1.0f)
+                {
                     World::getWorld->loadWorld(*selected_world->file_name);
                 }
-            }else{
-               
-                
+            }
+            else
+            {
                 World::getWorld->loadWorld(*selected_world->file_name);
             }
-
-            
-        }else if(loading<2){
-            //NSLog(@"load world %@",selected_world->file_name);
+        }
+        else if(loading<2)
+        {
             loading++;
         }
-		
 	}
     
-    if(fade_out>0){
+    if(fade_out>0)
+    {
         glColor4f(0,0,0,fade_out);
         glDisable(GL_TEXTURE_2D);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        if(IS_IPAD){
-            if(IS_RETINA){
+        if(IS_IPAD)
+        {
+            if(IS_RETINA)
+            {
                 Graphics::drawRect(0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT*2);
-            }else
+            }
+            else
                 Graphics::drawRect(0,0,IPAD_WIDTH,IPAD_HEIGHT);
-        }else{
+        }
+        else
+        {
             Graphics::drawRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-            
         }
         glEnable(GL_TEXTURE_2D);
         sbar->render();
     }
 	glDisable(GL_BLEND);
     Graphics::endMenu();
-    
 }
 
-void Menu::a_genFlat(BOOL b){
+void Menu::a_genFlat(BOOL b)
+{
     World::getWorld->fm->genflat=b;
     loading++;
 }
-void Menu::a_deleteCancel(){
+void Menu::a_deleteCancel()
+{
     sbar->setStatus(@"" ,2);
 }
-void Menu::a_deleteConfirm(){
+void Menu::a_deleteConfirm()
+{
     std::string wname=*selected_world->file_name;
      removeWorld(selected_world);
      
      if(World::getWorld->fm->deleteWorld(wname))
      sbar->setStatus(@"World deleted" ,2);
-     else{
+     else
+     {
      NSLog(@"delete failed\n");
      sbar->setStatus(@"World deleted"  ,2);
      }
-    
 }
-

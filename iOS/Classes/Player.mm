@@ -1022,19 +1022,25 @@ BOOL Player::update(float etime){
 	lpos.z=pos.z;
     this->move(etime);
 	
-    if(World::getWorld->terrain->tgen->LEVEL_SEED==DEFAULT_LEVEL_SEED){
-        if(pos.x<4096*CHUNK_SIZE-GSIZE/2){
+    if(World::getWorld->terrain->tgen->LEVEL_SEED==DEFAULT_LEVEL_SEED)
+    {
+        if(pos.x<4096*CHUNK_SIZE-GSIZE/2)
+        {
            pos.x=4096*CHUNK_SIZE-GSIZE/2;
-        }else if(pos.x>=4096*CHUNK_SIZE+GSIZE/2){
+        }else if(pos.x>=4096*CHUNK_SIZE+GSIZE/2)
+        {
             pos.x=4096*CHUNK_SIZE+GSIZE/2;
         }
-        
-        if(pos.z<4096*CHUNK_SIZE-GSIZE/2){
+        if(pos.z<4096*CHUNK_SIZE-GSIZE/2)
+        {
             pos.z=4096*CHUNK_SIZE-GSIZE/2;
-        }else if(pos.z>=4096*CHUNK_SIZE+GSIZE/2){
+        }
+        else if(pos.z>=4096*CHUNK_SIZE+GSIZE/2)
+        {
             pos.z=4096*CHUNK_SIZE+GSIZE/2;
         }
     }
+    
     updateSkyColor2(this,FALSE,etime);
 	//NSLog(@"%f %f %f",pos.x,pos.y,pos.z);
 	
@@ -1047,7 +1053,8 @@ BOOL Player::update(float etime){
     
 	cam->mode=0;
 	//NSLog(@"%d %d %d",pos.x,pos.y,pos.z);
-	if(THIRD_PERSON){
+	if(THIRD_PERSON)
+    {
 	cam->pitch=0;
 	cam->mode=1;
 	}

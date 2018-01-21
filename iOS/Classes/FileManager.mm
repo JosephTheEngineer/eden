@@ -60,13 +60,10 @@ FileManager::FileManager(){
     indexes_hmm=indexes;
     
     fmh_init(this);
-	
-	
 }
-BOOL FileManager::worldExists(std::string na,BOOL appendArchive){
-    
-   
-    
+
+BOOL FileManager::worldExists(std::string na,BOOL appendArchive)
+{
     std::string file_name=docs + "/" +na;
     
     FILE* f;
@@ -1345,90 +1342,101 @@ extern bool SUPPORTS_OGL2;
 extern float P_ZFAR;
   static int last_spawn_location=-1;
 
-void FileManager::loadWorld(std::string name,BOOL fromArchive){
-   
-    
-    
-    
+void FileManager::loadWorld(std::string name,BOOL fromArchive)
+{
 	Terrain* ter=World::getWorld->terrain;
-		ter->clearBlocks();
+    ter->clearBlocks();
 	Player* player=World::getWorld->player;
-    if(imgHash!=NULL){
+    if(imgHash!=NULL)
+    {
         [imgHash release];
         imgHash=NULL;
     }
     World::getWorld->player->reset();
-	if(!worldExists(name,fromArchive)){
-     
-        
+	if(!worldExists(name,fromArchive))
+    {
         extern int g_terrain_type;
         
         printg("making new world : %d\n",g_terrain_type);
         
       //  clear();
         BOOL gen_default=FALSE;
-       g_terrain_type=9;
-       /* if(g_terrain_type==0){
+            g_terrain_type=9;
+       if(g_terrain_type==0)
+       {
             makeDirt();
-        }else if(g_terrain_type==1){
-           // makeMars();
-        }else if(g_terrain_type==2){
+        }
+       //else if(g_terrain_type==1)
+       //{
+        //    makeMars();
+        //}
+       else if(g_terrain_type==2)
+       {
             makeRiverTrees(T_SIZE/2,0,T_SIZE,T_SIZE,550);
-        }else if(g_terrain_type==3){
-             makeRiverTrees(T_SIZE/2,0,T_SIZE,T_SIZE,550);
+        }
+       else if(g_terrain_type==3)
+       {
+            makeRiverTrees(T_SIZE/2,0,T_SIZE,T_SIZE,550);
             makeMountains(0,0,T_SIZE/2-16,T_SIZE,400);
             makeTransition(T_SIZE/2-16,0,T_SIZE/2,T_SIZE);
-        }else if(g_terrain_type==4){
-            makeDesert();
-        }else if(g_terrain_type==5){
+        }
+       else if(g_terrain_type==4)
+       {
+            makeClassicGen();
+        }
+       else if(g_terrain_type==5)
+       {
             makePonies();
-        }else if(g_terrain_type==6){
+        }
+       else if(g_terrain_type==6)
+       {
             makeBeach();
-        }else if(g_terrain_type==7){
-            makeMix();
-        */
-        /*}else*/ if(g_terrain_type==8){
+        }
+       else if(g_terrain_type==7)
+        {
+            makeClassicGen();
+        }
+        else if(g_terrain_type==8)
+        {
             genflat=TRUE;
-        }else if(g_terrain_type==9){
+        }
+        else if(g_terrain_type==9)
+        {
             gen_default=TRUE;
         }
-
 		this->clearDirectory();
+        
+        //TELLS GENERATOR TO USE FLAT SEED IF SUPERFLAT
         if(genflat)ter->tgen->LEVEL_SEED= 0;
-        else if(gen_default){
-           
-            
+        else if(gen_default)
+        {
             ter->tgen->LEVEL_SEED=DEFAULT_LEVEL_SEED;
-            
-        }else{
-             ter->tgen->LEVEL_SEED=arc4random()%300000;
-            
-            
+        }
+        else
+        {
+            ter->tgen->LEVEL_SEED=arc4random()%300000;
         }
 		int centerChunk=4096;
         int r=T_SIZE/CHUNK_SIZE/2;
 
 		ter->level_seed=ter->tgen->LEVEL_SEED;
-		
-        
-        
-        
-	
-		
+
 		Vector temp;
 		
         int tempyaw=90;
       
-        if(gen_default){
+        if(gen_default)
+        {
             int spawn_location=arc4random()%10;
-            while(spawn_location==last_spawn_location){
+            while(spawn_location==last_spawn_location)
+            {
                 spawn_location=arc4random()%10;
             }
             last_spawn_location=spawn_location;
-            int spx[10]={/*64036+(700),*/64736,64629,66370, 66286,64919,65415,64763,64949,64233, 65555};
-            int spz[10]={/*64036+(1700),*/65731,66306,65496,66286,64866,66296,66224,64254,64234, 65537};
-            int spy[10]={/*25,     */ 22,24,14,22,30, 21,23,22,34,25};
-            int spyaw[10]={/*0,    */ -176,-85,1,22,88, 176,-138,91,271,91};
+            int spx[10]={64736,64629,66370, 66286,64919,65415,64763,64949,64233,65555};
+            int spz[10]={65731,66306,65496,66286,64866,66296,66224,64254,64234,65537};
+            int spy[10]={22,24,14,22,30,21,23,22,34,25};
+            int spyaw[10]={-176,-85,1,22,88,176,-138,91,271,91};
             temp.x=spx[spawn_location];
             temp.z=spz[spawn_location];
             temp.y=spy[spawn_location];
@@ -1438,27 +1446,23 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
             chunkOffsetZ=centerChunk-r;
             chunkOffsetX=temp.x/CHUNK_SIZE-T_RADIUS;
             chunkOffsetZ=temp.z/CHUNK_SIZE-T_RADIUS;
-            
-        }else{
+            }
+        else
+            {
             chunkOffsetX=centerChunk-r;
             chunkOffsetZ=centerChunk-r;
             temp.x=centerChunk*CHUNK_SIZE+CHUNK_SIZE/2;
             temp.z=centerChunk*CHUNK_SIZE+CHUNK_SIZE/2;
             temp.y=T_HEIGHT-10;
         }
-        
-        
-        
-        for(int x=centerChunk-r;x<centerChunk+r;x++){
-            
-            for(int z=centerChunk-r;z<centerChunk+r;z++){
-                
+        for(int x=centerChunk-r;x<centerChunk+r;x++)
+        {
+            for(int z=centerChunk-r;z<centerChunk+r;z++)
+            {
                 readColumn(x,z,saveFile);
                 World::getWorld->terrain->counter++;
             }
         }
-        
-        
 		ter->home=temp;
 		Vector temp2;		
 		temp2.x=BLOCK_SIZE*(ter->home.x+.5f);
@@ -1466,33 +1470,37 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
 		temp2.z=BLOCK_SIZE*(ter->home.z+.5f);
             player->pos=temp2;
         
-        if(ter->tgen->LEVEL_SEED==0){
+        //IF SUPER FLAT
+        if(ter->tgen->LEVEL_SEED==0)
+        {
             temp2.x=BLOCK_SIZE*(ter->home.x+.5f);
             temp2.y=34;
             temp2.z=BLOCK_SIZE*(ter->home.z+.5f);
             player->pos=temp2;
-            for(int i=0;i<4;i++){
-                for(int j=0;j<4;j++){
+            for(int i=0;i<4;i++)
+            {
+                for(int j=0;j<4;j++)
+                {
                     regionSkyColors[i][j]=COLOR_NORMAL_BLUE;
                 }
             }
-            printg("sup!!!\n!");
-        }else{
-            for(int i=0;i<4;i++){
-                for(int j=0;j<4;j++){
+        }
+        else
+        {
+            for(int i=0;i<4;i++)
+            {
+                for(int j=0;j<4;j++)
+                {
                     regionSkyColors[i][j]=defaultRegionSkyColors[i][j];
                 }
             }
         }
-        //(player.pos).y=1;
-        
-		//printg("player pos init save: %f %f %f",player.pos.x,player.pos.y,player.pos.z);
-		//NSLog(@"chunkOffsets: %d %d",chunkOffsetX,chunkOffsetZ);
+
         player->yaw=tempyaw;
         file_version=2;
-		//[ter updateAllImportantChunks];
 		
-        for(int i=0;i<MAX_CREATURES_SAVED;i++){
+        for(int i=0;i<MAX_CREATURES_SAVED;i++)
+        {
             creatureData[i].type=-1;
         }
         
@@ -1500,11 +1508,14 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
 		this->saveWorld();
 		//[ter unloadTerrain:FALSE];
 		//[self loadWorld:name];
-	}else{
+	}
+    else
+    {
               
 		NSString* file_name=[NSString stringWithFormat:@"%s/%s",documents->c_str(),name.c_str()];
         
-        if(fromArchive){
+        if(fromArchive)
+        {
           //  DecompressWorld([file_name cStringUsingEncoding:NSUTF8StringEncoding]);
         }
 
@@ -1526,19 +1537,23 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
             sfh=(WorldFileHeader*)[[saveFile readDataOfLength:sizeof(WorldFileHeader)] bytes];
             convertingWorld=FALSE;
         }
-        if(file_version==3){
+        if(file_version==3)
+        {
             file_version=4;
             sfh->version=4;
             sfh->goldencubes=10;
-            for(int i=0;i<4;i++){
-                for(int j=0;j<4;j++){
+            for(int i=0;i<4;i++)
+            {
+                for(int j=0;j<4;j++)
+                {
                     sfh->skycolors[i*4+j]=COLOR_NORMAL_BLUE;
                 }
             }
         }
         if(sfh->hash[32]==0)
             NSLog(@"image hash is %s",sfh->hash);
-        if(imgHash!=NULL){
+        if(imgHash!=NULL)
+        {
             [imgHash release];
             imgHash=NULL;
         }
@@ -1551,23 +1566,15 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
 		player->pos=sfh->pos;
 		player->yaw=sfh->yaw;
          extern Vector colorTable[256];
-       /* if(sfh->skycolor<=0||sfh->skycolor>NUM_COLORS){
-           World::getWorld->terrain.final_skycolor=colorTable[14];
-            printg("skycolor oob setting sky color to beautiful blue\n");
-        }else{
-             printg("skycolor setting sky color to : %d\n",sfh->skycolor);
-        */
-       // World::getWorld->terrain.final_skycolor=colorTable[sfh->skycolor];
-        
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
+
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
                 regionSkyColors[i][j]=(int)(sfh->skycolors[i*4+j]);
             }
         }
-        
-
-        
-        
+    
 		this->readDirectory();
 		//NSLog(@"indexes: %d",hashmap_length(indexes));
 		//NSLog(@"loading level_seed: %d",ter.level_seed);
@@ -1590,8 +1597,10 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
 		int r=T_RADIUS;
 	//	int asdf=0;
         
-		for(int x=chunkOffsetX;x<chunkOffsetX+2*r;x++){
-			for(int z=chunkOffsetZ;z<chunkOffsetZ+2*r;z++){
+		for(int x=chunkOffsetX;x<chunkOffsetX+2*r;x++)
+        {
+			for(int z=chunkOffsetZ;z<chunkOffsetZ+2*r;z++)
+            {
 			//	NSLog(@"lch:%d",asdf++);
 				readColumn(x,z,saveFile);
                 World::getWorld->terrain->counter++;
@@ -1602,21 +1611,20 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
 		//[ter updateAllImportantChunks];
 		NSLog(@"done");
 		[saveFile closeFile];
-        
-		
-		
 	}
-    if(!SUPPORTS_OGL2){
+    if(!SUPPORTS_OGL2)
+    {
         if(ter->tgen->LEVEL_SEED== 0)
             Graphics::setZFAR(55);
-       
         else 
-         Graphics::setZFAR(40);
-    }else{
+            Graphics::setZFAR(40);
+    }
+    else
+    {
         if(ter->tgen->LEVEL_SEED== 0)
-         Graphics::setZFAR(120);
+            Graphics::setZFAR(120);
         else 
-        Graphics::setZFAR(120);
+            Graphics::setZFAR(120);
     }
 
     Input::getInput()->clearAll();
@@ -1625,6 +1633,4 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive){
 	updateSkyColor1(World::getWorld->player,TRUE);
     extern BOOL loaded_new_terrain;
     loaded_new_terrain=TRUE;
-
 }
-

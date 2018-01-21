@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "World.h"
+#import "TerrainGen2.h"
 
 static UIAlertView *alertWarpHome;
 UIAlertView *alertDeleteConfirm;
@@ -15,20 +16,19 @@ UIAlertView *alertWorldType;
 static UIAlertView *alertReportContent;
 static UIAlertView *alertReportConfirm;
 
-@interface PAlert : NSObject <UIAlertViewDelegate> {
-    
-    
+@interface PAlert : NSObject <UIAlertViewDelegate>
+{
 }
 @end
 
-
-
-
 @implementation PAlert
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     //NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if(alertView==alertWarpHome){
-        switch (buttonIndex) {
+    if(alertView==alertWarpHome)
+    {
+        switch (buttonIndex)
+        {
             case 0:
             {
                 //[sbar setStatus:@"" :2];
@@ -36,40 +36,40 @@ static UIAlertView *alertReportConfirm;
             }
             case 1:
             {
-                
                 World::getWorld->hud->asetHome();
                                break;
             }
             case 2:
             {
-                
                World::getWorld->hud->awarpHome();
                 break;
             }
             default:
                 break;
         }
-    }else if(alertView==alertDeleteConfirm){
-        switch (buttonIndex) {
+    }
+    else if(alertView==alertDeleteConfirm)
+    {
+        switch (buttonIndex)
+        {
             case 0:
             {
                 World::getWorld->menu->a_deleteCancel();
-              //  
                 break;
             }
             case 1:
             {
-                
                 World::getWorld->menu->a_deleteConfirm();
-               
                 break;
             }
-                
             default:
                 break;
         }
-    }else if(alertView==alertWorldType){
-        switch (buttonIndex) {
+    }
+    else if(alertView==alertWorldType)
+    {
+        switch (buttonIndex)
+        {
                 NSLog(@"button idx %d",(int)buttonIndex);
             case 0:
             {
@@ -83,7 +83,6 @@ static UIAlertView *alertReportConfirm;
               //  World::getWorld->fm->genflat=FALSE;
                 break;
             }
-                
             default:
                 break;
         }
@@ -91,11 +90,13 @@ static UIAlertView *alertReportConfirm;
      //   loading++;
         
         
-    }else if(alertView==alertReportContent){
-        switch (buttonIndex) {
+    }
+    else if(alertView==alertReportContent)
+    {
+        switch (buttonIndex)
+        {
             case 0:
             {
-                
                 break;
             }
             case 1:
@@ -103,21 +104,18 @@ static UIAlertView *alertReportConfirm;
                 World::getWorld->menu->shared_list->alertCallback();
                 break;
             }
-                
             default:
                 break;
         }
     }
-
-    
 }
 
 @end
 
-
 static PAlert* pa;
 
-void alert_init(){
+void alert_init()
+{
     pa=[[PAlert alloc] init];
     alertWarpHome= [[UIAlertView alloc]
                     initWithTitle:@"Home Menu"
@@ -127,7 +125,7 @@ void alert_init(){
     alertDeleteConfirm= [[UIAlertView alloc]
                          initWithTitle:@"Confirm Delete"
                          message:@""                                                                              delegate:pa
-                         cancelButtonTitle:@"Cancel"                                                                           otherButtonTitles:@"Delete", nil, nil];
+                         cancelButtonTitle:@"Cancel"                                                                            otherButtonTitles:@"Delete", nil, nil];
     alertWorldType= [[UIAlertView alloc]
                      initWithTitle:@"Pick world type"
                      message:@"\n"                                                                              delegate:pa
