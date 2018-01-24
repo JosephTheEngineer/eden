@@ -9,7 +9,7 @@
 #import "EdenAppDelegate.h"
 #import "EdenViewController.h"
 //#import "Flurry.h"
-#import "Appirater.h"
+//#import "Appirater.h"
 //#import "TestFlight.h"
 
 @implementation EdenAppDelegate
@@ -32,7 +32,6 @@
 	//NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 //	[Flurry startSession:@"LUWB9P4UZU1K1A4YUT9V"];
     
-    [Appirater appLaunched:YES];
     
    // [Appirater rateApp];
     return YES;
@@ -60,7 +59,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    [Appirater appEnteredForeground:YES];
     // Handle any foreground procedures not related to animation here.
 }
 
