@@ -37,7 +37,8 @@ void tgenInit(){
 }
 static TerrainChunk* column[CHUNKS_PER_COLUMN];
 
-inline static int getCustomct(int x,int z,int y){
+inline static int getCustomct(int x,int z,int y)
+{
      return  tcolors[x*CHUNKS_PER_COLUMN*CHUNK_SIZE*CHUNK_SIZE*2*2+z*CHUNKS_PER_COLUMN*CHUNK_SIZE*2+y];
     
 }

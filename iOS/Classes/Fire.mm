@@ -14,7 +14,7 @@
 extern "C" {
 #define n_particles 7
 #define max_fparticles 6000
-#define max_bb 5000
+#define max_bb 50
 #define SMOKE_SIZER 90
 
 static unsigned short pindices[max_fparticles];
@@ -317,7 +317,6 @@ Vector getFrameUV(int frame,int sprite)
 static int frame=0,frame2=0;
 void Fire::renderFireSprites()
 {
-    
    // glDepthMask(GL_TRUE);
     glDisable(GL_POINT_SPRITE_OES);
     glDisableClientState(GL_POINT_SIZE_ARRAY_OES);
