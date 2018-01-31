@@ -3,7 +3,7 @@
 //  Eden
 //
 //  Created by Ari Ronen on 4/25/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
 #ifndef Eden_Geometry_h

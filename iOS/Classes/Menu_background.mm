@@ -3,8 +3,7 @@
 //  prototype
 //
 //  Created by Ari Ronen on 1/1/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 
 #import "Menu_background.h"
 #import "Graphics.h"

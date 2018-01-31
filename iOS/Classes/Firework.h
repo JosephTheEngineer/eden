@@ -3,7 +3,7 @@
 //  Eden
 //
 //  Created by Ari Ronen on 5/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 
 //
 #ifndef Eden_Firework_h

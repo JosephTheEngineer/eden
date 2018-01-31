@@ -3,7 +3,7 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/25/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 #ifndef Eden_FileManager_h
 #define Eden_FileManager_h

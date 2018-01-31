@@ -3,7 +3,7 @@
 //  Eden
 //
 //  Created by Ari Ronen on 11/3/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
 #ifndef Eden_Constants_h
@@ -20,7 +20,7 @@
 #define GRAVITY 20.0f
 #define THIRD_PERSON 0
 
-#define EXPLOSION_RADIUS 5
+#define EXPLOSION_RADIUS 7
 
 #define NUM_BLOCKS 111
 
@@ -47,7 +47,7 @@
 #define CHUNKS_PER_SIDE (T_SIZE/CHUNK_SIZE)
 #define BLOCK_SIZE 1.0f
 
-#define LIGHT_RADIUS 5.0f
+#define LIGHT_RADIUS 12.0f
 
 enum BLOCK_TYPES{
 	TYPE_NONE=0,

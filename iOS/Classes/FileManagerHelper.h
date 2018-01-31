@@ -4,7 +4,9 @@
 //
 //  Created by Ari Ronen on 5/20/14.
 //
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
+
 #ifndef Eden_FileManagerHelper_h
 #define Eden_FileManagerHelper_h
 

@@ -5,6 +5,8 @@
 //  Created by Ari Ronen on 11/3/10.
 //  Modified by Jasper Follas on 20/01/18
 //
+// This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//
 
 #import "Fire.h"
 #import "Globals.h"

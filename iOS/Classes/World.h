@@ -5,6 +5,9 @@
 //  Created by Ari Ronen on 10/10/10.
 //  Modified on 20/01/18 by Jasper Follas
 //
+// This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//
+
 #ifndef Eden_World_h
 #define Eden_World_h
 
