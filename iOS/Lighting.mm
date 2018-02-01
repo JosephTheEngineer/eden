@@ -7,6 +7,7 @@
 //  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
+
 #import "Lighting.h"
 #import "Terrain.h"
 extern Vector8* lightarray;

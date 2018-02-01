@@ -6,6 +6,7 @@
 //  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
+
 #include "ColorUtil.h"
 
 static inline unsigned char GetRValue(unsigned int color)

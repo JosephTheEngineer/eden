@@ -6,6 +6,7 @@
 //  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
+
 #ifndef Eden_Geometry_h
 #define Eden_Geometry_h
 
