@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+ <key>clang_version</key>
+<string>Apple LLVM version 9.1.0 (clang-902.0.30)</string>
+ <key>files</key>
+ <array>
+  <string>/Users/ryankontos/Eden/iOS/Classes/World.mm</string>
+ </array>
+ <key>diagnostics</key>
+ <array>
+  <dict>
+   <key>path</key>
+   <array>
+    <dict>
+     <key>kind</key><string>event</string>
+     <key>location</key>
+     <dict>
+      <key>line</key><integer>63</integer>
+      <key>col</key><integer>17</integer>
+      <key>file</key><integer>0</integer>
+     </dict>
+     <key>ranges</key>
+     <array>
+       <array>
+        <dict>
+         <key>line</key><integer>63</integer>
+         <key>col</key><integer>24</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>63</integer>
+         <key>col</key><integer>25</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+       </array>
+     </array>
+     <key>depth</key><integer>0</integer>
+     <key>extended_message</key>
+     <string>Value stored to &apos;marker&apos; is never read</string>
+     <key>message</key>
+     <string>Value stored to &apos;marker&apos; is never read</string>
+    </dict>
+   </array>
+   <key>description</key><string>Value stored to &apos;marker&apos; is never read</string>
+   <key>category</key><string>Dead store</string>
+   <key>type</key><string>Dead assignment</string>
+   <key>check_name</key><string>deadcode.DeadStores</string>
+   <!-- This hash is experimental and going to change! -->
+   <key>issue_hash_content_of_line_in_context</key><string>47b7df77b8ddf07df683849b3b36994e</string>
+  <key>issue_context_kind</key><string>function</string>
+  <key>issue_context</key><string>RLETEST</string>
+  <key>issue_hash_function_offset</key><string>36</string>
+  <key>location</key>
+  <dict>
+   <key>line</key><integer>63</integer>
+   <key>col</key><integer>17</integer>
+   <key>file</key><integer>0</integer>
+  </dict>
+  </dict>
+  <dict>
+   <key>path</key>
+   <array>
+    <dict>
+     <key>kind</key><string>event</string>
+     <key>location</key>
+     <dict>
+      <key>line</key><integer>64</integer>
+      <key>col</key><integer>17</integer>
+      <key>file</key><integer>0</integer>
+     </dict>
+     <key>ranges</key>
+     <array>
+       <array>
+        <dict>
+         <key>line</key><integer>64</integer>
+         <key>col</key><integer>30</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>64</integer>
+         <key>col</key><integer>31</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+       </array>
+     </array>
+     <key>depth</key><integer>0</integer>
+     <key>extended_message</key>
+     <string>Value stored to &apos;marker_color&apos; is never read</string>
+     <key>message</key>
+     <string>Value stored to &apos;marker_color&apos; is never read</string>
+    </dict>
+   </array>
+   <key>description</key><string>Value stored to &apos;marker_color&apos; is never read</string>
+   <key>category</key><string>Dead store</string>
+   <key>type</key><string>Dead assignment</string>
+   <key>check_name</key><string>deadcode.DeadStores</string>
+   <!-- This hash is experimental and going to change! -->
+   <key>issue_hash_content_of_line_in_context</key><string>a050adfe686bf439b895389ee8380a9f</string>
+  <key>issue_context_kind</key><string>function</string>
+  <key>issue_context</key><string>RLETEST</string>
+  <key>issue_hash_function_offset</key><string>37</string>
+  <key>location</key>
+  <dict>
+   <key>line</key><integer>64</integer>
+   <key>col</key><integer>17</integer>
+   <key>file</key><integer>0</integer>
+  </dict>
+  </dict>
+  <dict>
+   <key>path</key>
+   <array>
+    <dict>
+     <key>kind</key><string>event</string>
+     <key>location</key>
+     <dict>
+      <key>line</key><integer>77</integer>
+      <key>col</key><integer>9</integer>
+      <key>file</key><integer>0</integer>
+     </dict>
+     <key>ranges</key>
+     <array>
+       <array>
+        <dict>
+         <key>line</key><integer>77</integer>
+         <key>col</key><integer>15</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>77</integer>
+         <key>col</key><integer>15</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+       </array>
+     </array>
+     <key>depth</key><integer>0</integer>
+     <key>extended_message</key>
+     <string>Value stored to &apos;count&apos; is never read</string>
+     <key>message</key>
+     <string>Value stored to &apos;count&apos; is never read</string>
+    </dict>
+   </array>
+   <key>description</key><string>Value stored to &apos;count&apos; is never read</string>
+   <key>category</key><string>Dead store</string>
+   <key>type</key><string>Dead assignment</string>
+   <key>check_name</key><string>deadcode.DeadStores</string>
+   <!-- This hash is experimental and going to change! -->
+   <key>issue_hash_content_of_line_in_context</key><string>39162431e2771cf276c4b150ce581ee0</string>
+  <key>issue_context_kind</key><string>function</string>
+  <key>issue_context</key><string>RLETEST</string>
+  <key>issue_hash_function_offset</key><string>50</string>
+  <key>location</key>
+  <dict>
+   <key>line</key><integer>77</integer>
+   <key>col</key><integer>9</integer>
+   <key>file</key><integer>0</integer>
+  </dict>
+  </dict>
+  <dict>
+   <key>path</key>
+   <array>
+    <dict>
+     <key>kind</key><string>event</string>
+     <key>location</key>
+     <dict>
+      <key>line</key><integer>78</integer>
+      <key>col</key><integer>9</integer>
+      <key>file</key><integer>0</integer>
+     </dict>
+     <key>ranges</key>
+     <array>
+       <array>
+        <dict>
+         <key>line</key><integer>78</integer>
+         <key>col</key><integer>16</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>78</integer>
+         <key>col</key><integer>17</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+       </array>
+     </array>
+     <key>depth</key><integer>0</integer>
+     <key>extended_message</key>
+     <string>Value stored to &apos;marker&apos; is never read</string>
+     <key>message</key>
+     <string>Value stored to &apos;marker&apos; is never read</string>
+    </dict>
+   </array>
+   <key>description</key><string>Value stored to &apos;marker&apos; is never read</string>
+   <key>category</key><string>Dead store</string>
+   <key>type</key><string>Dead assignment</string>
+   <key>check_name</key><string>deadcode.DeadStores</string>
+   <!-- This hash is experimental and going to change! -->
+   <key>issue_hash_content_of_line_in_context</key><string>4060bc95f0691749bbe4dedd7544c074</string>
+  <key>issue_context_kind</key><string>function</string>
+  <key>issue_context</key><string>RLETEST</string>
+  <key>issue_hash_function_offset</key><string>51</string>
+  <key>location</key>
+  <dict>
+   <key>line</key><integer>78</integer>
+   <key>col</key><integer>9</integer>
+   <key>file</key><integer>0</integer>
+  </dict>
+  </dict>
+  <dict>
+   <key>path</key>
+   <array>
+    <dict>
+     <key>kind</key><string>event</string>
+     <key>location</key>
+     <dict>
+      <key>line</key><integer>79</integer>
+      <key>col</key><integer>9</integer>
+      <key>file</key><integer>0</integer>
+     </dict>
+     <key>ranges</key>
+     <array>
+       <array>
+        <dict>
+         <key>line</key><integer>79</integer>
+         <key>col</key><integer>22</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+        <dict>
+         <key>line</key><integer>79</integer>
+         <key>col</key><integer>23</integer>
+         <key>file</key><integer>0</integer>
+        </dict>
+       </array>
+     </array>
+     <key>depth</key><integer>0</integer>
+     <key>extended_message</key>
+     <string>Value stored to &apos;marker_color&apos; is never read</string>
+     <key>message</key>
+     <string>Value stored to &apos;marker_color&apos; is never read</string>
+    </dict>
+   </array>
+   <key>description</key><string>Value stored to &apos;marker_color&apos; is never read</string>
+   <key>category</key><string>Dead store</string>
+   <key>type</key><string>Dead assignment</string>
+   <key>check_name</key><string>deadcode.DeadStores</string>
+   <!-- This hash is experimental and going to change! -->
+   <key>issue_hash_content_of_line_in_context</key><string>7b6e8f8f40a3e4f71ef637f8f0a3e49a</string>
+  <key>issue_context_kind</key><string>function</string>
+  <key>issue_context</key><string>RLETEST</string>
+  <key>issue_hash_function_offset</key><string>52</string>
+  <key>location</key>
+  <dict>
+   <key>line</key><integer>79</integer>
+   <key>col</key><integer>9</integer>
+   <key>file</key><integer>0</integer>
+  </dict>
+  </dict>
+ </array>
+</dict>
+</plist>
