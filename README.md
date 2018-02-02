@@ -7,11 +7,11 @@ This project is licensed under the GNU General Public License v3 - see the [LICE
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Setting up local repo
 
-Use `git clone https://github.com/JosephTheEngineer/Eden.git` to download the existing repo to your home folder. After it finishes downloading your done! You can start coding!
+Use `git clone https://github.com/JosephTheEngineer/Eden.git` to download the existing repo to your home folder. You will also need to download the "Flurry" folder from this link: https://mega.nz/#!cDQ1SKKA!0G7USvZ3Yf79QOQ6u-Gjn8G7kTNyJ8sAMcqeRy9n3q0, unzip it, and place it inside /Eden/iOS.
 
 ### Uploading your local repo
 
