@@ -13,10 +13,6 @@ We are currently working on version 2.1.1. This update will include:
 * More creatures can exist in one world.
 * Small changes to world gen. 
 
-## License
-
-This project is licensed under the GNU General Public License v3 - see the [LICENSE.md](LICENSE.md) file for details
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -28,3 +24,7 @@ Use `git clone https://github.com/JosephTheEngineer/Eden.git` to download the ex
 ### Uploading your local repo
 
 After your done making changes cd into ~/Eden using `cd ~/Eden` then type `git add .` to add the changes to the resolve, then commit your changes and add a reason with `git commit -m "INSERT REASON HERE"` and finally upload with `git push -u origin master`.
+
+## License
+
+This project is licensed under the GNU General Public License v3 - see the [LICENSE.md](LICENSE.md) file for details
