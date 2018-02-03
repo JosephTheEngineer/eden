@@ -1,5 +1,5 @@
 # Eden Development
-We are developing Eden World Builder, a sandbox building game originally created by Ari Ronen for iOS.
+We are developing Eden World Builder, a block based building game originally created in 2010 by Ari Ronen for iOS.
 
 ## Current Project
 We are currently working on version 2.1.1. This update will include:
