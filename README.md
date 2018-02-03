@@ -1,6 +1,18 @@
 # Eden Development
 We are developing Eden World Builder, a sandbox building game originally created by Ari Ronen for iOS.
 
+## Current Project
+We are currently working on version 2.1.1. This update will include:
+* New texture for vine block.
+* Increased brightness of lamps.
+* Enabled iTunes file sharing for easily copying worlds to and from your computer.
+* Made door noises quieter.
+* Fire is slightly bigger, and burns for longer.
+* New launch graphics
+* Minor bug fixes and code modernizations.
+* More creatures can exist in one world.
+* Small changes to world gen. 
+
 ## License
 
 This project is licensed under the GNU General Public License v3 - see the [LICENSE.md](LICENSE.md) file for details
