@@ -4697,7 +4697,7 @@
 					"$(PROJECT_DIR)/flurry",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
+				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilderRK;
 				PRODUCT_NAME = Eden;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -4744,7 +4744,7 @@
 					"$(PROJECT_DIR)/flurry",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
+				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilderRK;
 				PRODUCT_NAME = Eden;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -4940,7 +4940,7 @@
 					"$(PROJECT_DIR)/flurry",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
+				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilderRK;
 				PRODUCT_NAME = Eden;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "82e12cd3-a9e2-48a9-bd4e-e44898a5392e";
@@ -5037,7 +5037,7 @@
 					"$(PROJECT_DIR)/flurry",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilder;
+				PRODUCT_BUNDLE_IDENTIFIER = EdenWorldBuilderRK;
 				PRODUCT_NAME = Eden;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "64f8257d-17c1-4418-a2ca-be1cf3cc2739";

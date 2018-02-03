@@ -21,7 +21,7 @@
 #define GRAVITY 20.0f
 #define THIRD_PERSON 0
 
-#define EXPLOSION_RADIUS 7
+#define EXPLOSION_RADIUS 5
 
 #define NUM_BLOCKS 111
 
@@ -48,7 +48,7 @@
 #define CHUNKS_PER_SIDE (T_SIZE/CHUNK_SIZE)
 #define BLOCK_SIZE 1.0f
 
-#define LIGHT_RADIUS 12.0f
+#define LIGHT_RADIUS 15.0f
 
 enum BLOCK_TYPES{
 	TYPE_NONE=0,

@@ -484,6 +484,10 @@ void Player::processInput(float etime){
                             if(type==TYPE_FIREWORK){
                                 Resources::getResources->playSound(S_FIREWORK_FUSE);
                             }else
+                                if (type==TYPE_VINE) {
+                                    printg("Tried to burn vine");
+                                } else {
+                                }
 							Resources::getResources->playSound(S_FIRE_SUCCEED);
 						}else{
                             World::getWorld->effects->addSmoke(point.x,point.z,point.y);
