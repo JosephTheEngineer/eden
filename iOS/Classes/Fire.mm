@@ -194,7 +194,7 @@ void Fire::removeFire(int ppid)
 		if(list[k].pid==ppid)
         {
 			list[k].life=.2f;
-			break;
+			 break;
 		}
 }
 void Fire::updateFire(int idx,Vector pos)
