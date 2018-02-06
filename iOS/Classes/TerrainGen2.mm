@@ -3,9 +3,8 @@
 //  Eden
 //
 //  Created by Ari Ronen on 10/25/12.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
-
+//
 
 
 #import <OpenGLES/ES1/gl.h>
@@ -20,8 +19,8 @@
 #import "Globals.h"
 #import "World.h"
 
-#define TG_SEED 400
-#define TG_SEED2 123
+#define TG_SEED 562
+#define TG_SEED2 254
 
 block8* biomez;
 block8* blockz;

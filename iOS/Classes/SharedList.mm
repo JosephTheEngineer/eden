@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 11/12/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 
 #import "SharedList.h"
 #import "Graphics.h"
@@ -21,7 +20,8 @@ extern float P_ASPECT_RATIO;
 
 //@synthesize cur_sort,sbar,finished_dl,finished_preview_dl,sort_bar,finished_list_dl;
 #define NUM_SORTS 3
-enum SORT_TYPES{
+enum SORT_TYPES
+{
 	SORT_NAME=0,
 	SORT_BEST=1,
 	SORT_DATE=2	
@@ -31,8 +31,8 @@ extern EAGLView* G_EAGL_VIEW;
 
 static float bsize;
 
-
-SharedList::SharedList(){
+SharedList::SharedList()
+{
     search_string=[NSMutableString stringWithString:@""];
     [search_string retain];
 	
@@ -41,8 +41,6 @@ SharedList::SharedList(){
     sbrrect=ButtonMake(SCREEN_WIDTH/2-230+95-19-85, SCREEN_HEIGHT-87, 500, 35);
 	sbrrect.origin.x=SCREEN_WIDTH/2-220+143+90-23-85;
 	sbrrect.origin.y-=3;
-    
-         
     
 	name_bar=new statusbar(RectFromButton(sbrrect),14);
     
@@ -53,9 +51,6 @@ SharedList::SharedList(){
 	sbrect.origin.y-=3;
 	name_bar=[[statusbar alloc] initWithRect:sbrect:14];*/
 	
-	
-    
-  
     bsize=43;
     finished_dl=finished_preview_dl=finished_list_dl=FALSE;
 	CGRect sbrect2;
@@ -78,7 +73,7 @@ SharedList::SharedList(){
 	rect_arrow_up.origin.x=SCREEN_WIDTH-rect_arrow_up.size.width-3;
 	rect_arrow_up.origin.y=SCREEN_HEIGHT-67;
 	
-		rect_arrow_down.size.width=45;
+    rect_arrow_down.size.width=45;
 	rect_arrow_down.size.height=25;
 	rect_arrow_down.origin.x=SCREEN_WIDTH-rect_arrow_down.size.width-3;
 	rect_arrow_down.origin.y=3;
@@ -88,14 +83,17 @@ SharedList::SharedList(){
     preview_box.origin.y=SCREEN_HEIGHT-preview_box.size.height-57;
     preview_box.origin.x=(SCREEN_WIDTH-preview_box.size.width)/2.0f;
     
-    if(IS_IPAD){
-    rload_cancel=ButtonMake(95, 17, 90, 33);
-    rload_go=ButtonMake(292, 17, 90, 33);
-    }else{
+    if(IS_IPAD)
+    {
+        rload_cancel=ButtonMake(95, 17, 90, 33);
+        rload_go=ButtonMake(292, 17, 90, 33);
+    }
+    else
+    {
         rload_cancel=ButtonMake(95, 25, 90, 33);
         rload_go=ButtonMake(292, 25, 90, 33);
-        
     }
+    
     rect_flag=ButtonMake(SCREEN_WIDTH-40-20,SCREEN_HEIGHT-30-10,40,30);
     if(IS_IPAD)rect_flag.origin.y-=5;
 	rect_cancel.size.width=40;
@@ -104,7 +102,8 @@ SharedList::SharedList(){
 	rect_cancel.origin.y=SCREEN_HEIGHT-rect_cancel.size.height-10;
 	if(IS_IPAD)rect_cancel.origin.y-=5;
     extern BOOL IS_WIDESCREEN;
-    if(IS_WIDESCREEN){
+    if(IS_WIDESCREEN)
+    {
         rload_cancel.origin.x+=25;
         rload_go.origin.x+=55;
     }
@@ -134,33 +133,39 @@ SharedList::SharedList(){
     animation_offset=0;
     displays=[NSMutableString stringWithString:@""];
     [displays retain];
-	
 }
 
 
-void SharedList::trimDisplay(){
+void SharedList::trimDisplay()
+{
     while([displays sizeWithAttributes:
-           @{NSFontAttributeName: [UIFont systemFontOfSize:14]}].width>input_background.size.width-10){
+           @{NSFontAttributeName: [UIFont systemFontOfSize:14]}].width>input_background.size.width-10)
+    {
         [displays deleteCharactersInRange:NSMakeRange(0,1)];
     }
 	name_bar->setStatus(displays,9999,NSTextAlignmentLeft);
-    
 }
 
-void SharedList::keyTyped(char c){
-    if(c==-1){
-		if([search_string length]>0){
+void SharedList::keyTyped(char c)
+{
+    if(c==-1)
+    {
+		if([search_string length]>0)
+        {
 			[search_string replaceCharactersInRange:NSMakeRange([search_string length]-1, 1) withString:@""];
 		}
-	}else if([search_string length]>35){
+	}
+    else if([search_string length]>35)
+    {
 		return;
-	}else{
-      
+	}
+    else
+    {
 		NSLog(@"%d",(int)[search_string length]);
 		if(!isalnum(c)&&c!=' '&&c!='\'')return;
         [search_string appendFormat:@"%c",c];
-			   
 	}
+    
     [displays release];
     displays=[NSMutableString stringWithString:search_string];
     [displays retain];
@@ -169,82 +174,96 @@ void SharedList::keyTyped(char c){
 	return ;
 }
 
-
-
-void SharedList::searchAndHide(BOOL nosearch){
+void SharedList::searchAndHide(BOOL nosearch)
+{
     vkeyboard_end(1);
 	
-	if([search_string length]==0||nosearch){
+	if([search_string length]==0||nosearch)
+    {
 		return;
 	}
     NSString* list=[World::getWorld->menu->shareutil searchSharedWorlds:search_string];
     
-    if([list length]==0){
+    if([list length]==0)
+    {
         sbar->setStatus(@"No Results Found. ",4);
-    }else{
+    }
+    else
+    {
         sbar->clear();
         setWorldList(list);
-        
-        
     }
-	    
-	
-    
 }
 
-void SharedList::activate(){
+void SharedList::activate()
+{
 	setSortStatus();
-    
 }
-void SharedList::deactivate(){
+
+void SharedList::deactivate()
+{
 	sort_bar->clear();
 	sbar->clear();
     name_bar->clear();
-    
 }
+
 static const int usage_id=42;
-void SharedList::setSortStatus(){
-	if(cur_sort==SORT_NAME){
+void SharedList::setSortStatus()
+{
+	if(cur_sort==SORT_NAME)
+    {
 		sort_bar->setStatus(@"Search" ,99999);
-	}else if(cur_sort==SORT_DATE){
+	}
+    else if(cur_sort==SORT_DATE)
+    {
 		sort_bar->setStatus(@"Recent" ,99999);
-	}else if(cur_sort==SORT_BEST){
+	}
+    else if(cur_sort==SORT_BEST)
+    {
 		sort_bar->setStatus(@"Featured" ,99999);
 	}	
 }
-void SharedList::clearWorldList(){
-    for(int i=0;i<num_files;i++){
+
+void SharedList::clearWorldList()
+{
+    for(int i=0;i<num_files;i++)
+    {
 		[file_list[i].name release];
         [file_list[i].file_name release];
         if(file_list[i].nametex) delete file_list[i].nametex;
         if(file_list[i].datetex) delete file_list[i].datetex;
         file_list[i].nametex=file_list[i].datetex=NULL;
-		
 	}
+    
 	free(file_list);
 	file_list=NULL;
     num_files=0;
     animation_offset=0;
-
 }
+
 NSString* reportedWorlds[100];
 int rwc_count=0;
-void SharedList::setWorldList(NSString* wlist){
+
+void SharedList::setWorldList(NSString* wlist)
+{
     animation_offset=0;
     setSortStatus();
 	clearWorldList();
-		NSArray* list=[wlist componentsSeparatedByString:@"\n"];
+    NSArray* list=[wlist componentsSeparatedByString:@"\n"];
 	cur_page=0;
 	int n=0;
-	for(NSString* temp in list){
+	for(NSString* temp in list)
+    {
 		//NSLog(@":::%@",temp);
-		if([temp hasSuffix:@".eden"]){
+		if([temp hasSuffix:@".eden"])
+        {
 			n++;
          //   NSLog(@"%d sup",n);
 		}
 	}
 	list_selection=0;
-	if(n==0){
+	if(n==0)
+    {
 		file_list=NULL;
 		num_files=0;
 		return;
@@ -255,20 +274,24 @@ void SharedList::setWorldList(NSString* wlist){
 	num_files=n;
 	file_list=(SharedListNode*)malloc(sizeof(SharedListNode)*num_files);
 	int idx=0;
-	for(int i=0;i<[list count];i++){
+	for(int i=0;i<[list count];i++)
+    {
 		NSString* temp=[list objectAtIndex:i];
 		
-		if([temp hasSuffix:@".eden"]){
+		if([temp hasSuffix:@".eden"])
+        {
             BOOL was_reported=FALSE;
-            for(int r=0;r<rwc_count;r++){
-                if([temp isEqualToString:reportedWorlds[r]]){
+            for(int r=0;r<rwc_count;r++)
+            {
+                if([temp isEqualToString:reportedWorlds[r]])
+                {
                     //printg("culled reported world from list: %s\n",[reportedWorlds[r] cStringUsingEncoding:NSUTF8StringEncoding]);
                     was_reported=TRUE;
                     break;
-                    
                 }
             }
-            if(was_reported){
+            if(was_reported)
+            {
                 num_files--;
                 continue;
             }
@@ -279,8 +302,6 @@ void SharedList::setWorldList(NSString* wlist){
 			
 			temp=[temp substringToIndex:[temp length]-5];
 			file_list[idx].date=atoi([temp cStringUsingEncoding:NSUTF8StringEncoding]);
-			
-			
 			
 			[file_list[idx].name retain];
 			[file_list[idx].file_name retain];
@@ -349,14 +370,17 @@ void SharedList::setWorldList(NSString* wlist){
             
 			file_list[idx].blockrect.origin.x=20;
             file_list[idx].blockrect.pressed=FALSE;
-            if(IS_IPAD){
+            if(IS_IPAD)
+            {
                 file_list[idx].blockrect.size.width=40;
-                file_list[idx].blockrect.size.height=40;  
-                
-            }else{
+                file_list[idx].blockrect.size.height=40;
+            }
+            else
+            {
 			file_list[idx].blockrect.size.width=50;
 			file_list[idx].blockrect.size.height=50;
-			}file_list[idx].blockrect.origin.y=SCREEN_HEIGHT-
+			}
+            file_list[idx].blockrect.origin.y=SCREEN_HEIGHT-
 					((idx%page_size)*(file_list[idx].namerect.size.height+3)+116);
 			
 			file_list[idx].blocktex=Resources::getResources->getMenuTex(MENU_BLOCK_UNSELECTED);
@@ -367,11 +391,13 @@ void SharedList::setWorldList(NSString* wlist){
 	[dateFormat release];
     [wlist release];
 }
+
 static int is_loading=0;
 static int loading_world=0;
 static float cursor_blink=0;
 
-void SharedList::activateKB(){
+void SharedList::activateKB()
+{
     clearWorldList();
     sbar->setStatus(@"" ,9999);
    /* if(!World::getWorld->FLIPPED){
@@ -383,46 +409,53 @@ void SharedList::activateKB(){
     }*/
     //  starto=World::getWorld->FLIPPED;
     vkeyboard_begin(1);
-    
 }
-void SharedList::update(float etime){
-	if(is_loading>0){
-		if(cur_sort==SORT_NAME){
+
+void SharedList::update(float etime)
+{
+	if(is_loading>0)
+    {
+		if(cur_sort==SORT_NAME)
+        {
             searchAndHide(TRUE);
         }
-        if(previewScreenshot!=NULL){
+        if(previewScreenshot!=NULL)
+        {
             delete previewScreenshot;
             previewScreenshot=NULL;
         }
         if(is_loading!=2)
 		cur_sort=(cur_sort+1)%NUM_SORTS;
 		setSortStatus();
-        if(cur_sort==SORT_NAME){
+        if(cur_sort==SORT_NAME)
+        {
             activateKB();
-            
-
-
-        }else{
+        }
+        else
+        {
              finished_list_dl=FALSE;
            [World::getWorld->menu->shareutil getSharedWorldList];
-            if(is_loading==2){
+            if(is_loading==2)
+            {
                 sbar->setStatus(@"Report sent, thank you" ,5);
                 is_loading=-1;
                 return;
             }
-           
-          
 		}
 		is_loading=0;
 		return;
 	}
-    if( finished_list_dl){
+    if( finished_list_dl)
+    {
         finished_list_dl=FALSE;
         NSString* list=World::getWorld->menu->shareutil.listresult;
         
-        if([list length]==0){
+        if([list length]==0)
+        {
             sbar->setStatus(@"Connection error getting world list. ",2);
-        }else{
+        }
+        else
+        {
             if(is_loading!=-1)//just don't clear report confirm if coming from there
             sbar->clear();
             setWorldList(list);
@@ -430,15 +463,20 @@ void SharedList::update(float etime){
         is_loading=0;
         return;
     }
-	if(finished_preview_dl){
+	if(finished_preview_dl)
+    {
         finished_preview_dl=FALSE;
-        if(previewScreenshot!=NULL){
+        if(previewScreenshot!=NULL)
+        {
             delete previewScreenshot;
         }
         previewScreenshot=new Texture2D([NSString stringWithFormat:@"%s/temp",World::getWorld->fm->documents->c_str()],FALSE);
-        if(previewScreenshot==NULL){
+        if(previewScreenshot==NULL)
+        {
             sbar->setStatus(@"Error: map not found",4);
-        }else{
+        }
+        else
+        {
         if(loading_world-1>=0&&loading_world-1<num_files)
         sort_bar->setStatus(file_list[loading_world-1].name,9999);
         sbar->clear();
