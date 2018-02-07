@@ -485,6 +485,7 @@ void Player::processInput(float etime){
                                 Resources::getResources->playSound(S_FIREWORK_FUSE);
                             }else
                                 if (type==TYPE_VINE) {
+                                    printg("Tried to burn vine");
                                 } else {
                                 }
 							Resources::getResources->playSound(S_FIRE_SUCCEED);
