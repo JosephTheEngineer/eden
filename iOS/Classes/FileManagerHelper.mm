@@ -45,8 +45,7 @@ void fmh_init(FileManager* t_fm){
      */
     
      saveFile=[NSFileHandle fileHandleForReadingAtPath:file_name];
-    [saveFile retain];
-     sfh=(WorldFileHeader*)[[saveFile readDataOfLength:sizeof(WorldFileHeader)] bytes];
+     sfh=(WorldFileHeader*)[saveFile readDataOfLength:sizeof(WorldFileHeader)].bytes;
     //[sfh retain];
     
    
@@ -57,25 +56,25 @@ void fmh_init(FileManager* t_fm){
     
 }
 static void fmh_read_directory(){
-	
-	[saveFile seekToFileOffset:sfh->directory_offset];
-	while(TRUE){
-		NSData* data=[saveFile readDataOfLength:sizeof(ColumnIndex)];
-		if(data==NULL||[data length]<sizeof(ColumnIndex))break;
-		
-		ColumnIndex* colIdx=(ColumnIndex*)malloc(sizeof(ColumnIndex));
-		[data getBytes:colIdx length:sizeof(ColumnIndex)];
-		int n=twoToOne(colIdx->x, colIdx->z);
-		if(n!=0){
+    
+    [saveFile seekToFileOffset:sfh->directory_offset];
+    while(TRUE){
+        NSData* data=[saveFile readDataOfLength:sizeof(ColumnIndex)];
+        if(data==NULL||data.length<sizeof(ColumnIndex))break;
+        
+        ColumnIndex* colIdx=(ColumnIndex*)malloc(sizeof(ColumnIndex));
+        [data getBytes:colIdx length:sizeof(ColumnIndex)];
+        int n=twoToOne(colIdx->x, colIdx->z);
+        if(n!=0){
             hashmap_put(indexes,n, (any_t)colIdx);
             // printg("reading dir\n");
         }else {
-			free(colIdx);
-		}
+            free(colIdx);
+        }
         
         
-		
-	}
+        
+    }
 }
 void fmh_readColumnFromDefault(int cx,int cz){
     
@@ -83,16 +82,17 @@ void fmh_readColumnFromDefault(int cx,int cz){
     Terrain* ter=World::getWorld->terrain;
     TerrainChunk* columns[CHUNKS_PER_COLUMN];
     ColumnIndex* colIndex=NULL;
-	int n= twoToOne(cx,cz);
-	if(n==0){
-		NSLog(@"mm");
-		return;
-	}
+    int n= twoToOne(cx,cz);
+    if(n==0)
+    {
+        NSLog(@"mm");
+        return;
+    }
   
-	hashmap_get(indexes,n, (any_t*)&colIndex);
+    hashmap_get(indexes,n, (any_t*)&colIndex);
     
     
-	if(colIndex==NULL){
+    if(colIndex==NULL){
         ter->tgen->generateEmptyColumn(cx,cz);
         return;
      /*   int fcx=cx;
@@ -166,7 +166,7 @@ void fmh_readColumnFromDefault(int cx,int cz){
             [datat getBytes:buft length:2];
             int chunk_data_length= buft[0]*256+buft[1]-2;
             NSData* data=[saveFile readDataOfLength:chunk_data_length];
-            int n=(int)[data length];
+            int n=(int)data.length;
             if(n<chunk_data_length){
                 printg("not enough file left, only read %d bytes\n",n);
             }//else

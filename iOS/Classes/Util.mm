@@ -26,7 +26,7 @@ std::string cpstring(NSString * str){
 }
 NSString* nsstring(std::string s){
     
-    return [NSString stringWithCString:s.c_str() encoding:NSUTF8StringEncoding];;
+    return @(s.c_str());;
     
 }
 float dotProduct(Vector A,Vector B){
@@ -94,13 +94,13 @@ int sign(float f){
 }
 extern GLshort cubeShortVertices[];
 const static float cubeFaceNormals[] = {
-	0,0,1, //front face
-	0,0,-1, //back face
-	-1,0,0, //left face
-	1,0,0, //right face
-	0,-1,0, //bot face
-	0,1,0, //top face	
-	
+    0,0,1, //front face
+    0,0,-1, //back face
+    -1,0,0, //left face
+    1,0,0, //right face
+    0,-1,0, //bot face
+    0,1,0, //top face    
+    
 };
 BOOL interpolatev(Vector* vec,Vector final_vec,float speed,float etime){
     if(vec->x==final_vec.x&&vec->y==final_vec.y&&vec->z==final_vec.z)return FALSE;
@@ -316,20 +316,20 @@ Polyhedra makeRamp(float left,float right,float back,float front,float bot,float
 
 
 NSString* genhash(){
-	char str[41];
-	for(int i=0;i<41;i++){
-		str[i]=arc4random()%26+'a';		
-	}
-	str[40]='\0';
-	
-	return [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
+    char str[41];
+    for(int i=0;i<41;i++){
+        str[i]=arc4random()%26+'a';        
+    }
+    str[40]='\0';
+    
+    return @(str);
 }
 extern EAGLView* G_EAGL_VIEW;
 extern float SCREEN_WIDTH; 
 extern float SCREEN_HEIGHT;
 extern BOOL IS_WIDESCREEN;
-void takeScreenshot(){	
-	int width=SCREEN_HEIGHT;
+void takeScreenshot(){    
+    int width=SCREEN_HEIGHT;
     int height=SCREEN_WIDTH;
     if(TRUE){
         width+=160;
@@ -348,52 +348,52 @@ void takeScreenshot(){
     }else if(IS_WIDESCREEN){
         
     }
-	int myDataLength = width * height * 4;
-	
-	// allocate array and read pixels into it.
-	GLubyte *buffer = (GLubyte *) malloc(myDataLength);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-	
+    int myDataLength = width * height * 4;
+    
+    // allocate array and read pixels into it.
+    GLubyte *buffer = (GLubyte *) malloc(myDataLength);
+    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
     
     
-	// gl renders "upside down" so swap top to bottom into new array.
-	// there's gotta be a better way, but this works.
+    
+    // gl renders "upside down" so swap top to bottom into new array.
+    // there's gotta be a better way, but this works.
     GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
-	//BOOL flip=World::getWorld->FLIPPED;
-	for(int y = 0; y < height; y++)
-	{
-		for(int x = 0; x < width; x++)
-		{
-			for(int b=0;b<4;b++){
-				//if(flip)
-				//buffer2[x * width * 4 + y*4 ] = (GLubyte)buffer[x * 4 * width + (height-1-y)*4 ];
-				//else
+    //BOOL flip=World::getWorld->FLIPPED;
+    for(int y = 0; y < height; y++)
+    {
+        for(int x = 0; x < width; x++)
+        {
+            for(int b=0;b<4;b++){
+                //if(flip)
+                //buffer2[x * width * 4 + y*4 ] = (GLubyte)buffer[x * 4 * width + (height-1-y)*4 ];
+                //else
                 /*if(IS_WIDESCREEN){
                     buffer2[((y+(int)((float)(568-480)/2.0f))) * 4 * width + x*4 +b] = buffer[(height-1-y) * 4 * width + x*4 +b];
                     
                 }else*/
-				buffer2[y * 4 * width + x*4 +b] = buffer[(height-1-y) * 4 * width + x*4 +b];
-			}
-		}
-	}
+                buffer2[y * 4 * width + x*4 +b] = buffer[(height-1-y) * 4 * width + x*4 +b];
+            }
+        }
+    }
     
-	free(buffer);
-	// make data provider with data.
-	CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
-	
-	// prep the ingredients
-	int bitsPerComponent = 8;
-	int bitsPerPixel = 32;
-	int bytesPerRow = 4 * width;
-	CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-	CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-	CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-	
-	// make the cgimage
-	CGImageRef imageRef = CGImageCreate(width,height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
-	
-	// then make the uiimage from that
-	UIImage *myImage = [UIImage imageWithCGImage:imageRef];
+    free(buffer);
+    // make data provider with data.
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
+    
+    // prep the ingredients
+    int bitsPerComponent = 8;
+    int bitsPerPixel = 32;
+    int bytesPerRow = 4 * width;
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    
+    // make the cgimage
+    CGImageRef imageRef = CGImageCreate(width,height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
+    
+    // then make the uiimage from that
+    UIImage *myImage = [UIImage imageWithCGImage:imageRef];
     if(myImage==NULL)return;
   // UIImageWriteToSavedPhotosAlbum(myImage, nil, nil, nil);
     if(IS_IPAD||IS_RETINA){
@@ -416,19 +416,19 @@ void takeScreenshot(){
     CFRelease(provider);
     free(buffer2);
     Terrain* ter=World::getWorld->terrain;
-	NSString* name=nsstring(ter->world_name);
+    NSString* name=nsstring(ter->world_name);
     NSString* file_name=[NSString stringWithFormat:@"%s/%@.png",World::getWorld->fm->documents->c_str(),name];
     NSFileManager* fm=[NSFileManager defaultManager];
-	if([fm fileExistsAtPath:file_name])
+    if([fm fileExistsAtPath:file_name])
         if(![fm removeItemAtPath:file_name error:NULL])
             return;
     [data writeToFile:file_name atomically:FALSE];
     
     CFStringRef md5hash = 
-    FileMD5HashCreateWithPath((CFStringRef)file_name, 
+    FileMD5HashCreateWithPath((__bridge CFStringRef)file_name, 
                               FileHashDefaultChunkSizeForReadingData);
   
-    World::getWorld->fm->setImageHash(cpstring((NSString *)md5hash));
+    World::getWorld->fm->setImageHash(cpstring((__bridge NSString *)md5hash));
     //CFRelease(md5hash);
 
 }
@@ -486,80 +486,80 @@ int lookupColor(Vector clr){
 }
 // r,g,b values are from 0 to 1
 // h = [0,360], s = [0,1], v = [0,1]
-//		if s == 0, then h = -1 (undefined)
+//        if s == 0, then h = -1 (undefined)
 void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v )
 {
-	float min, max, delta;
-	min = r<g?((r<b)?r:b):(g<b?g:b); //min
-	max = r>g?((r>b)?r:b):(g>b?g:b); //max
-	*v = max;				// v
-	delta = max - min;
-	if( max != 0 )
-		*s = delta / max;		// s
-	else {
-		// r = g = b = 0		// s = 0, v is undefined
-		*s = 0;
-		*h = -1;
-		return;
-	}
-	if( r == max )
-		*h = ( g - b ) / delta;		// between yellow & magenta
-	else if( g == max )
-		*h = 2 + ( b - r ) / delta;	// between cyan & yellow
-	else
-		*h = 4 + ( r - g ) / delta;	// between magenta & cyan
-	*h *= 60;				// degrees
-	if( *h < 0 )
-		*h += 360;
+    float min, max, delta;
+    min = r<g?((r<b)?r:b):(g<b?g:b); //min
+    max = r>g?((r>b)?r:b):(g>b?g:b); //max
+    *v = max;                // v
+    delta = max - min;
+    if( max != 0 )
+        *s = delta / max;        // s
+    else {
+        // r = g = b = 0        // s = 0, v is undefined
+        *s = 0;
+        *h = -1;
+        return;
+    }
+    if( r == max )
+        *h = ( g - b ) / delta;        // between yellow & magenta
+    else if( g == max )
+        *h = 2 + ( b - r ) / delta;    // between cyan & yellow
+    else
+        *h = 4 + ( r - g ) / delta;    // between magenta & cyan
+    *h *= 60;                // degrees
+    if( *h < 0 )
+        *h += 360;
 }
 
 void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v )
 {
-	int i;
-	float f, p, q, t;
-	if( s == 0 ) {
-		// achromatic (grey)
-		*r = *g = *b = v;
-		return;
-	}
-	h /= 60;			// sector 0 to 5
-	i = floor( h );
-	f = h - i;			// factorial part of h
-	p = v * ( 1 - s );
-	q = v * ( 1 - s * f );
-	t = v * ( 1 - s * ( 1 - f ) );
-	switch( i ) {
-		case 0:
-			*r = v;
-			*g = t;
-			*b = p;
-			break;
-		case 1:
-			*r = q;
-			*g = v;
-			*b = p;
-			break;
-		case 2:
-			*r = p;
-			*g = v;
-			*b = t;
-			break;
-		case 3:
-			*r = p;
-			*g = q;
-			*b = v;
-			break;
-		case 4:
-			*r = t;
-			*g = p;
-			*b = v;
-			break;
-		default:		// case 5:
-			*r = v;
-			*g = p;
-			*b = q;
-			break;
-	}
+    int i;
+    float f, p, q, t;
+    if( s == 0 ) {
+        // achromatic (grey)
+        *r = *g = *b = v;
+        return;
+    }
+    h /= 60;            // sector 0 to 5
+    i = floor( h );
+    f = h - i;            // factorial part of h
+    p = v * ( 1 - s );
+    q = v * ( 1 - s * f );
+    t = v * ( 1 - s * ( 1 - f ) );
+    switch( i ) {
+        case 0:
+            *r = v;
+            *g = t;
+            *b = p;
+            break;
+        case 1:
+            *r = q;
+            *g = v;
+            *b = p;
+            break;
+        case 2:
+            *r = p;
+            *g = v;
+            *b = t;
+            break;
+        case 3:
+            *r = p;
+            *g = q;
+            *b = v;
+            break;
+        case 4:
+            *r = t;
+            *g = p;
+            *b = v;
+            break;
+        default:        // case 5:
+            *r = v;
+            *g = p;
+            *b = q;
+            break;
+    }
 }
 int fwc_result;
 Vector fpoint;
@@ -575,74 +575,74 @@ Point3D findWorldCoords(int mx,int my,int mode){
     mx=temp;
     
     fwc_result=-1;
-	Point3D point;
-	point.x=-1;
-	GLint viewport[4];
-	GLdouble modelview[16];
-	GLdouble projection[16];
-	GLfloat modelviewf[16];
-	GLfloat projectionf[16];
-	GLfloat winX, winY;
-	GLdouble posX, posY, posZ;
-	GLdouble posX2, posY2, posZ2;
-	glMatrixMode(GL_MODELVIEW);
-	
-	glLoadIdentity();
-	//glRotatef(270,0,0,1);
-	World::getWorld->cam->render2();
-	
-	glGetFloatv( GL_MODELVIEW_MATRIX, modelviewf );
-	glGetFloatv( GL_PROJECTION_MATRIX, projectionf );
-	glGetIntegerv( GL_VIEWPORT, viewport );
-	for(int i=0;i<16;i++){
-		modelview[i]=modelviewf[i];
-		projection[i]=projectionf[i];
-	}
-	
-	winX = (float)mx;
-	winY = (float)my;
-	
+    Point3D point;
+    point.x=-1;
+    GLint viewport[4];
+    GLdouble modelview[16];
+    GLdouble projection[16];
+    GLfloat modelviewf[16];
+    GLfloat projectionf[16];
+    GLfloat winX, winY;
+    GLdouble posX, posY, posZ;
+    GLdouble posX2, posY2, posZ2;
+    glMatrixMode(GL_MODELVIEW);
+    
+    glLoadIdentity();
+    //glRotatef(270,0,0,1);
+    World::getWorld->cam->render2();
+    
+    glGetFloatv( GL_MODELVIEW_MATRIX, modelviewf );
+    glGetFloatv( GL_PROJECTION_MATRIX, projectionf );
+    glGetIntegerv( GL_VIEWPORT, viewport );
+    for(int i=0;i<16;i++){
+        modelview[i]=modelviewf[i];
+        projection[i]=projectionf[i];
+    }
+    
+    winX = (float)mx;
+    winY = (float)my;
+    
     //printg("winX: %f, winY: %f viewport[3]:%d\n",winX,winY,viewport[3]);
     
-	gluUnProject( winX, winY, 0, modelview, projection, viewport, &posX, &posY, &posZ);
-	gluUnProject( winX, winY, 1, modelview, projection, viewport, &posX2, &posY2, &posZ2);
-	
-	
-	
-	Vector wp1,wp2;
-	wp1.x=posX;
-	wp1.y=posY;
-	wp1.z=posZ;
-	wp2.x=posX2;
-	wp2.y=posY2;
-	wp2.z=posZ2;
-	Vector dir;
-	
-	
-	
-	//NSLog(@"wp1(%.2f,%.2f,%.2f) wp2(%.2f,%.2f,%.2f)",wp1.x,wp1.y,wp1.z,wp2.x,wp2.y,wp2.z);
-	
-	dir.x=wp2.x-wp1.x;
-	dir.y=wp2.y-wp1.y;
-	dir.z=wp2.z-wp1.z;
-	dir.x=dir.x;
-	dir.y=dir.y;
-	dir.z=dir.z;
-	wp1.x/=BLOCK_SIZE;
-	wp1.y/=BLOCK_SIZE;
-	wp1.z/=BLOCK_SIZE;
-	
-	//printg("wp1.x: %f wp1.z: %f \n",wp1.x,wp1.z);
-	NormalizeVector(&dir);
-	
-	
-	for(int i=0;i<8*15;i++){
+    gluUnProject( winX, winY, 0, modelview, projection, viewport, &posX, &posY, &posZ);
+    gluUnProject( winX, winY, 1, modelview, projection, viewport, &posX2, &posY2, &posZ2);
+    
+    
+    
+    Vector wp1,wp2;
+    wp1.x=posX;
+    wp1.y=posY;
+    wp1.z=posZ;
+    wp2.x=posX2;
+    wp2.y=posY2;
+    wp2.z=posZ2;
+    Vector dir;
+    
+    
+    
+    //NSLog(@"wp1(%.2f,%.2f,%.2f) wp2(%.2f,%.2f,%.2f)",wp1.x,wp1.y,wp1.z,wp2.x,wp2.y,wp2.z);
+    
+    dir.x=wp2.x-wp1.x;
+    dir.y=wp2.y-wp1.y;
+    dir.z=wp2.z-wp1.z;
+    dir.x=dir.x;
+    dir.y=dir.y;
+    dir.z=dir.z;
+    wp1.x/=BLOCK_SIZE;
+    wp1.y/=BLOCK_SIZE;
+    wp1.z/=BLOCK_SIZE;
+    
+    //printg("wp1.x: %f wp1.z: %f \n",wp1.x,wp1.z);
+    NormalizeVector(&dir);
+    
+    
+    for(int i=0;i<8*15;i++){
         fpoint.x=wp1.x+dir.x*i/8.0f;
         fpoint.y=wp1.y+dir.y*i/8.0f;
         fpoint.z=wp1.z+dir.z*i/8.0f;
-		int tx=(int)(fpoint.x);
-		int ty=(int)(fpoint.y);
-		int tz=(int)(fpoint.z);
+        int tx=(int)(fpoint.x);
+        int ty=(int)(fpoint.y);
+        int tz=(int)(fpoint.z);
     //    if(World::getWorld->hud.build_size==2){
      //       tx=roundf(fpoint.x);
       //      ty=roundf(fpoint.y);
@@ -662,13 +662,13 @@ Point3D findWorldCoords(int mx,int my,int mode){
             
        // }
         hitCustom=FALSE;
-		int type=World::getWorld->terrain->getLand(tx ,tz ,ty);
+        int type=World::getWorld->terrain->getLand(tx ,tz ,ty);
      /*   BOOL build2solid=FALSE;
         int dx[]={0,0,0,0,1,1,1,1};
         int dy[]={0,0,1,1,0,0,1,1};
         int dz[]={0,1,0,1,0,1,0,1};*/
         
-		if((type!=TYPE_NONE&&type!=-1))	{
+        if((type!=TYPE_NONE&&type!=-1))    {
             Polyhedra pbox2;
             Polyhedra pbox=makeBox(fpoint.x,fpoint.x+.001,
                                    
@@ -751,25 +751,25 @@ Point3D findWorldCoords(int mx,int my,int mode){
                     continue;
             }
             
-			
-			if(mode==FC_DESTROY||(mode==FC_PLACE&&(blockinfo[type]&IS_LIQUID&&getLevel(type)<4))){	
+            
+            if(mode==FC_DESTROY||(mode==FC_PLACE&&(blockinfo[type]&IS_LIQUID&&getLevel(type)<4))){    
                 
                 
-				point.x=tx;
-				
-				point.y=ty;
-				point.z=tz;		
+                point.x=tx;
+                
+                point.y=ty;
+                point.z=tz;        
                 
                 
-			}else if(mode==FC_PLACE){
-				float min=999999999999999999999.0f;
+            }else if(mode==FC_PLACE){
+                float min=999999999999999999999.0f;
                 int mini=-1;
-				int fx[]={-1,1,0,0,0,0};
-				int fy[]={0,0,-1,1,0,0};
-				int fz[]={0,0,0,0,-1,1};
+                int fx[]={-1,1,0,0,0,0};
+                int fy[]={0,0,-1,1,0,0};
+                int fz[]={0,0,0,0,-1,1};
                 Vector mintersect;
-				Vector norm;
-				float D;
+                Vector norm;
+                float D;
                /* if(World::getWorld->hud.build_size==2){
                     tx=roundf(fpoint.x);
                     ty=roundf(fpoint.y);
@@ -780,58 +780,58 @@ Point3D findWorldCoords(int mx,int my,int mode){
                     wp1.y*=2;
                     wp1.z*=2;
                 }
-				for(int i=0;i<6;i++){
-					norm.x=fx[i];
-					norm.y=fy[i];
-					norm.z=fz[i];
-					if(i%2==0){
+                for(int i=0;i<6;i++){
+                    norm.x=fx[i];
+                    norm.y=fy[i];
+                    norm.z=fz[i];
+                    if(i%2==0){
                         //if(World::getWorld->hud.build_size==2)
                        //  D=-norm.x*(tx-1)-norm.y*(ty-1)-norm.z*(tz-1);   
                        //     else
-						D=-norm.x*tx-norm.y*ty-norm.z*tz;
-					}else {
-						D=-norm.x*(tx+1)-norm.y*(ty+1)-norm.z*(tz+1);
-					}				
-					float a=dir.x*norm.x+dir.y*norm.y+dir.z*norm.z;					
-					float rayPosDist2plane=wp1.x*norm.x+wp1.y*norm.y+wp1.z*norm.z+D;
-					Vector intersect;
-					
-					if(rayPosDist2plane>0){
-						intersect.x=wp1.x;
-						intersect.y=wp1.y;
-						intersect.z=wp1.z;	
-						intersect.x-=dir.x*rayPosDist2plane/a;
-						intersect.y-=dir.y*rayPosDist2plane/a;
-						intersect.z-=dir.z*rayPosDist2plane/a;
-						
-						if(intersect.x>=tx&&intersect.y>=ty
-						   &&intersect.z>=tz&&intersect.x<=tx+1
-						   &&intersect.y<=ty+1&&intersect.z<=tz+1){
-							
-							
-							float distToRay=intersect.x*intersect.x+
-							intersect.y*intersect.y+
-							intersect.z*intersect.z;
-							//printg("hello builder: %f  %f (%f,%f,%f)  (%f,%f,%f)  dist2plane: %f  a:%f\n",distToRay,min,intersect.x,intersect.y,intersect.z,wp1.x,wp1.y,wp1.z,rayPosDist2plane,a);
-							if(distToRay<min){
-								mini=i;
+                        D=-norm.x*tx-norm.y*ty-norm.z*tz;
+                    }else {
+                        D=-norm.x*(tx+1)-norm.y*(ty+1)-norm.z*(tz+1);
+                    }                
+                    float a=dir.x*norm.x+dir.y*norm.y+dir.z*norm.z;                    
+                    float rayPosDist2plane=wp1.x*norm.x+wp1.y*norm.y+wp1.z*norm.z+D;
+                    Vector intersect;
+                    
+                    if(rayPosDist2plane>0){
+                        intersect.x=wp1.x;
+                        intersect.y=wp1.y;
+                        intersect.z=wp1.z;    
+                        intersect.x-=dir.x*rayPosDist2plane/a;
+                        intersect.y-=dir.y*rayPosDist2plane/a;
+                        intersect.z-=dir.z*rayPosDist2plane/a;
+                        
+                        if(intersect.x>=tx&&intersect.y>=ty
+                           &&intersect.z>=tz&&intersect.x<=tx+1
+                           &&intersect.y<=ty+1&&intersect.z<=tz+1){
+                            
+                            
+                            float distToRay=intersect.x*intersect.x+
+                            intersect.y*intersect.y+
+                            intersect.z*intersect.z;
+                            //printg("hello builder: %f  %f (%f,%f,%f)  (%f,%f,%f)  dist2plane: %f  a:%f\n",distToRay,min,intersect.x,intersect.y,intersect.z,wp1.x,wp1.y,wp1.z,rayPosDist2plane,a);
+                            if(distToRay<min){
+                                mini=i;
                                 mintersect=intersect;
-								min=distToRay;
-							}
-						}
-					}
-				}
+                                min=distToRay;
+                            }
+                        }
+                    }
+                }
                 //printg("hello builder: %d\n",mini);
                 offsetdir=mini;
-				int rx=tx+fx[mini];
-				int ry=ty+fy[mini];
-				int rz=tz+fz[mini];
+                int rx=tx+fx[mini];
+                int ry=ty+fy[mini];
+                int rz=tz+fz[mini];
                 mintersect.x-=rx;
                 mintersect.y-=ry;
                 mintersect.z-=rz;
                 point.x=rx;
-				point.y=ry;
-				point.z=rz;
+                point.y=ry;
+                point.z=rz;
                 if(World::getWorld->hud->build_size==0&&!hitCustom){
                   //  mintersect.x=mintersect.x;
                   //   mintersect.z=mintersect.z;
@@ -845,7 +845,7 @@ Point3D findWorldCoords(int mx,int my,int mode){
                     
                     
                 }
-				if(World::getWorld->hud->build_size==2){
+                if(World::getWorld->hud->build_size==2){
                     float rfx=fpoint.x+fx[mini];
                     float rfy=fpoint.y+fy[mini];
                     float rfz=fpoint.z+fz[mini];
@@ -854,99 +854,99 @@ Point3D findWorldCoords(int mx,int my,int mode){
                     point.z=roundf(rfz-1);
                     printg("fpoint: (%f,%f,%f)\n",fpoint.x,fpoint.y,fpoint.z);
                 }
-				
+                
                // printg("pt: %d,%d,%d type:%d\n",rx,ry,rz,getLandc(rx,rz,ry));
-				
-			}
-			
-		
-			break;
-		}
-		
-	}
-	if(World::getWorld->hud->holding_creature&&World::getWorld->hud->blocktype==TYPE_CLOUD&&mode==FC_PLACE){
+                
+            }
+            
+        
+            break;
+        }
+        
+    }
+    if(World::getWorld->hud->holding_creature&&World::getWorld->hud->blocktype==TYPE_CLOUD&&mode==FC_PLACE){
         point.x=wp1.x+dir.x*30/8.0f;
         point.y=wp1.y+dir.y*30/8.0f;
         point.z=wp1.z+dir.z*30/8.0f;
         
     }
-	
-	return point;
+    
+    return point;
 }
 float randf(float max){
-	float a=(float)arc4random()/UINT_MAX;
-	
+    float a=(float)arc4random()/UINT_MAX;
+    
 
-	return a*max;
-	
+    return a*max;
+    
 }
 
 int randi(int max){
-	int a=arc4random()%max;
-	
+    int a=arc4random()%max;
     
-	return a;
-	
+    
+    return a;
+    
 }
 
 int O(int r,int c){
-	return c*4+r;
+    return c*4+r;
 }
 void MatrixMultiplyBy4x (float *src1, float *src2, float *dest)
 {
-    *(dest+O(0,0)) = (*(src1+O(0,0)) * *(src2+O(0,0))) + (*(src1+O(0,1)) * *(src2+O(1,0))) + (*(src1+O(0,2)) * *(src2+O(2,0))) + (*(src1+O(0,3)) * *(src2+O(3,0)));	
-    *(dest+O(0,1)) = (*(src1+O(0,0)) * *(src2+O(0,1))) + (*(src1+O(0,1)) * *(src2+O(1,1))) + (*(src1+O(0,2)) * *(src2+O(2,1))) + (*(src1+O(0,3)) * *(src2+O(3,1)));	
-    *(dest+O(0,2)) = (*(src1+O(0,0)) * *(src2+O(0,2))) + (*(src1+O(0,1)) * *(src2+O(1,2))) + (*(src1+O(0,2)) * *(src2+O(2,2))) + (*(src1+O(0,3)) * *(src2+O(3,2)));	
-    *(dest+O(0,3)) = (*(src1+O(0,0)) * *(src2+O(0,3))) + (*(src1+O(0,1)) * *(src2+O(1,3))) + (*(src1+O(0,2)) * *(src2+O(2,3))) + (*(src1+O(0,3)) * *(src2+O(3,3)));	
-    *(dest+O(1,0)) = (*(src1+O(1,0)) * *(src2+O(0,0))) + (*(src1+O(1,1)) * *(src2+O(1,0))) + (*(src1+O(1,2)) * *(src2+O(2,0))) + (*(src1+O(1,3)) * *(src2+O(3,0)));	
-    *(dest+O(1,1)) = (*(src1+O(1,0)) * *(src2+O(0,1))) + (*(src1+O(1,1)) * *(src2+O(1,1))) + (*(src1+O(1,2)) * *(src2+O(2,1))) + (*(src1+O(1,3)) * *(src2+O(3,1)));	
-    *(dest+O(1,2)) = (*(src1+O(1,0)) * *(src2+O(0,2))) + (*(src1+O(1,1)) * *(src2+O(1,2))) + (*(src1+O(1,2)) * *(src2+O(2,2))) + (*(src1+O(1,3)) * *(src2+O(3,2)));	
-    *(dest+O(1,3)) = (*(src1+O(1,0)) * *(src2+O(0,3))) + (*(src1+O(1,1)) * *(src2+O(1,3))) + (*(src1+O(1,2)) * *(src2+O(2,3))) + (*(src1+O(1,3)) * *(src2+O(3,3)));	
-    *(dest+O(2,0)) = (*(src1+O(2,0)) * *(src2+O(0,0))) + (*(src1+O(2,1)) * *(src2+O(1,0))) + (*(src1+O(2,2)) * *(src2+O(2,0))) + (*(src1+O(2,3)) * *(src2+O(3,0)));	
-    *(dest+O(2,1)) = (*(src1+O(2,0)) * *(src2+O(0,1))) + (*(src1+O(2,1)) * *(src2+O(1,1))) + (*(src1+O(2,2)) * *(src2+O(2,1))) + (*(src1+O(2,3)) * *(src2+O(3,1)));	
-    *(dest+O(2,2)) = (*(src1+O(2,0)) * *(src2+O(0,2))) + (*(src1+O(2,1)) * *(src2+O(1,2))) + (*(src1+O(2,2)) * *(src2+O(2,2))) + (*(src1+O(2,3)) * *(src2+O(3,2)));	
-    *(dest+O(2,3)) = (*(src1+O(2,0)) * *(src2+O(0,3))) + (*(src1+O(2,1)) * *(src2+O(1,3))) + (*(src1+O(2,2)) * *(src2+O(2,3))) + (*(src1+O(2,3)) * *(src2+O(3,3)));	
-    *(dest+O(3,0)) = (*(src1+O(3,0)) * *(src2+O(0,0))) + (*(src1+O(3,1)) * *(src2+O(1,0))) + (*(src1+O(3,2)) * *(src2+O(2,0))) + (*(src1+O(3,3)) * *(src2+O(3,0)));	
-    *(dest+O(3,1)) = (*(src1+O(3,0)) * *(src2+O(0,1))) + (*(src1+O(3,1)) * *(src2+O(1,1))) + (*(src1+O(3,2)) * *(src2+O(2,1))) + (*(src1+O(3,3)) * *(src2+O(3,1)));	
-    *(dest+O(3,2)) = (*(src1+O(3,0)) * *(src2+O(0,2))) + (*(src1+O(3,1)) * *(src2+O(1,2))) + (*(src1+O(3,2)) * *(src2+O(2,2))) + (*(src1+O(3,3)) * *(src2+O(3,2)));	
-    *(dest+O(3,3)) = (*(src1+O(3,0)) * *(src2+O(0,3))) + (*(src1+O(3,1)) * *(src2+O(1,3))) + (*(src1+O(3,2)) * *(src2+O(2,3))) + (*(src1+O(3,3)) * *(src2+O(3,3)));	
+    *(dest+O(0,0)) = (*(src1+O(0,0)) * *(src2+O(0,0))) + (*(src1+O(0,1)) * *(src2+O(1,0))) + (*(src1+O(0,2)) * *(src2+O(2,0))) + (*(src1+O(0,3)) * *(src2+O(3,0)));    
+    *(dest+O(0,1)) = (*(src1+O(0,0)) * *(src2+O(0,1))) + (*(src1+O(0,1)) * *(src2+O(1,1))) + (*(src1+O(0,2)) * *(src2+O(2,1))) + (*(src1+O(0,3)) * *(src2+O(3,1)));    
+    *(dest+O(0,2)) = (*(src1+O(0,0)) * *(src2+O(0,2))) + (*(src1+O(0,1)) * *(src2+O(1,2))) + (*(src1+O(0,2)) * *(src2+O(2,2))) + (*(src1+O(0,3)) * *(src2+O(3,2)));    
+    *(dest+O(0,3)) = (*(src1+O(0,0)) * *(src2+O(0,3))) + (*(src1+O(0,1)) * *(src2+O(1,3))) + (*(src1+O(0,2)) * *(src2+O(2,3))) + (*(src1+O(0,3)) * *(src2+O(3,3)));    
+    *(dest+O(1,0)) = (*(src1+O(1,0)) * *(src2+O(0,0))) + (*(src1+O(1,1)) * *(src2+O(1,0))) + (*(src1+O(1,2)) * *(src2+O(2,0))) + (*(src1+O(1,3)) * *(src2+O(3,0)));    
+    *(dest+O(1,1)) = (*(src1+O(1,0)) * *(src2+O(0,1))) + (*(src1+O(1,1)) * *(src2+O(1,1))) + (*(src1+O(1,2)) * *(src2+O(2,1))) + (*(src1+O(1,3)) * *(src2+O(3,1)));    
+    *(dest+O(1,2)) = (*(src1+O(1,0)) * *(src2+O(0,2))) + (*(src1+O(1,1)) * *(src2+O(1,2))) + (*(src1+O(1,2)) * *(src2+O(2,2))) + (*(src1+O(1,3)) * *(src2+O(3,2)));    
+    *(dest+O(1,3)) = (*(src1+O(1,0)) * *(src2+O(0,3))) + (*(src1+O(1,1)) * *(src2+O(1,3))) + (*(src1+O(1,2)) * *(src2+O(2,3))) + (*(src1+O(1,3)) * *(src2+O(3,3)));    
+    *(dest+O(2,0)) = (*(src1+O(2,0)) * *(src2+O(0,0))) + (*(src1+O(2,1)) * *(src2+O(1,0))) + (*(src1+O(2,2)) * *(src2+O(2,0))) + (*(src1+O(2,3)) * *(src2+O(3,0)));    
+    *(dest+O(2,1)) = (*(src1+O(2,0)) * *(src2+O(0,1))) + (*(src1+O(2,1)) * *(src2+O(1,1))) + (*(src1+O(2,2)) * *(src2+O(2,1))) + (*(src1+O(2,3)) * *(src2+O(3,1)));    
+    *(dest+O(2,2)) = (*(src1+O(2,0)) * *(src2+O(0,2))) + (*(src1+O(2,1)) * *(src2+O(1,2))) + (*(src1+O(2,2)) * *(src2+O(2,2))) + (*(src1+O(2,3)) * *(src2+O(3,2)));    
+    *(dest+O(2,3)) = (*(src1+O(2,0)) * *(src2+O(0,3))) + (*(src1+O(2,1)) * *(src2+O(1,3))) + (*(src1+O(2,2)) * *(src2+O(2,3))) + (*(src1+O(2,3)) * *(src2+O(3,3)));    
+    *(dest+O(3,0)) = (*(src1+O(3,0)) * *(src2+O(0,0))) + (*(src1+O(3,1)) * *(src2+O(1,0))) + (*(src1+O(3,2)) * *(src2+O(2,0))) + (*(src1+O(3,3)) * *(src2+O(3,0)));    
+    *(dest+O(3,1)) = (*(src1+O(3,0)) * *(src2+O(0,1))) + (*(src1+O(3,1)) * *(src2+O(1,1))) + (*(src1+O(3,2)) * *(src2+O(2,1))) + (*(src1+O(3,3)) * *(src2+O(3,1)));    
+    *(dest+O(3,2)) = (*(src1+O(3,0)) * *(src2+O(0,2))) + (*(src1+O(3,1)) * *(src2+O(1,2))) + (*(src1+O(3,2)) * *(src2+O(2,2))) + (*(src1+O(3,3)) * *(src2+O(3,2)));    
+    *(dest+O(3,3)) = (*(src1+O(3,0)) * *(src2+O(0,3))) + (*(src1+O(3,1)) * *(src2+O(1,3))) + (*(src1+O(3,2)) * *(src2+O(2,3))) + (*(src1+O(3,3)) * *(src2+O(3,3)));    
 }
 void NormalizeVector(Vector* v){
-	float rsqrt=sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
-	if(rsqrt<.0000000001f&&rsqrt>-.0000000001f)rsqrt=.0000000001f;
-	v->x=v->x/rsqrt;
-	v->y=v->y/rsqrt;
-	v->z=v->z/rsqrt;
+    float rsqrt=sqrtf(v->x*v->x + v->y*v->y + v->z*v->z);
+    if(rsqrt<.0000000001f&&rsqrt>-.0000000001f)rsqrt=.0000000001f;
+    v->x=v->x/rsqrt;
+    v->y=v->y/rsqrt;
+    v->z=v->z/rsqrt;
 }
 BOOL inbox(float x,float y,CGRect rect){
 //NSLog(@"%f, %f",x,y);
-	float extra=4;
-		if(x+extra>=rect.origin.x&&y+extra>=rect.origin.y&&
-		   x-extra<=rect.origin.x+rect.size.width&&
-		   y-extra<=rect.origin.y+rect.size.height)
-			return TRUE;
-	
+    float extra=4;
+        if(x+extra>=rect.origin.x&&y+extra>=rect.origin.y&&
+           x-extra<=rect.origin.x+rect.size.width&&
+           y-extra<=rect.origin.y+rect.size.height)
+            return TRUE;
+    
 
-	
-		
-	
-	return FALSE;
+    
+        
+    
+    return FALSE;
 }
 BOOL inbox3(float x,float y,Button* rect){
     //NSLog(@"%f, %f",x,y);
-	float extra=4;
+    float extra=4;
     if(x+extra>=rect->origin.x&&y+extra>=rect->origin.y&&
        x-extra<=rect->origin.x+rect->size.width&&
        y-extra<=rect->origin.y+rect->size.height){
         rect->pressed=TRUE;
         return TRUE;
     }
-	
     
-	
     
-	
-	return FALSE;
+    
+    
+    
+    return FALSE;
 }
 CGRect RectFromButton(Button button){
     CGRect r;
@@ -987,19 +987,19 @@ Button ButtonMake(float x,float y,float width,float height){
 
 BOOL inbox2(float x,float y,Button* rect){
     //NSLog(@"%f, %f",x,y);
-	float extra=4;
+    float extra=4;
     if(x+extra>=rect->origin.x&&y+extra>=rect->origin.y&&
        x-extra<=rect->origin.x+rect->size.width&&
        y-extra<=rect->origin.y+rect->size.height){
         rect->pressed=FALSE;
         return TRUE;
     }
-	rect->pressed=FALSE;
+    rect->pressed=FALSE;
     
-	
     
-	
-	return FALSE;
+    
+    
+    return FALSE;
 }
 
 int getColIndex(int cx,int cz){
@@ -1041,125 +1041,125 @@ float rsqrt( float number )
     cx+=64;
     cy+=64;
     cz+=64;
-	if(cx<0||cy<0||cz<0){
-		NSLog(@"overflowing! %d,%d,%d ",cx,cz,cy);
-		return 0;		
-	}
-	int n=(cx<<19)+(cz<<7)+cy;
-	if(n<0){
-		NSLog(@"overflowing! %d,%d,%d %X",cx,cz,cy,n);
-		return 0;
-	}
-	return n;
+    if(cx<0||cy<0||cz<0){
+        NSLog(@"overflowing! %d,%d,%d ",cx,cz,cy);
+        return 0;        
+    }
+    int n=(cx<<19)+(cz<<7)+cy;
+    if(n<0){
+        NSLog(@"overflowing! %d,%d,%d %X",cx,cz,cy,n);
+        return 0;
+    }
+    return n;
 }*/
 int twoToOne(int cx,int cz){
-	if(cx<0||cz<0||cx>=(1<<15)||cz>=(1<<15)){
-		printg("overflowing! %d,%d \n",cx,cz);	
-		return 0;
-	}
-	int n=(cx<<15)+cz;
-	if(n<0){
-		printg("overflowing! %d,%d %X \n",cx,cz,n);
-		return 0;
-	}
-	return n;
+    if(cx<0||cz<0||cx>=(1<<15)||cz>=(1<<15)){
+        printg("overflowing! %d,%d \n",cx,cz);    
+        return 0;
+    }
+    int n=(cx<<15)+cz;
+    if(n<0){
+        printg("overflowing! %d,%d %X \n",cx,cz,n);
+        return 0;
+    }
+    return n;
 }
 int twoToOneTest(int cx,int cz){
-	if(cx<0||cz<0||cx>=(1<<15)||cz>=(1<<15)){
-		printg("tt1 test overflowing! %d,%d \n",cx,cz);
-		return 0;
-	}
-	int n=(cx<<15)+cz;
-	if(n<0){
-		printg("tt1 test overflowing2! %d,%d %X \n",cx,cz,n);
-		return 0;
-	}
-	return n;
+    if(cx<0||cz<0||cx>=(1<<15)||cz>=(1<<15)){
+        printg("tt1 test overflowing! %d,%d \n",cx,cz);
+        return 0;
+    }
+    int n=(cx<<15)+cz;
+    if(n<0){
+        printg("tt1 test overflowing2! %d,%d %X \n",cx,cz,n);
+        return 0;
+    }
+    return n;
 }
 void VectorMatrixMultiply(Vector* vDest, Vector vSrc,const float mat[16]){
-	//untrustworthy/untested!
-	float W=0;	
-	W = 1.0f / (vSrc.x * mat[3] + vSrc.y * mat[7] + vSrc.z * mat[11] + mat[15]);
-	vDest->x = (vSrc.x * mat[0] + vSrc.y * mat[4] + vSrc.z * mat[8] + mat[12]) * W;
-	vDest->y = (vSrc.x * mat[1] + vSrc.y * mat[5] + vSrc.z * mat[9] + mat[13]) * W;
-	vDest->z = (vSrc.x * mat[2] + vSrc.y * mat[6] + vSrc.z * mat[10] + mat[14]) * W;
-	
-	
+    //untrustworthy/untested!
+    float W=0;    
+    W = 1.0f / (vSrc.x * mat[3] + vSrc.y * mat[7] + vSrc.z * mat[11] + mat[15]);
+    vDest->x = (vSrc.x * mat[0] + vSrc.y * mat[4] + vSrc.z * mat[8] + mat[12]) * W;
+    vDest->y = (vSrc.x * mat[1] + vSrc.y * mat[5] + vSrc.z * mat[9] + mat[13]) * W;
+    vDest->z = (vSrc.x * mat[2] + vSrc.y * mat[6] + vSrc.z * mat[10] + mat[14]) * W;
+    
+    
 }
 
 
 
 float Determinant4f(const float m[16])
 {
-	return
-	m[12]*m[9]*m[6]*m[3]-
-	m[8]*m[13]*m[6]*m[3]-
-	m[12]*m[5]*m[10]*m[3]+
-	m[4]*m[13]*m[10]*m[3]+
-	m[8]*m[5]*m[14]*m[3]-
-	m[4]*m[9]*m[14]*m[3]-
-	m[12]*m[9]*m[2]*m[7]+
-	m[8]*m[13]*m[2]*m[7]+
-	m[12]*m[1]*m[10]*m[7]-
-	m[0]*m[13]*m[10]*m[7]-
-	m[8]*m[1]*m[14]*m[7]+
-	m[0]*m[9]*m[14]*m[7]+
-	m[12]*m[5]*m[2]*m[11]-
-	m[4]*m[13]*m[2]*m[11]-
-	m[12]*m[1]*m[6]*m[11]+
-	m[0]*m[13]*m[6]*m[11]+
-	m[4]*m[1]*m[14]*m[11]-
-	m[0]*m[5]*m[14]*m[11]-
-	m[8]*m[5]*m[2]*m[15]+
-	m[4]*m[9]*m[2]*m[15]+
-	m[8]*m[1]*m[6]*m[15]-
-	m[0]*m[9]*m[6]*m[15]-
-	m[4]*m[1]*m[10]*m[15]+
-	m[0]*m[5]*m[10]*m[15];
+    return
+    m[12]*m[9]*m[6]*m[3]-
+    m[8]*m[13]*m[6]*m[3]-
+    m[12]*m[5]*m[10]*m[3]+
+    m[4]*m[13]*m[10]*m[3]+
+    m[8]*m[5]*m[14]*m[3]-
+    m[4]*m[9]*m[14]*m[3]-
+    m[12]*m[9]*m[2]*m[7]+
+    m[8]*m[13]*m[2]*m[7]+
+    m[12]*m[1]*m[10]*m[7]-
+    m[0]*m[13]*m[10]*m[7]-
+    m[8]*m[1]*m[14]*m[7]+
+    m[0]*m[9]*m[14]*m[7]+
+    m[12]*m[5]*m[2]*m[11]-
+    m[4]*m[13]*m[2]*m[11]-
+    m[12]*m[1]*m[6]*m[11]+
+    m[0]*m[13]*m[6]*m[11]+
+    m[4]*m[1]*m[14]*m[11]-
+    m[0]*m[5]*m[14]*m[11]-
+    m[8]*m[5]*m[2]*m[15]+
+    m[4]*m[9]*m[2]*m[15]+
+    m[8]*m[1]*m[6]*m[15]-
+    m[0]*m[9]*m[6]*m[15]-
+    m[4]*m[1]*m[10]*m[15]+
+    m[0]*m[5]*m[10]*m[15];
 }
 float absf(float f){
-	if(f<0)f*=-1;
-	return f;
+    if(f<0)f*=-1;
+    return f;
 }
 BOOL GenerateInverseMatrix4f(float i[16], const float m[16])
 {
-	float x=Determinant4f(m);
-	if (x==0) return FALSE;
-	
-	i[0]= (-m[13]*m[10]*m[7] +m[9]*m[14]*m[7] +m[13]*m[6]*m[11]
-		   -m[5]*m[14]*m[11] -m[9]*m[6]*m[15] +m[5]*m[10]*m[15])/x;
-	i[4]= ( m[12]*m[10]*m[7] -m[8]*m[14]*m[7] -m[12]*m[6]*m[11]
-		   +m[4]*m[14]*m[11] +m[8]*m[6]*m[15] -m[4]*m[10]*m[15])/x;
-	i[8]= (-m[12]*m[9]* m[7] +m[8]*m[13]*m[7] +m[12]*m[5]*m[11]
-		   -m[4]*m[13]*m[11] -m[8]*m[5]*m[15] +m[4]*m[9]* m[15])/x;
-	i[12]=( m[12]*m[9]* m[6] -m[8]*m[13]*m[6] -m[12]*m[5]*m[10]
-		   +m[4]*m[13]*m[10] +m[8]*m[5]*m[14] -m[4]*m[9]* m[14])/x;
-	i[1]= ( m[13]*m[10]*m[3] -m[9]*m[14]*m[3] -m[13]*m[2]*m[11]
-		   +m[1]*m[14]*m[11] +m[9]*m[2]*m[15] -m[1]*m[10]*m[15])/x;
-	i[5]= (-m[12]*m[10]*m[3] +m[8]*m[14]*m[3] +m[12]*m[2]*m[11]
-		   -m[0]*m[14]*m[11] -m[8]*m[2]*m[15] +m[0]*m[10]*m[15])/x;
-	i[9]= ( m[12]*m[9]* m[3] -m[8]*m[13]*m[3] -m[12]*m[1]*m[11]
-		   +m[0]*m[13]*m[11] +m[8]*m[1]*m[15] -m[0]*m[9]* m[15])/x;
-	i[13]=(-m[12]*m[9]* m[2] +m[8]*m[13]*m[2] +m[12]*m[1]*m[10]
-		   -m[0]*m[13]*m[10] -m[8]*m[1]*m[14] +m[0]*m[9]* m[14])/x;
-	i[2]= (-m[13]*m[6]* m[3] +m[5]*m[14]*m[3] +m[13]*m[2]*m[7]
-		   -m[1]*m[14]*m[7] -m[5]*m[2]*m[15] +m[1]*m[6]* m[15])/x;
-	i[6]= ( m[12]*m[6]* m[3] -m[4]*m[14]*m[3] -m[12]*m[2]*m[7]
-		   +m[0]*m[14]*m[7] +m[4]*m[2]*m[15] -m[0]*m[6]* m[15])/x;
-	i[10]=(-m[12]*m[5]* m[3] +m[4]*m[13]*m[3] +m[12]*m[1]*m[7]
-		   -m[0]*m[13]*m[7] -m[4]*m[1]*m[15] +m[0]*m[5]* m[15])/x;
-	i[14]=( m[12]*m[5]* m[2] -m[4]*m[13]*m[2] -m[12]*m[1]*m[6]
-		   +m[0]*m[13]*m[6] +m[4]*m[1]*m[14] -m[0]*m[5]* m[14])/x;
-	i[3]= ( m[9]* m[6]* m[3] -m[5]*m[10]*m[3] -m[9]* m[2]*m[7]
-		   +m[1]*m[10]*m[7] +m[5]*m[2]*m[11] -m[1]*m[6]* m[11])/x;
-	i[7]= (-m[8]* m[6]* m[3] +m[4]*m[10]*m[3] +m[8]* m[2]*m[7]
-		   -m[0]*m[10]*m[7] -m[4]*m[2]*m[11] +m[0]*m[6]* m[11])/x;
-	i[11]=( m[8]* m[5]* m[3] -m[4]*m[9]* m[3] -m[8]* m[1]*m[7]
-		   +m[0]*m[9]* m[7] +m[4]*m[1]*m[11] -m[0]*m[5]* m[11])/x;
-	i[15]=(-m[8]* m[5]* m[2] +m[4]*m[9]* m[2] +m[8]* m[1]*m[6]
-		   -m[0]*m[9]* m[6] -m[4]*m[1]*m[10] +m[0]*m[5]* m[10])/x;
-	
-	return TRUE;
+    float x=Determinant4f(m);
+    if (x==0) return FALSE;
+    
+    i[0]= (-m[13]*m[10]*m[7] +m[9]*m[14]*m[7] +m[13]*m[6]*m[11]
+           -m[5]*m[14]*m[11] -m[9]*m[6]*m[15] +m[5]*m[10]*m[15])/x;
+    i[4]= ( m[12]*m[10]*m[7] -m[8]*m[14]*m[7] -m[12]*m[6]*m[11]
+           +m[4]*m[14]*m[11] +m[8]*m[6]*m[15] -m[4]*m[10]*m[15])/x;
+    i[8]= (-m[12]*m[9]* m[7] +m[8]*m[13]*m[7] +m[12]*m[5]*m[11]
+           -m[4]*m[13]*m[11] -m[8]*m[5]*m[15] +m[4]*m[9]* m[15])/x;
+    i[12]=( m[12]*m[9]* m[6] -m[8]*m[13]*m[6] -m[12]*m[5]*m[10]
+           +m[4]*m[13]*m[10] +m[8]*m[5]*m[14] -m[4]*m[9]* m[14])/x;
+    i[1]= ( m[13]*m[10]*m[3] -m[9]*m[14]*m[3] -m[13]*m[2]*m[11]
+           +m[1]*m[14]*m[11] +m[9]*m[2]*m[15] -m[1]*m[10]*m[15])/x;
+    i[5]= (-m[12]*m[10]*m[3] +m[8]*m[14]*m[3] +m[12]*m[2]*m[11]
+           -m[0]*m[14]*m[11] -m[8]*m[2]*m[15] +m[0]*m[10]*m[15])/x;
+    i[9]= ( m[12]*m[9]* m[3] -m[8]*m[13]*m[3] -m[12]*m[1]*m[11]
+           +m[0]*m[13]*m[11] +m[8]*m[1]*m[15] -m[0]*m[9]* m[15])/x;
+    i[13]=(-m[12]*m[9]* m[2] +m[8]*m[13]*m[2] +m[12]*m[1]*m[10]
+           -m[0]*m[13]*m[10] -m[8]*m[1]*m[14] +m[0]*m[9]* m[14])/x;
+    i[2]= (-m[13]*m[6]* m[3] +m[5]*m[14]*m[3] +m[13]*m[2]*m[7]
+           -m[1]*m[14]*m[7] -m[5]*m[2]*m[15] +m[1]*m[6]* m[15])/x;
+    i[6]= ( m[12]*m[6]* m[3] -m[4]*m[14]*m[3] -m[12]*m[2]*m[7]
+           +m[0]*m[14]*m[7] +m[4]*m[2]*m[15] -m[0]*m[6]* m[15])/x;
+    i[10]=(-m[12]*m[5]* m[3] +m[4]*m[13]*m[3] +m[12]*m[1]*m[7]
+           -m[0]*m[13]*m[7] -m[4]*m[1]*m[15] +m[0]*m[5]* m[15])/x;
+    i[14]=( m[12]*m[5]* m[2] -m[4]*m[13]*m[2] -m[12]*m[1]*m[6]
+           +m[0]*m[13]*m[6] +m[4]*m[1]*m[14] -m[0]*m[5]* m[14])/x;
+    i[3]= ( m[9]* m[6]* m[3] -m[5]*m[10]*m[3] -m[9]* m[2]*m[7]
+           +m[1]*m[10]*m[7] +m[5]*m[2]*m[11] -m[1]*m[6]* m[11])/x;
+    i[7]= (-m[8]* m[6]* m[3] +m[4]*m[10]*m[3] +m[8]* m[2]*m[7]
+           -m[0]*m[10]*m[7] -m[4]*m[2]*m[11] +m[0]*m[6]* m[11])/x;
+    i[11]=( m[8]* m[5]* m[3] -m[4]*m[9]* m[3] -m[8]* m[1]*m[7]
+           +m[0]*m[9]* m[7] +m[4]*m[1]*m[11] -m[0]*m[5]* m[11])/x;
+    i[15]=(-m[8]* m[5]* m[2] +m[4]*m[9]* m[2] +m[8]* m[1]*m[6]
+           -m[0]*m[9]* m[6] -m[4]*m[1]*m[10] +m[0]*m[5]* m[10])/x;
+    
+    return TRUE;
 } 
 
 CGPoint CalculateInterval(Vector Axis, Vector* P,int p_length)
@@ -1173,8 +1173,8 @@ CGPoint CalculateInterval(Vector Axis, Vector* P,int p_length)
         if (d < minMax.x)
             minMax.x = d;
         else
-    		if(d > minMax.y)
-            	minMax.y = d;
+            if(d > minMax.y)
+                minMax.y = d;
     }
     return minMax;
 }

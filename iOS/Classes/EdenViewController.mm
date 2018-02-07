@@ -14,7 +14,7 @@
 
 
 @interface EdenViewController ()
-@property (nonatomic, retain) EAGLContext *context;
+@property (nonatomic, strong) EAGLContext *context;
 @end
 
 @implementation EdenViewController
@@ -23,19 +23,18 @@
 
 - (void)awakeFromNib
 {
-	//[UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
-	
-	EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    //[UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
+    
+    EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
     
     if (!aContext){
-        NSLog(@"Failed to create ES context");	
+        NSLog(@"Failed to create ES context");    
     }else if (![EAGLContext setCurrentContext:aContext])
         NSLog(@"Failed to set ES context current");
     
-	self.context = aContext;
-	[aContext release];
-	
-    [(EAGLView *)self.view setContext:context];
+    self.context = aContext;
+    
+    ((EAGLView *)self.view).context = context;
     [(EAGLView *)self.view setFramebuffer];
     unsigned long long memtotal=[NSProcessInfo processInfo].physicalMemory;
     if(memtotal<504572800||(memtotal<654572800&&!SUPPORTS_RETINA)){
@@ -61,14 +60,14 @@
     animationTimer = nil;
     
     // Use of CADisplayLink requires iOS version 3.1 or greater.
-	// The NSTimer object is used as fallback when it isn't available.
+    // The NSTimer object is used as fallback when it isn't available.
     NSString *reqSysVer = @"3.1";
-    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    NSString *currSysVer = [UIDevice currentDevice].systemVersion;
     if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
         displayLinkSupported = TRUE;
-	
-	//NSLog(@"%@",[vc_settings view]);
-	//[viewController setView:[vc_settings view]];
+    
+    //NSLog(@"%@",[vc_settings view]);
+    //[viewController setView:[vc_settings view]];
     [super awakeFromNib];
 
 }
@@ -80,9 +79,7 @@
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
     
-    [context release];
     
-    [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,12 +98,12 @@
 
 - (void)viewDidUnload
 {
-	[super viewDidUnload];    
+    [super viewDidUnload];    
 
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
-	self.context = nil;	
+    self.context = nil;    
 }
 
 - (NSInteger)animationFrameInterval
@@ -117,9 +114,9 @@
 - (void)setAnimationFrameInterval:(NSInteger)frameInterval
 {
     /*
-	 Frame interval defines how many display frames must pass between each time the display link fires.
-	 The display link will only fire 30 times a second when the frame internal is two on a display that refreshes 60 times a second. The default frame interval setting of one will fire 60 times a second when the display refreshes at 60 times a second. A frame interval setting of less than one results in undefined behavior.
-	 */
+     Frame interval defines how many display frames must pass between each time the display link fires.
+     The display link will only fire 30 times a second when the frame internal is two on a display that refreshes 60 times a second. The default frame interval setting of one will fire 60 times a second when the display refreshes at 60 times a second. A frame interval setting of less than one results in undefined behavior.
+     */
     if (frameInterval >= 1)
     {
         animationFrameInterval = frameInterval;
@@ -136,17 +133,16 @@
 {
     if (!animating)
     {
-		start = [NSDate date];		
-		[start retain];
-		last=-[start timeIntervalSinceNow];
+        start = [NSDate date];        
+        last=-start.timeIntervalSinceNow;
         //NSLog(@"hi");
 
-		
+        
 
         if (displayLinkSupported)
         {
             /*
-			 CADisplayLink is API new in iOS 3.1. Compiling against earlier versions will result in a warning, but can be dismissed if the system version runtime check for CADisplayLink exists in -awakeFromNib. The runtime check ensures this code will not be called in system versions earlier than 3.1.
+             CADisplayLink is API new in iOS 3.1. Compiling against earlier versions will result in a warning, but can be dismissed if the system version runtime check for CADisplayLink exists in -awakeFromNib. The runtime check ensures this code will not be called in system versions earlier than 3.1.
             */
             displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(drawFrame)];
             [displayLink setFrameInterval:animationFrameInterval];
@@ -187,20 +183,20 @@
 
 - (void)drawFrame
 {
-	
+    
 
-	now=-[start timeIntervalSinceNow];
+    now=-start.timeIntervalSinceNow;
       
     BOOL retinaSwap=FALSE;
-	float etime=(float)(now-last);
-	last=now;	
+    float etime=(float)(now-last);
+    last=now;    
     [(EAGLView *)self.view setFramebuffer];
-	 NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    if(world->update(etime)){
-        retinaSwap=TRUE;
+     @autoreleasepool {
+        if(world->update(etime)){
+            retinaSwap=TRUE;
+        }
+        world->render();
     }
-	world->render();
-	[pool release];
     
     
     [(EAGLView *)self.view presentFramebuffer];
@@ -225,7 +221,7 @@
 
     }
     }
-	
+    
 }
 
 - (void)didReceiveMemoryWarning

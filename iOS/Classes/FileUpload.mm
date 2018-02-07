@@ -39,7 +39,7 @@ static NSString * const FORM_FLE_INPUT2 = @"uploaded2";
 
 
 
-- (id)initWithURL: (NSURL *)aServerURL   // IN
+- (instancetype)initWithURL: (NSURL *)aServerURL   // IN
          filePath: (NSString *)aFilePath // IN
           imgPath: (NSString *)aimgPath
          delegate: (id)aDelegate         // IN
@@ -49,14 +49,14 @@ progressSelector: (SEL)aProgressSelector
 {
     if ((self = [super init])) {
         
-		
-        serverURL = [aServerURL retain];
-        filePath = [aFilePath retain];
-        delegate = [aDelegate retain];
-        imgPath=[aimgPath retain];
+        
+        serverURL = aServerURL;
+        filePath = aFilePath;
+        delegate = aDelegate;
+        imgPath=aimgPath;
         doneSelector = aDoneSelector;
         errorSelector = anErrorSelector;
-		progressSelector= aProgressSelector;
+        progressSelector= aProgressSelector;
         uploadDidSucceed=FALSE;
         [self upload];
     }
@@ -66,18 +66,13 @@ progressSelector: (SEL)aProgressSelector
 
 - (void)dealloc
 {
-    [serverURL release];
     serverURL = nil;
-    [filePath release];
     filePath = nil;
-    [imgPath release];
     imgPath=nil;
-    [delegate release];
     delegate = nil;
     doneSelector = NULL;
     errorSelector = NULL;
-	
-    [super dealloc];
+    
 }
 
 - (NSString *)filePath
@@ -129,13 +124,13 @@ progressSelector: (SEL)aProgressSelector
     }
     
     NSData *compressedData = [NSData dataWithContentsOfFile:temp_name];
-    if (!compressedData || [compressedData length] == 0) {
+    if (!compressedData || compressedData.length == 0) {
         [self uploadSucceeded:NO];
         return;
     }
     // NSString* img_temp_name=[NSString stringWithFormat:@"%@/temp",World::getWorld->fm.documents];
     NSData* imgData = [NSData dataWithContentsOfFile:imgPath];
-    if (!imgData || [imgData length] == 0) {
+    if (!imgData || imgData.length == 0) {
         [self uploadSucceeded:NO];
         return;
     }
@@ -166,13 +161,13 @@ progressSelector: (SEL)aProgressSelector
 {
     NSMutableURLRequest *urlRequest =
     [NSMutableURLRequest requestWithURL:url];
-    [urlRequest setHTTPMethod:@"POST"];
+    urlRequest.HTTPMethod = @"POST";
     [urlRequest setValue:
      [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundry]
       forHTTPHeaderField:@"Content-Type"];
-	
+    
     NSMutableData *postData =
-    [NSMutableData dataWithCapacity:[data length]+[imgData length] + 512];
+    [NSMutableData dataWithCapacity:data.length+imgData.length + 512];
     [postData appendData:
      [[NSString stringWithFormat:@"--%@\r\n", boundry] dataUsingEncoding:NSUTF8StringEncoding]];
     
@@ -221,8 +216,8 @@ progressSelector: (SEL)aProgressSelector
      --BbC04y--
      --AaB03x--
      */
-	
-    [urlRequest setHTTPBody:postData];
+    
+    urlRequest.HTTPBody = postData;
     return urlRequest;
 }
 
@@ -230,43 +225,43 @@ progressSelector: (SEL)aProgressSelector
 //unused
 - (NSData *)gzipDeflate:(NSData*) data
 {
-	if ([data length] == 0) return data;
-	
-	z_stream strm;
-	
-	strm.zalloc = Z_NULL;
-	strm.zfree = Z_NULL;
-	strm.opaque = Z_NULL;
-	strm.total_out = 0;
-	strm.next_in=(Bytef *)[data bytes];
-	strm.avail_in = (unsigned)[data length];
-	
-	// Compresssion Levels:
-	//   Z_NO_COMPRESSION
-	//   Z_BEST_SPEED
-	//   Z_BEST_COMPRESSION
-	//   Z_DEFAULT_COMPRESSION
-	
-	if (deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15+16), 8, Z_DEFAULT_STRATEGY) != Z_OK) return nil;
-	
-	NSMutableData *compressed = [NSMutableData dataWithLength:16384];  // 16K chunks for expansion
-	
-	do {
-		
-		if (strm.total_out >= [compressed length])
-			[compressed increaseLengthBy: 16384];
-		
-		strm.next_out = ((Bytef*)[compressed mutableBytes]) + strm.total_out;
-		strm.avail_out = (unsigned)[compressed length] - (unsigned)strm.total_out;
-		
-		deflate(&strm, Z_FINISH);  
-		
-	} while (strm.avail_out == 0);
-	
-	deflateEnd(&strm);
-	
-	[compressed setLength: strm.total_out];
-	return [NSData dataWithData:compressed];
+    if (data.length == 0) return data;
+    
+    z_stream strm;
+    
+    strm.zalloc = Z_NULL;
+    strm.zfree = Z_NULL;
+    strm.opaque = Z_NULL;
+    strm.total_out = 0;
+    strm.next_in=(Bytef *)data.bytes;
+    strm.avail_in = (unsigned)data.length;
+    
+    // Compresssion Levels:
+    //   Z_NO_COMPRESSION
+    //   Z_BEST_SPEED
+    //   Z_BEST_COMPRESSION
+    //   Z_DEFAULT_COMPRESSION
+    
+    if (deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15+16), 8, Z_DEFAULT_STRATEGY) != Z_OK) return nil;
+    
+    NSMutableData *compressed = [NSMutableData dataWithLength:16384];  // 16K chunks for expansion
+    
+    do {
+        
+        if (strm.total_out >= compressed.length)
+            [compressed increaseLengthBy: 16384];
+        
+        strm.next_out = ((Bytef*)compressed.mutableBytes) + strm.total_out;
+        strm.avail_out = (unsigned)compressed.length - (unsigned)strm.total_out;
+        
+        deflate(&strm, Z_FINISH);  
+        
+    } while (strm.avail_out == 0);
+    
+    deflateEnd(&strm);
+    
+    compressed.length = strm.total_out;
+    return [NSData dataWithData:compressed];
 }
 
 
@@ -282,12 +277,12 @@ progressSelector: (SEL)aProgressSelector
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection // IN
 {
     NSLog(@"%s: self:0x%p\n", __func__, self);
-    [connection release];
     [self uploadSucceeded:uploadDidSucceed];
 }
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite{
-    [delegate performSelector:progressSelector withObject:(id)(100*totalBytesWritten /totalBytesExpectedToWrite)];
+    //[delegate performSelector:progressSelector withObject:(id)(100*totalBytesWritten /totalBytesExpectedToWrite)];
+    [delegate performSelector:progressSelector withObject:[NSNumber numberWithLong:(100*dataSize/downloadSize)]];
    // NSLog(@"uploading %f%%",((float)totalBytesWritten /totalBytesExpectedToWrite));
     
 }
@@ -297,8 +292,7 @@ progressSelector: (SEL)aProgressSelector
   didFailWithError:(NSError *)error              // IN
 {
     NSLog(@"%s: self:0x%p, connection error:%s\n",
-		  __func__, self, [[error description] UTF8String]);
-    [connection release];
+          __func__, self, [[error description] UTF8String]);
     [self uploadSucceeded:NO];
 }
 
@@ -310,7 +304,7 @@ static int dataSize=0;
 {
     NSLog(@"%s: self:0x%p\n", __func__, self);
     dataSize=0;
-    downloadSize = (int)[response expectedContentLength];
+    downloadSize = (int)response.expectedContentLength;
     
 }
 
@@ -319,14 +313,13 @@ static int dataSize=0;
     didReceiveData:(NSData *)data                // IN
 {
     NSLog(@"%s: self:0x%p\n", __func__, self);
-	
-    NSString *reply = [[[NSString alloc] initWithData:data
-                                             encoding:NSUTF8StringEncoding]
-                       autorelease];
+    
+    NSString *reply = [[NSString alloc] initWithData:data
+                                             encoding:NSUTF8StringEncoding];
     NSLog(@"%s: data: %s\n", __func__, [reply UTF8String]);
-    dataSize+=[data length];
+    dataSize+=data.length;
     NSLog(@"%d,%d",downloadSize,dataSize);
-	
+    
     if ([reply hasPrefix:@"YES"]) {
         uploadDidSucceed = YES;
     }

@@ -12,25 +12,25 @@
 
 
 @interface FileUpload : NSObject {
-	NSURL *serverURL;
+    NSURL *serverURL;
     NSString *filePath;
     NSString *imgPath;
     id delegate;
     SEL doneSelector;
     SEL errorSelector;
-	SEL progressSelector;
+    SEL progressSelector;
     BOOL uploadDidSucceed;
 }
 
--   (id)initWithURL: (NSURL *)serverURL 
-		   filePath: (NSString *)filePath 
+-   (instancetype)initWithURL: (NSURL *)serverURL 
+           filePath: (NSString *)filePath 
             imgPath: (NSString *)aimgPath
-		   delegate: (id)delegate 
-	   doneSelector: (SEL)doneSelector 
-	  errorSelector: (SEL)errorSelector
-   progressSelector: (SEL)progressSelector;
+           delegate: (id)delegate 
+       doneSelector: (SEL)doneSelector 
+      errorSelector: (SEL)errorSelector
+   progressSelector: (SEL)progressSelector NS_DESIGNATED_INITIALIZER;
 
--   (NSString *)filePath;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *filePath;
 
 @end
 

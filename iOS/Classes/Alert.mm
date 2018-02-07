@@ -150,7 +150,7 @@ void showAlertWarpHome(){
     [alertWarpHome show];
 }
 void showAlertDeleteConfirm(NSString* name){
-    [alertDeleteConfirm setMessage: name ];
+    alertDeleteConfirm.message = name ;
     [alertDeleteConfirm show];
 }
 void showAlertWorldType(){

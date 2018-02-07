@@ -24,14 +24,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
 
     // [TestFlight takeOff:@"04fc0d12-af7e-44ca-852f-bad7a896ba6c"];
-	
+    
     // Override point for customization after app launch.
     // Add your cool controller's view to the window.
    // [window addSubview:viewController.view];
-    [self.window setRootViewController:viewController];
+    (self.window).rootViewController = viewController;
     [window makeKeyAndVisible];
-	//NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-//	[Flurry startSession:@"LUWB9P4UZU1K1A4YUT9V"];
+    //NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+//    [Flurry startSession:@"LUWB9P4UZU1K1A4YUT9V"];
     
     
    // [Appirater rateApp];
@@ -44,7 +44,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	
+    
     [viewController startAnimation];
 }
 
@@ -63,12 +63,5 @@
     // Handle any foreground procedures not related to animation here.
 }
 
-- (void)dealloc
-{
-    [viewController release];
-    [window release];
-    
-    [super dealloc];
-}
 
 @end

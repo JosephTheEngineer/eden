@@ -154,7 +154,7 @@ static int sfxNumVariations[NUM_SOUNDS]={
     
 };
 static const char* soundFiles[NUM_SOUNDS][MAX_VARIATIONS2]={
-	[S_LADDER]={"wood_ladder_1_v2.caf","wood_ladder_2_v2.caf","wood_ladder_3_v2.caf","wood_ladder_4_v2.caf"},
+    [S_LADDER]={"wood_ladder_1_v2.caf","wood_ladder_2_v2.caf","wood_ladder_3_v2.caf","wood_ladder_4_v2.caf"},
     [S_VINE]={"vine_ladder_1_v2.caf","vine_ladder_2_v2.caf","vine_ladder_3_v2.caf","vine_ladder_4_v2.caf"},
     [S_BOUNCE]={"trampoline_block_bounce_sound.mp3"},
     [S_LAND_SOFT]={"player_land_soft_1_v2.caf","player_land_soft_2_v2.caf","player_land_soft_3_v2.caf","land_soft_4_v2.caf"},
@@ -227,7 +227,7 @@ static const char* soundFiles[NUM_SOUNDS][MAX_VARIATIONS2]={
 
 #define MAX_VARIATIONS 5
 static const char* voFiles[NUM_CREATURES][NUM_VO_ACTIONS][MAX_VARIATIONS]={
-	[M_STUMPY][VO_WALKING]={"Stumpy_Walking_1.caf","Stumpy_Walking_2.caf","Stumpy_Walking_3.caf","Stumpy_Walking_4.caf","Stumpy_Walking_5.caf"},
+    [M_STUMPY][VO_WALKING]={"Stumpy_Walking_1.caf","Stumpy_Walking_2.caf","Stumpy_Walking_3.caf","Stumpy_Walking_4.caf","Stumpy_Walking_5.caf"},
     [M_STUMPY][VO_STRETCHING]={"Stumpy_Stretching_1.caf","Stumpy_Stretching_2.caf","Stumpy_Stretching_3.caf","Stumpy_Stretching_4.caf","Stumpy_Stretching_5.caf"},
     [M_STUMPY][VO_SCARED]={"Stumpy_Scared_1.caf","Stumpy_Scared_2.caf","Stumpy_Scared_3.caf","Stumpy_Scared_4.caf","Stumpy_Scared_5.caf"},
     [M_STUMPY][VO_RELIEVED]={"Stumpy_Relieved_1.caf","Stumpy_Relieved_2.caf","Stumpy_Relieved_3.caf","Stumpy_Relieved_4.caf","Stumpy_Relieved_5.caf"},
@@ -392,7 +392,7 @@ static int voNumVariations[NUM_CREATURES][NUM_VO_ACTIONS]={
 static int voLastVariation[NUM_CREATURES][NUM_VO_ACTIONS];
 static int sfxLastVariation[NUM_SOUNDS];
 typedef struct{
-	Texture2D* tex;
+    Texture2D* tex;
     int color;
     int model_type;
     int state;
@@ -511,13 +511,13 @@ Texture2D* Resources::getPaintedTex(int type,int color){
         ui2=storedDooricoMask;
     }
     
-    CGImageRef img=[ui2 CGImage];
-    CGImageRef img2=[ui1 CGImage];
+    CGImageRef img=ui2.CGImage;
+    CGImageRef img2=ui1.CGImage;
     Vector clr=colorTable[color];
     int rgba= ((int)(255*clr.z)<<24) | ((int)(255*clr.y)<<16) | ((int)(255*clr.x) <<8)  | 0xFF;
     UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData(img2,img,rgba)];
     //UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData2(img,rgba,1)];
-    build_cache = new Texture2D([uiImage2 CGImage],[uiImage2 imageOrientation],FALSE,kTexture2DPixelFormat_Automatic,FALSE);
+    build_cache = new Texture2D(uiImage2.CGImage,uiImage2.imageOrientation,FALSE,kTexture2DPixelFormat_Automatic,FALSE);
     
     //[uiImage2 release];
     printg("initing build texture ;o");
@@ -538,14 +538,14 @@ Texture2D* Resources::getPaintTex(int color){
     }
     
     paint_cache_color=color;
-        CGImageRef img=[storedPaintMask CGImage];
-        CGImageRef img2=[storedPaint CGImage];
+        CGImageRef img=storedPaintMask.CGImage;
+        CGImageRef img2=storedPaint.CGImage;
         Vector clr=colorTable[color];
         int rgba= ((int)(255*clr.z)<<24) | ((int)(255*clr.y)<<16) | ((int)(255*clr.x) <<8)  | 0xFF;
         UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData(img2,img,rgba)];
         //UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData2(img,rgba,1)];
         paint_cache =
-        new Texture2D([uiImage2 CGImage],[uiImage2 imageOrientation],FALSE,kTexture2DPixelFormat_Automatic,FALSE);
+        new Texture2D(uiImage2.CGImage,uiImage2.imageOrientation,FALSE,kTexture2DPixelFormat_Automatic,FALSE);
      //[uiImage2 release];
     printg("initing paint texture ;o");
         return paint_cache;
@@ -561,14 +561,14 @@ int Resources::getDoorTex(int color){
     }
     else{
        
-        CGImageRef img=[storedDoorMask CGImage];
-         CGImageRef img2=[storedDoor CGImage];
+        CGImageRef img=storedDoorMask.CGImage;
+         CGImageRef img2=storedDoor.CGImage;
         Vector clr=colorTable[color];
         int rgba= ((int)(255*clr.z)<<24) | ((int)(255*clr.y)<<16) | ((int)(255*clr.x) <<8)  | 0xFF;
         UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData(img2,img,rgba)];
         //UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData2(img,rgba,1)];
         door_cache[color] =
-       new Texture2D([uiImage2 CGImage],[uiImage2 imageOrientation],FALSE,kTexture2DPixelFormat_Automatic,FALSE);
+       new Texture2D(uiImage2.CGImage,uiImage2.imageOrientation,FALSE,kTexture2DPixelFormat_Automatic,FALSE);
        //  [uiImage2 release];
         printg("initing texture ;o");
         return door_cache[color]->name;
@@ -601,14 +601,14 @@ int Resources::getSkin(int model_type,int color,int state){
     
     
   //  extern UIImage* storeMask;
-    CGImageRef img=[storedMasks[model_type][1-state] CGImage];
-    CGImageRef img2=[storedSkins[model_type][state] CGImage];
+    CGImageRef img=storedMasks[model_type][1-state].CGImage;
+    CGImageRef img2=storedSkins[model_type][state].CGImage;
     
     Vector clr=colorTable[color];
     int rgba= ((int)(255*clr.z)<<24) | ((int)(255*clr.y)<<16) | ((int)(255*clr.x) <<8)  | 0xFF;
     UIImage* uiImage2=[UIImage imageWithCGImage:ManipulateImagePixelData(img2,img,rgba)];
     skin_cache[cidx].tex =
-    new Texture2D([uiImage2 CGImage],[uiImage2 imageOrientation],FALSE,kTexture2DPixelFormat_Automatic,FALSE);
+    new Texture2D(uiImage2.CGImage,uiImage2.imageOrientation,FALSE,kTexture2DPixelFormat_Automatic,FALSE);
     // [uiImage2 release];
     skin_cache[cidx].model_type=model_type;
     skin_cache[cidx].color=color;
@@ -688,13 +688,13 @@ void Resources::unloadGameAssets(){
 bool firstframe=FALSE;
 int Resources::playSound(int soundid){
     
-	if(playsound&&!firstframe&&soundid!=lasteffectplayed){
-		lasteffectplayed=soundid;
-		if(soundid==S_LAND_SOFT||soundid==S_LAND_HARD||soundid==S_BOUNCE||soundid==S_LAVA_BURN){
-			if(landingEffectTimer>0)
-				return 0;
-			landingEffectTimer=.3;
-		}
+    if(playsound&&!firstframe&&soundid!=lasteffectplayed){
+        lasteffectplayed=soundid;
+        if(soundid==S_LAND_SOFT||soundid==S_LAND_HARD||soundid==S_BOUNCE||soundid==S_LAVA_BURN){
+            if(landingEffectTimer>0)
+                return 0;
+            landingEffectTimer=.3;
+        }
         
         int variation;
         //type=M_STUMPY;
@@ -711,10 +711,10 @@ int Resources::playSound(int soundid){
         
         return audio->playEffect(soundFiles[soundid][variation], FALSE);
        // return [[SimpleAudioEngine sharedEngine] playEffect:soundFiles[soundid][variation] loop:FALSE];
-	}
+    }
     
-	
-	return 0;
+    
+    return 0;
 }
 extern int flamecount;
 void Resources::soundEvent(int actionid){
@@ -778,20 +778,20 @@ extern BOOL SUPPORTS_OGL2;
 
 Resources::Resources(){
     audio=CocosDenshion::SimpleAudioEngine::sharedEngine();
-   	landingEffectTimer=0;
-	//textures=[[NSMutableArray alloc] init];
-	//menutextures=[[NSMutableArray alloc] init];
+       landingEffectTimer=0;
+    //textures=[[NSMutableArray alloc] init];
+    //menutextures=[[NSMutableArray alloc] init];
     textures.clear();
     menutextures.clear();
-	
-	if(!SUPPORTS_OGL2||LOW_MEM_DEVICE){
+    
+    if(!SUPPORTS_OGL2||LOW_MEM_DEVICE){
         for(int i=0;i<NUM_CREATURES;i++){
             for(int j=0;j<NUM_VO_ACTIONS;j++){
                 if(voNumVariations[i][j]>3) voNumVariations[i][j]=3;
             }
         }
-	}
-	
+    }
+    
     for(int i=0;i<SKIN_CACHE_SIZE;i++){
         skin_cache[i].tex=NULL;
     }
@@ -812,188 +812,188 @@ Resources::Resources(){
     }
    
     
-	loadMenuTextures();
-	
-	atlas=new Texture2D(@"atlas.png" ,TRUE ,kTexture2DPixelFormat_RGB565 ,TRUE);
-    atlas2=new Texture2D(@"atlas2.png",TRUE,kTexture2DPixelFormat_RGBA8888,TRUE);
-	//[textures addObject:atlas];
+    loadMenuTextures();
     
-	
-	burnSoundTimer=playing=-1;
+    atlas=new Texture2D(@"atlas.png" ,TRUE ,kTexture2DPixelFormat_RGB565 ,TRUE);
+    atlas2=new Texture2D(@"atlas2.png",TRUE,kTexture2DPixelFormat_RGBA8888,TRUE);
+    //[textures addObject:atlas];
+    
+    
+    burnSoundTimer=playing=-1;
    
-	//[[CDAudioManager sharedManager] setMode:kAMM_FxPlusMusicIfNoOtherAudio];
-	
-	audio->setBackgroundMusicVolume(1.0);
-	
-	
-	
-	
+    //[[CDAudioManager sharedManager] setMode:kAMM_FxPlusMusicIfNoOtherAudio];
+    
+    audio->setBackgroundMusicVolume(1.0);
+    
+    
+    
+    
 }
 void Resources::playMenuTune(){
-	if(playmusic){
-		 audio->stopBackgroundMusic();
+    if(playmusic){
+         audio->stopBackgroundMusic();
         audio->playBackgroundMusic("Eden_title.mp3",true);
         
         bkgvolume=1.0f;
         bkgtargetvolume=1.0f;
-	}
-	
+    }
+    
 }
 
 void Resources::stopMenuTune(){
      bkgtargetvolume=0.0f;
     audio->stopBackgroundMusic();
-	
+    
      current_ambient=target_ambient=AMBIENT_NONE;
-	
+    
 }
 void Resources::loadMenuTextures(){
-	Texture2D* temp=
-		  new Texture2D(@"menu_autojump.png" , FALSE);
+    Texture2D* temp=
+          new Texture2D(@"menu_autojump.png" , FALSE);
     
     menutextures.push_back(temp);
-	
-   	temp=
-		  new Texture2D(@"eden_menu_header.png" , FALSE);
+    
+       temp=
+          new Texture2D(@"eden_menu_header.png" , FALSE);
    
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"arrow_left.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"arrow_right.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"create_world.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"delete_world.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"share_world.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"ground.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"world_selected.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"world_unselected.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"load_world.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"options.png" , FALSE);
-	menutextures.push_back(temp);
-	
-	temp=
-		  new Texture2D(@"arrow_up.png" , FALSE);
-	menutextures.push_back(temp);	
-	temp=
-		  new Texture2D(@"arrow_down.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"back.png" , FALSE);
-	menutextures.push_back(temp);	
-	temp=
-		  new Texture2D(@"menu_shared_worlds.png" , FALSE);
-	menutextures.push_back(temp);	
-	temp=
-		  new Texture2D(@"cloud_SM.png" , FALSE);
-	menutextures.push_back(temp);	
-	temp=
-		  new Texture2D(@"menu_cancel.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_health.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_music.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_off.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_on.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_options.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_save.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_send.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_sound_effects.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_text_box.png" , FALSE);
-	menutextures.push_back(temp);
-	
-	temp=
-		  new Texture2D(@"sky.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"pinwheel.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"mountains.png" , FALSE);
-	menutextures.push_back(temp);
+    menutextures.push_back(temp);
     temp=
-		  new Texture2D(@"menu_text_load.png" , FALSE);
-	menutextures.push_back(temp);
+          new Texture2D(@"arrow_left.png" , FALSE);
+    menutextures.push_back(temp);
     temp=
-		  new Texture2D(@"menu_text_back.png" , FALSE);
-	menutextures.push_back(temp);
+          new Texture2D(@"arrow_right.png" , FALSE);
+    menutextures.push_back(temp);
     temp=
-		  new Texture2D(@"cloud_MD.png" , FALSE);
-	menutextures.push_back(temp);
+          new Texture2D(@"create_world.png" , FALSE);
+    menutextures.push_back(temp);
     temp=
-		  new Texture2D(@"cloud_LG.png" , FALSE);
-	menutextures.push_back(temp);
-    
-	temp=
-		  new Texture2D(@"shared_world_selected.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"shared_world_unselected.png" , FALSE);
-	menutextures.push_back(temp);
+          new Texture2D(@"delete_world.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"share_world.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"ground.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"world_selected.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"world_unselected.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"load_world.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"options.png" , FALSE);
+    menutextures.push_back(temp);
     
     temp=
-		  new Texture2D(@"menu_fast.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_best.png" , FALSE);
-	menutextures.push_back(temp);
-	temp=
-		  new Texture2D(@"menu_creatures.png" , FALSE);
-	menutextures.push_back(temp);
-	
+          new Texture2D(@"arrow_up.png" , FALSE);
+    menutextures.push_back(temp);    
+    temp=
+          new Texture2D(@"arrow_down.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"back.png" , FALSE);
+    menutextures.push_back(temp);    
+    temp=
+          new Texture2D(@"menu_shared_worlds.png" , FALSE);
+    menutextures.push_back(temp);    
+    temp=
+          new Texture2D(@"cloud_SM.png" , FALSE);
+    menutextures.push_back(temp);    
+    temp=
+          new Texture2D(@"menu_cancel.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_health.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_music.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_off.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_on.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_options.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_save.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_send.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_sound_effects.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_text_box.png" , FALSE);
+    menutextures.push_back(temp);
+    
+    temp=
+          new Texture2D(@"sky.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"pinwheel.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"mountains.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_text_load.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_text_back.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"cloud_MD.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"cloud_LG.png" , FALSE);
+    menutextures.push_back(temp);
+    
+    temp=
+          new Texture2D(@"shared_world_selected.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"shared_world_unselected.png" , FALSE);
+    menutextures.push_back(temp);
+    
+    temp=
+          new Texture2D(@"menu_fast.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_best.png" , FALSE);
+    menutextures.push_back(temp);
+    temp=
+          new Texture2D(@"menu_creatures.png" , FALSE);
+    menutextures.push_back(temp);
+    
     temp=new Texture2D(@"treelayerleft.png" , FALSE);
-	menutextures.push_back(temp);
+    menutextures.push_back(temp);
     
     temp=new Texture2D(@"treelayerright.png" , FALSE);
-	menutextures.push_back(temp);
+    menutextures.push_back(temp);
     
     temp= new Texture2D(@"report_flag.png" , FALSE);
     menutextures.push_back(temp);
-	
+    
 }
 static float cuetimer=0;
 
 void Resources::unloadMenuTextures(){
     cuetimer=0;
    
-	while(menutextures.size()>0){
+    while(menutextures.size()>0){
         Texture2D* t=menutextures.back();
         delete t;
         menutextures.pop_back();
-	}
-	
+    }
+    
 }
 
 void Resources::unloadGameTextures(){
@@ -1429,36 +1429,36 @@ void Resources::loadGameTextures(){
 
 int Resources::startedBurn(float length){
    
-	if(burnSoundTimer<length){
-		burnSoundTimer=length;
-	}
-	sidx=(sidx+1)%NS_BURN;
-	burnin[sidx]=length;
-	
-	return sidx;
-	
+    if(burnSoundTimer<length){
+        burnSoundTimer=length;
+    }
+    sidx=(sidx+1)%NS_BURN;
+    burnin[sidx]=length;
+    
+    return sidx;
+    
 }
 void Resources::endBurnId(int idx){
-	if(idx<0||idx>=NS_BURN)return;
-	burnin[idx]=-1;
-	float max=-1;
-	for(int i=0;i<NS_BURN;i++){
-		if(burnin[i]>max)
-			max=burnin[i];
-	}
-	burnSoundTimer=max;
-	
-	if(max<=0){
-		endBurn();
-	}
-	
+    if(idx<0||idx>=NS_BURN)return;
+    burnin[idx]=-1;
+    float max=-1;
+    for(int i=0;i<NS_BURN;i++){
+        if(burnin[i]>max)
+            max=burnin[i];
+    }
+    burnSoundTimer=max;
+    
+    if(max<=0){
+        endBurn();
+    }
+    
 }
 void Resources::stopSound(int soundId){
     audio->stopEffect(soundId);
 }
 void Resources::endBurn(){
-	audio->stopEffect(burn_id);
-	playing=burnSoundTimer=0;
+    audio->stopEffect(burn_id);
+    playing=burnSoundTimer=0;
 }
 
 #define FADE_SPEED .1f
@@ -1512,63 +1512,63 @@ void Resources::update(float etime){
     //fadetimer+=etime;
     //float volume=1-(sinf(fadetimer)+1.0f)/2.0f;
     //[[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:volume];
-	for(int i=0;i<NS_BURN;i++){
-		burnin[i]-=etime;
-	}
-	playing-=etime;
-	landingEffectTimer-=etime;
-	if(burnSoundTimer>0){
-		burnSoundTimer-=etime;
-		
-		if(burnSoundTimer<0){
+    for(int i=0;i<NS_BURN;i++){
+        burnin[i]-=etime;
+    }
+    playing-=etime;
+    landingEffectTimer-=etime;
+    if(burnSoundTimer>0){
+        burnSoundTimer-=etime;
+        
+        if(burnSoundTimer<0){
            
-			audio->stopEffect(burn_id);
-		}else{
-				if(playing<0)
-				{
-					
-					burn_id=playSound(S_FLAMELOOP);
-					playing=10;
-				}
-			
-		}
-	}
-	
+            audio->stopEffect(burn_id);
+        }else{
+                if(playing<0)
+                {
+                    
+                    burn_id=playSound(S_FLAMELOOP);
+                    playing=10;
+                }
+            
+        }
+    }
+    
 }
 
 Texture2D* Resources::getTex(int idx){
     if(idx==ICO_COLOR_SELECT_BACKGROUND){
        return csbkg;
     }
-	return textures[idx];
+    return textures[idx];
 }
 
 Texture2D* Resources::getMenuTex(int idx){
-	
-	return menutextures[idx];
+    
+    return menutextures[idx];
 }
 CGPoint Resources::getBlockTex(int type){
-	if(type<0||type>31)type=0;
-	CGPoint p;	
-	
+    if(type<0||type>31)type=0;
+    CGPoint p;    
+    
     p.x=(double)type/32.0f;
     p.y=(double)1.0f/32.0f-.00001f;
-	//p.x=(32.0f/1024.0f)*type+0.5f/1024.0f;
-	//p.y=(32.0f/1024.0f-1.0f/1024.0f);
-	
-	return p;
+    //p.x=(32.0f/1024.0f)*type+0.5f/1024.0f;
+    //p.y=(32.0f/1024.0f-1.0f/1024.0f);
+    
+    return p;
 }
 
 CGPoint Resources::getBlockTexShort(int type){
-	if(type<0||type>31)type=0;
-	CGPoint p;	
-	
+    if(type<0||type>31)type=0;
+    CGPoint p;    
+    
     p.x=type;
     p.y=1;
-	//p.x=(32.0f/1024.0f)*type+0.5f/1024.0f;
-	//p.y=(32.0f/1024.0f-1.0f/1024.0f);
-	
-	return p;
+    //p.x=(32.0f/1024.0f)*type+0.5f/1024.0f;
+    //p.y=(32.0f/1024.0f-1.0f/1024.0f);
+    
+    return p;
 }
 Resources::~Resources(){
     while(menutextures.size()>0){
@@ -1582,9 +1582,9 @@ Resources::~Resources(){
         textures.pop_back();
     }
 
-	
-	//[sound release];
-	
+    
+    //[sound release];
+    
 }
 
 

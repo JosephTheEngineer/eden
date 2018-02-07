@@ -14,28 +14,28 @@
 
 
 @interface FileDownload : NSObject {
-	NSURL *serverURL;
+    NSURL *serverURL;
     NSString *filePath;
     id delegate;
     SEL doneSelector;
     SEL errorSelector;
-	SEL progressSelector;
+    SEL progressSelector;
     BOOL downloadDidSucceed;
     NSURLConnection* connection;
-    NSData* result;
+    NSData* __weak result;
     NSOutputStream* fileStream;
 }
 
--   (id)initWithURL: (NSURL *)serverURL 
-		   filePath: (NSString *)filePath 
-		   delegate: (id)delegate 
-	   doneSelector: (SEL)doneSelector 
-	  errorSelector: (SEL)errorSelector
- progressSelector: (SEL)progressSelector;
+-   (instancetype)initWithURL: (NSURL *)serverURL 
+           filePath: (NSString *)filePath 
+           delegate: (id)delegate 
+       doneSelector: (SEL)doneSelector 
+      errorSelector: (SEL)errorSelector
+ progressSelector: (SEL)progressSelector NS_DESIGNATED_INITIALIZER;
 
 + (NSData*)downloadFile:(NSString*)file_name;
 -(void)cancel;
-@property(nonatomic,assign)   NSData* result;
+@property(nonatomic,weak)   NSData* result;
 @end
 
 

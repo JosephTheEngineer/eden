@@ -6,21 +6,21 @@
 
 //CONSTANTS:
 
-typedef enum {
-	kTexture2DPixelFormat_Automatic = 0,
-	kTexture2DPixelFormat_RGBA8888,
-	kTexture2DPixelFormat_RGBA4444,
-	kTexture2DPixelFormat_RGBA5551,
-	kTexture2DPixelFormat_RGB565,
-	kTexture2DPixelFormat_RGB888,
-	kTexture2DPixelFormat_L8,
-	kTexture2DPixelFormat_A8,
-	kTexture2DPixelFormat_LA88,
-	kTexture2DPixelFormat_RGB_PVRTC2,
-	kTexture2DPixelFormat_RGB_PVRTC4,
-	kTexture2DPixelFormat_RGBA_PVRTC2,
-	kTexture2DPixelFormat_RGBA_PVRTC4
-} Texture2DPixelFormat;
+typedef NS_ENUM(unsigned int, Texture2DPixelFormat) {
+    kTexture2DPixelFormat_Automatic = 0,
+    kTexture2DPixelFormat_RGBA8888,
+    kTexture2DPixelFormat_RGBA4444,
+    kTexture2DPixelFormat_RGBA5551,
+    kTexture2DPixelFormat_RGB565,
+    kTexture2DPixelFormat_RGB888,
+    kTexture2DPixelFormat_L8,
+    kTexture2DPixelFormat_A8,
+    kTexture2DPixelFormat_LA88,
+    kTexture2DPixelFormat_RGB_PVRTC2,
+    kTexture2DPixelFormat_RGB_PVRTC4,
+    kTexture2DPixelFormat_RGBA_PVRTC2,
+    kTexture2DPixelFormat_RGBA_PVRTC4
+};
 
 typedef struct _Button {
     CGPoint origin;
@@ -38,20 +38,20 @@ Be aware that the content of the generated textures will be upside-down!
 class Texture2D {
 
 private:
-	
-	CGSize						_size;
-	NSUInteger					_width,
-								_height;
-	Texture2DPixelFormat		_format;
-	GLfloat						_maxS,
-								_maxT;
+    
+    CGSize                        _size;
+    NSUInteger                    _width,
+                                _height;
+    Texture2DPixelFormat        _format;
+    GLfloat                        _maxS,
+                                _maxT;
 
     void initData(const void* data, Texture2DPixelFormat pixelFormat, int width,int height,CGSize size,BOOL genMips);
     void initFromPath(NSString* path, BOOL sizeToFit, Texture2DPixelFormat pixelFormat, BOOL genMips);
     void initFromImage(CGImageRef image,UIImageOrientation orientation, BOOL sizeToFit,Texture2DPixelFormat pixelFormat, BOOL genMips);
     void initFromString(NSString* string, CGSize dimensions, NSTextAlignment alignment, UIFont* font);
 public:
-GLuint						name;
+GLuint                        name;
 Texture2D(const void* data ,Texture2DPixelFormat pixelFormat, int width, int height, CGSize size);
 ~Texture2D();
 Texture2D(const void* data ,Texture2DPixelFormat pixelFormat, int width, int height, CGSize size,BOOL genMips);
@@ -113,8 +113,8 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
     NSString* description();
 };
 
-CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int color);
-CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int mode);
+CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int color) CF_RETURNS_NOT_RETAINED;
+CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int mode) CF_RETURNS_NOT_RETAINED;
 
 
 #endif

@@ -32,7 +32,7 @@
 
 -(void)downloadError:(id)obj;
 - (NSString*)searchSharedWorlds:(NSString*)query;
-@property(nonatomic,assign)   NSString* listresult;
+@property(nonatomic)   NSString* listresult;
 @end
 
 

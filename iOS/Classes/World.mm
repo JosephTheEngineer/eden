@@ -199,7 +199,7 @@ World::World(){
     effects=new SpecialEffects();
     menu=new Menu();
    
-          
+    
    // [NSThread detachNewThreadSelector:@selector(loadWorldThread2:) toTarget:self withObject:self];
     //[terrain startLoadingThread];
   //  FLIPPED=FALSE;
@@ -210,22 +210,22 @@ World::World(){
     
      //tg2_init();
    
-	/*int crapsize=1;//(16777216);
-	int* crap=malloc(sizeof(int)*crapsize);
-	for(int i=0;i<crapsize;i++){
-		crap[i]=rand();
-	}*/
-	
+    /*int crapsize=1;//(16777216);
+    int* crap=malloc(sizeof(int)*crapsize);
+    for(int i=0;i<crapsize;i++){
+        crap[i]=rand();
+    }*/
+    
     doneLoading=0;
-	//NSLog(@"glerr:%s",gluErrorString(glGetError()));	
-	
+    //NSLog(@"glerr:%s",gluErrorString(glGetError()));
+    
 }
 /*- (void)loadWorldThread2:(id)object{
     return;
     World* world=object;
-    
+ 
     [NSThread setThreadPriority:0.1f];
-    printg("Loading thread started, priority: %f\n",[NSThread threadPriority]);  
+    printg("Loading thread started, priority: %f\n",[NSThread threadPriority]);
       int i=0;
     while(true){
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -239,44 +239,44 @@ World::World(){
                        //NSLog(@"player p
             for(int x=0;x<2*r;x++){
                 for(int z=0;z<2*r;z++){
-                    //	NSLog(@"lch:%d",asdf++);
+                    //    NSLog(@"lch:%d",asdf++);
                     TerrainChunk* chunk;
                     chunk=world.terrain->chunkTable[threeToOne(x+chunkOffsetX,0,z+chunkOffsetZ)];
                    // hashmap_get(world.terrain.chunkMap, threeToOne(x+chunkOffsetX, 0, z+chunkOffsetZ), (any_t)&chunk);
                     if(chunk){
-                       
-                        
+ 
+ 
                         if( chunk->pbounds[0]!=(x+chunkOffsetX)*CHUNK_SIZE||
                             chunk->pbounds[2]!=(z+chunkOffsetZ)*CHUNK_SIZE)
-                       
-                        
+ 
+ 
                         {
-                            
-                            //   printg("(%d,%d)=?=(%d,%d)\n",chunk.pbounds[0],chunk.pbounds[2],(x+chunkOffsetX)*CHUNK_SIZE,(z+chunkOffsetZ)*CHUNK_SIZE);  
-                          
+ 
+                            //   printg("(%d,%d)=?=(%d,%d)\n",chunk.pbounds[0],chunk.pbounds[2],(x+chunkOffsetX)*CHUNK_SIZE,(z+chunkOffsetZ)*CHUNK_SIZE);
+ 
                             count++;
                             isloaded[x][z]=FALSE;
                           //  printg("overwriting a chunk\n");
-                          
+ 
                         }
                           else
                         isloaded[x][z]=TRUE;
-                      
+ 
                     }
                     else{
                         count++;
                         isloaded[x][z]=FALSE;
                     }
-                   		
+ 
                 }
             }
             if(count==0) goto cleanup;
             // printg("chunks to load:%d\n",count);
             NSString* file_name=[NSString stringWithFormat:@"%@/%@",world.fm->documents,world.terrain->world_name];
-            
-           
+ 
+ 
             NSFileHandle* saveFile=[NSFileHandle fileHandleForReadingAtPath:file_name];
-            
+ 
             for(int x=0;x<2*r;x++){
                 for(int z=0;z<2*r;z++){
                     if(!isloaded[x][z]){
@@ -284,34 +284,34 @@ World::World(){
                     }
                 }
             }
-             
-            [saveFile closeFile];
-           
-            
  
-            
-           
-            
-        } 
+            [saveFile closeFile];
+ 
+ 
+ 
+ 
+ 
+ 
+        }
         i+=(int)sqrt(2);;
         //[NSThread sleepForTimeInterval:0.50f];
-        
-    cleanup: 
+ 
+    cleanup:
         [pool release];
     }
-   
+ 
     //
-    
-    
+ 
+ 
     //do_reload=4;
-   
+ 
 }*/
 //extern "C" loadWorldThread(void* ptr);
 void* loadWorldThread(void* ptr){
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    World::getWorld->terrain->loadTerrain(cpstring((NSString*)ptr),TRUE);
-    World::getWorld->doneLoading=2;
-    [pool release];
+    @autoreleasepool {
+        World::getWorld->terrain->loadTerrain(cpstring((__bridge NSString*)ptr),TRUE);
+        World::getWorld->doneLoading=2;
+    }
     
     return NULL;
 }
@@ -324,7 +324,7 @@ void World::loadWorld(std::string name){
         
         doneLoading=1;
         Resources::getResources->stopMenuTune();
-        if(LOW_MEM_DEVICE){
+        //if(LOW_MEM_DEVICE){
             menu->deactivate();
             
             Resources::getResources->unloadMenuTextures();
@@ -334,13 +334,13 @@ void World::loadWorld(std::string name){
             hud->fade_out=1;
 
 
-        }else{
+        //}else{
             terrain->allocateMemory();
-            pthread_t foo;
-            pthread_create(&foo,NULL,loadWorldThread, nsstring(name));
+            //pthread_t foo;
+            //pthread_create(&foo,NULL,loadWorldThread, nsstring(name));
            // std::thread first (loadWorldThread,name);
             //[NSThread detachNewThreadSelector:@selector(loadWorldThread:) toTarget:self withObject:name];
-        }
+        //}
         
         
     }
@@ -383,27 +383,27 @@ void World::loadWorld(std::string name){
             
             
             
-             
+            
             if(CREATURES_ON){
                
-                LoadModels([[NSString stringWithFormat:@"%@/",[[NSBundle mainBundle] resourcePath]] cStringUsingEncoding:NSUTF8StringEncoding]);
+                LoadModels([[NSString stringWithFormat:@"%@/",[NSBundle mainBundle].resourcePath] cStringUsingEncoding:NSUTF8StringEncoding]);
             }
             
         }
     }
-	
+    
 }
 void World::exitToMenu(){
     exit_to_menu=FALSE;
    // printg("hihihi\n");
-	terrain->unloadTerrain(TRUE);
+    terrain->unloadTerrain(TRUE);
     if(CREATURES_ON){
         UnloadModels();
     }
    // printg("loading menu textures\n");
     Resources::getResources->unloadGameAssets();
       terrain->deallocateMemory();
-	Resources::getResources->loadMenuTextures();
+    Resources::getResources->loadMenuTextures();
     if(SUPPORTS_RETINA&&!IS_RETINA){
       //  printg("menu activated2\n");
 
@@ -421,17 +421,17 @@ void World::exitToMenu(){
     }else{
        // printg("menu activated\n");
         menu->activate();
-   	}
+       }
 
-	Resources::getResources->playMenuTune();
-	target_game_mode=GAME_MODE_WAIT;
+    Resources::getResources->playMenuTune();
+    target_game_mode=GAME_MODE_WAIT;
     game_mode=GAME_MODE_WAIT;
     
     fm->compressLastPlayed();
    
 //printg("hi\n");
-	
-	
+    
+    
 }
 
 World::~World(){
@@ -443,9 +443,9 @@ World::~World(){
     delete menu;
     delete fm;
     delete effects;
-	
-	//[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-	
+    
+    //[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+    
 }
 BOOL World::update(float etime){
     if(JUST_TERRAIN_GEN){
@@ -460,35 +460,35 @@ BOOL World::update(float etime){
     }
     realtime=etime;
    // NSLog(@"Hi");
-	if(menu->is_sharing!=1){
-	/*if([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight){
-		//[UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
+    if(menu->is_sharing!=1){
+    /*if([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight){
+        //[UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
         if(FLIPPED==FALSE)
             [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
-        
-		FLIPPED=TRUE;
-        
-	}
-	else if([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft){
-		//[UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
+     
+        FLIPPED=TRUE;
+     
+    }
+    else if([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft){
+        //[UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
         if(FLIPPED==TRUE)
-          [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;  
-		FLIPPED=FALSE;
-         
-		
-	}*/
-	}
+          [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
+        FLIPPED=FALSE;
+     
+     
+    }*/
+    }
     
-	
-	Resources::getResources->update(etime);
-	if(game_mode==GAME_MODE_MENU){
-		menu->update(etime);
-	}else if(game_mode==GAME_MODE_PLAY){
-		
-		if(etime>1.0f/20.0f)etime=1.0f/20.0f;
+    
+    Resources::getResources->update(etime);
+    if(game_mode==GAME_MODE_MENU){
+        menu->update(etime);
+    }else if(game_mode==GAME_MODE_PLAY){
+        
+        if(etime>1.0f/20.0f)etime=1.0f/20.0f;
         cam->update(etime);
-		
-		terrain->update(etime);
+        
+        terrain->update(etime);
         hud->update(etime);
         if(game_mode==GAME_MODE_WAIT){
             return FALSE;
@@ -496,17 +496,17 @@ BOOL World::update(float etime){
          if(CREATURES_ON&&!player->dead)
         UpdateModels(etime);
        
-		player->preupdate(etime);
+        player->preupdate(etime);
          if(!player->dead)
-		effects->update(etime);
+        effects->update(etime);
         
         
         terrain->prepareAndLoadGeometry();
         terrain->updateAllImportantChunks();
        
-		
-	}
-	return FALSE;
+        
+    }
+    return FALSE;
 }
 
 
@@ -518,7 +518,7 @@ void World::render(){
         
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4f(1.0,0.0, 0.0, 1.0f);
+        glColor4f(1.0,0.0, 0.0, 1.0f);
         glDisable(GL_TEXTURE_2D);
         
         tg2_render();
@@ -544,20 +544,20 @@ void World::render(){
         if(target_game_mode==GAME_MODE_WAIT)target_game_mode=GAME_MODE_MENU;
         return;
     }
-	if(game_mode==GAME_MODE_MENU){
-       // [[World getWorld] loadWorld:menu.selected_world->file_name];	
-		menu->render();
-	}else if(game_mode==GAME_MODE_PLAY){
+    if(game_mode==GAME_MODE_MENU){
+       // [[World getWorld] loadWorld:menu.selected_world->file_name];
+        menu->render();
+    }else if(game_mode==GAME_MODE_PLAY){
         Graphics::prepareScene();
-		
+        
         
         cam->render();
-		
+        
        
-       // [Graphics setLighting];	
+       // [Graphics setLighting];
        // glShadeModel(GL_SMOOTH);
       //  glDisable(GL_TEXTURE_2D);
-		terrain->render();
+        terrain->render();
        // glEnable(GL_TEXTURE_2D);
         if(CREATURES_ON)
             RenderModels();
@@ -569,17 +569,17 @@ void World::render(){
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
         glPushMatrix();
         glTranslatef(-fm->chunkOffsetX*CHUNK_SIZE,0,-fm->chunkOffsetZ*CHUNK_SIZE);
-		effects->render();
+        effects->render();
         terrain->fireworks->render();
         player->render();
-				
+        
          glPopMatrix();
-		hud->render(); //render hud last
-		
-	}
-	
-	if(exit_to_menu)
+        hud->render(); //render hud last
+        
+    }
+    
+    if(exit_to_menu)
         exitToMenu();
-	
+    
 }
 
