@@ -3,8 +3,9 @@
 //  Eden
 //
 //  Created by Ari Ronen on 11/3/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
+
 
 #ifndef Eden_Constants_h
 #define Eden_Constants_h
@@ -32,7 +33,8 @@
 #define M_STUMPY 4
 #define M_CHARGER 5
 #define M_STALKER 6
-#define MAX_CREATURES_SAVED 200
+#define MAX_CREATURES_SAVED 250
+
 #define CHUNK_SIZE 16
 #define CHUNK_SIZE2 (CHUNK_SIZE*CHUNK_SIZE)
 #define CHUNK_SIZE3 (CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE)
@@ -46,7 +48,7 @@
 #define CHUNKS_PER_SIDE (T_SIZE/CHUNK_SIZE)
 #define BLOCK_SIZE 1.0f
 
-#define LIGHT_RADIUS 5.0f
+#define LIGHT_RADIUS 15.0f
 
 enum BLOCK_TYPES{
 	TYPE_NONE=0,
@@ -164,6 +166,7 @@ enum BLOCK_TYPES{
     TYPE_BTFIREWORK=109,
     TYPE_BTLIGHTBOX=110,
     TYPE_BTSTEEL=111,
+    
     
 };
 #define IS_FLAMMABLE       0b00000000000000000001

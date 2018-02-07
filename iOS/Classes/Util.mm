@@ -3,8 +3,9 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/11/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
+
 #import "Globals.h"
 #import "Util.h"
 #import <OpenGLES/ES1/gl.h>
@@ -15,8 +16,8 @@
 #import "md5.h"
 #import "Model.h"
 
-std::string cpstring(NSString * str)
-{
+// maxlength was 1000. temp
+std::string cpstring(NSString * str){
     char buf[1000];
     [str getCString:buf maxLength:1000 encoding:NSUTF8StringEncoding];
     
