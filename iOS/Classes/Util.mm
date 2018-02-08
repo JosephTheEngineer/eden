@@ -328,26 +328,37 @@ extern EAGLView* G_EAGL_VIEW;
 extern float SCREEN_WIDTH; 
 extern float SCREEN_HEIGHT;
 extern BOOL IS_WIDESCREEN;
-void takeScreenshot(){    
+
+void takeScreenshot()
+{
     int width=SCREEN_HEIGHT;
     int height=SCREEN_WIDTH;
-    if(TRUE){
+    if(TRUE)
+    {
         width+=160;
         height-=160;
-        if(IS_WIDESCREEN){
+        if(IS_WIDESCREEN == TRUE)
+        {
             height-=88;
         }
+        else if(IS_RETINA == TRUE)
+        {
+            width*=2;
+            height*=2;
+        }
+        else if(IS_IPAD == TRUE)
+        {
+            width=IPAD_WIDTH;
+            height=IPAD_HEIGHT;
+            printg("is ipad\n");
+        }
+        else
+        {
+            width+=160;
+            height-=160;
+        }
     }
-    if(IS_RETINA){
-        width*=2;
-        height*=2;
-    }else if(IS_IPAD){
-        width=IPAD_WIDTH;
-        height=IPAD_HEIGHT;
-        printg("is ipad\n");
-    }else if(IS_WIDESCREEN){
-        
-    }
+    
     int myDataLength = width * height * 4;
     
     // allocate array and read pixels into it.
@@ -391,12 +402,15 @@ void takeScreenshot(){
     
     // make the cgimage
     CGImageRef imageRef = CGImageCreate(width,height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
-    
+    CFRelease(colorSpaceRef);
+    CFRelease(provider);
     // then make the uiimage from that
     UIImage *myImage = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
     if(myImage==NULL)return;
   // UIImageWriteToSavedPhotosAlbum(myImage, nil, nil, nil);
-    if(IS_IPAD||IS_RETINA){
+    if(IS_IPAD||IS_RETINA)
+    {
         UIGraphicsBeginImageContext(CGSizeMake(SCREEN_WIDTH,SCREEN_HEIGHT));
         
         CGRect thumbnailRect = CGRectZero;
@@ -404,16 +418,13 @@ void takeScreenshot(){
         thumbnailRect.size.width  = SCREEN_WIDTH;
         thumbnailRect.size.height = SCREEN_HEIGHT;
         
-        
         [myImage drawInRect:thumbnailRect];
         
         myImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     }
-     
+    
     NSData* data=UIImagePNGRepresentation(myImage);
-    CGImageRelease(imageRef);
-    CFRelease(provider);
     free(buffer2);
     Terrain* ter=World::getWorld->terrain;
     NSString* name=nsstring(ter->world_name);
@@ -429,9 +440,9 @@ void takeScreenshot(){
                               FileHashDefaultChunkSizeForReadingData);
   
     World::getWorld->fm->setImageHash(cpstring((__bridge NSString *)md5hash));
-    //CFRelease(md5hash);
-
+    CFRelease(md5hash);
 }
+
 Vector RGBtoYUV(Vector clr){
   //  return clr;
     Vector ret;
@@ -1325,4 +1336,5 @@ BOOL collidePolyhedra(Polyhedra A,Polyhedra B)
  
  return true;
  }*/
+
 

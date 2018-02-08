@@ -209,18 +209,24 @@ CGContextRef CreateARGBBitmapContext (CGImageRef inImage)
 
 CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int tint)
 {
-    
     //CGDataProvider re
     
     // Create the bitmap context
     CGContextRef cgctx = CreateARGBBitmapContext(inImage);
     CGContextRef cgctx2 = CreateARGBBitmapContext(inImage);
-    if (cgctx == NULL)
+    /*if (cgctx == NULL)
     {
         // error creating context
         printg("error creating context for manipulation\n");
         return NULL;
     }
+    
+    if (cgctx2 == NULL)
+    {
+        // error creating context
+        printg("error creating context for manipulation\n");
+        return NULL;
+    }*/
     
     // Get image width, height. We'll use the entire image.
     size_t w = CGImageGetWidth(inImage);
@@ -249,7 +255,8 @@ CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int tin
     
     if (data != NULL)
     {
-        for(int i=0;i<w*h;i++){
+        for(int i=0;i<w*h;i++)
+        {
             if(data2[i]==0xFFFFFFFF){
                 //outputRed = (foregroundRed * foregroundAlpha) + (backgroundRed * (1.0 - foregroundAlpha));
                 int rr,gg,bb;
@@ -295,11 +302,11 @@ CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int tin
     {
         free(data);
     }
-    if(data2){
+    if(data2)
+    {
         free(data2);
     }
     return ref;
-    
 }
 #define MIN3(x,y,z)  ((y) <= (z) ? \
 ((x) <= (y) ? (x) : (y)) \
@@ -485,55 +492,46 @@ CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int mode)
     unsigned int HSL2RGB(unsigned int h,unsigned int s,unsigned int l);
     unsigned int utint=((tint>>8)&0x00FFFFFF);
     
-    
     RGB2HSL(utint,&hh,&ss,&ll);
     unsigned int ret=HSL2RGB(hh,ss,ll);
         
-    if(ret!=utint){
+    if(ret!=utint)
+    {
         printg("conversion off: %X != %X\n",utint,ret);
-    }else{
+    }
+    else
+    {
         printg("convert success!");
     }
+    
     if (data != NULL)
     {
-        for(int i=0;i<w*h;i++){
-           
-                //outputRed = (foregroundRed * foregroundAlpha) + (backgroundRed * (1.0 - foregroundAlpha));
-                int rr,gg,bb;
-                int rgba=data[i];
-                rr =  (rgba >> 8) & 255;
-                gg = (rgba >> 16) & 255;
-                bb =   (rgba >> 24) & 255;
-                
-                
-                // int color= (()<<24) | (b<<16) | (b<<8)  | 0xFF;
-                // int igrey= (bb<<24) | (bb<<16) | (bb<<8)  | 0xFF;
+        for(int i=0;i<w*h;i++)
+        {
+            //outputRed = (foregroundRed * foregroundAlpha) + (backgroundRed * (1.0 - foregroundAlpha));
+            int rr,gg,bb;
+            int rgba=data[i];
+            rr =  (rgba >> 8) & 255;
+            gg = (rgba >> 16) & 255;
+            bb =   (rgba >> 24) & 255;
             
+            // int color= (()<<24) | (b<<16) | (b<<8)  | 0xFF;
+            // int igrey= (bb<<24) | (bb<<16) | (bb<<8)  | 0xFF;
             
             float grey=bb/255.0f;
-            //grey*=100;
-           float r,g,b;
-           /*
-            unsigned int ret=HSL2RGB(hh,ss,(4.0f*grey+ll)/5.0f);
-            data[i]=(ret<<8)|0xFF;*/
-           
+            float r,g,b;
+
             r=(grey*fr);
             g=(grey*fg);
             b=(grey*fb);
             
-            
-            
-          
-              
-                rr=r*255;
-                gg=g*255;
-                bb=b*255;
-                data[i]= (bb<<24) | (gg<<16) | (rr<<8)  | 0xFF;
-                
+            rr=r*255;
+            gg=g*255;
+            bb=b*255;
+            data[i]= (bb<<24) | (gg<<16) | (rr<<8)  | 0xFF;
         }
-       
-        
     }
+    
     CGImageRef ref=CGBitmapContextCreateImage(cgctx);
     // When finished, release the context
     CGContextRelease(cgctx);
@@ -544,7 +542,6 @@ CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int mode)
         free(data);
     }
     return ref;
-    
 }
 
 
