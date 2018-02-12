@@ -498,7 +498,7 @@ void Menu::update(float etime)
             inbox3(touches[i].mx,touches[i].my,&rect_delete);
             inbox3(touches[i].mx,touches[i].my,&rect_share);
             inbox3(touches[i].mx,touches[i].my,&rect_loadshared);                
-            WorldNode* node=world_list;
+            //WorldNode* node=world_list;
             while(node!=NULL)
             {
                 inbox3(touches[i].mx,touches[i].my,&(node->anim));
@@ -507,7 +507,7 @@ void Menu::update(float etime)
         }            
         if(touches[i].inuse==usage_id&&touches[i].down==M_RELEASE)
         {
-            WorldNode* node=world_list;
+            //WorldNode* node=world_list;
             while(node!=NULL)
             {
                 inbox2(touches[i].mx,touches[i].my,&(node->anim));

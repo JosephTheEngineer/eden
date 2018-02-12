@@ -21,7 +21,7 @@ extern "C" {
 #define SMOKE_SIZER 90
 
 static unsigned short pindices[max_fparticles];
-
+    
 typedef struct{
 	Vector pos;
 	int pvbi; //particle vertex buffer index
@@ -38,7 +38,8 @@ typedef struct
 	int pid;
     BOOL type;
 	float x,z,y;
-}
+    }
+    
     firenode;
     
     static firenode list[max_bb];

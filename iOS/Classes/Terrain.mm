@@ -53,6 +53,7 @@ extern bool firstframe;
 BurnNode* burnList;
 static TreeNode troot={};
 static int do_reload=0;
+void genChildren(void);
 
 /*-(void) startLoadingThread{
     [NSThread detachNewThreadSelector:@selector(chunkBuildingThread:) toTarget:self withObject:self];
@@ -162,7 +163,8 @@ TreeNode* addToTree(TreeNode* node,int* bounds,NSNumber* data){
     
         memset(newNode,0,sizeof(ListNode));
         newNode->dead=FALSE;
-        //newNode->data=data;
+        [data retain];
+        newNode->data=data;
         newNode->next=node->dataList;
         node->dataList=newNode;
         return node;
@@ -174,7 +176,7 @@ void freeTree(TreeNode* node)
     ListNode* n=node->dataList;
     while(n!=NULL)
     {
-        //[(__bridge NSNumber*)n->data release];
+        [(__bridge NSNumber*)n->data release];
         ListNode* t=n->next;
         free(n);
         n=t;
@@ -216,6 +218,7 @@ Terrain::Terrain()
 {
     g_offcx=T_SIZE*100;
     g_offcz=T_SIZE*100;
+    [start retain];
     start = [NSDate date];
     tgen=new TerrainGenerator(this);
     liquids=new Liquids();
@@ -1928,8 +1931,8 @@ void Terrain::reloadIfNeeded(){
         
     }
 }
-Vector gcrot={0};
-Vector portal_rot={0};
+Vector gcrot={0,0,0};
+Vector portal_rot={0,0,0};
 const float BURN_SPREAD_TIME=1.0f;
 int chunk_load_count=0;
 BOOL doingsomeloading=FALSE;

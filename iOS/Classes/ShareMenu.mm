@@ -13,18 +13,12 @@
 #import "EAGLView.h"
 #import "VKeyboard.h"
 
-
-
-
-
 extern float SCREEN_WIDTH; 
 extern float SCREEN_HEIGHT;
 extern float P_ASPECT_RATIO; 
 
-ShareMenu::ShareMenu(){
-    
-    
-    
+ShareMenu::ShareMenu()
+{
     CGRect sbrect=CGRectMake(SCREEN_WIDTH/2-230+95-19, SCREEN_HEIGHT-67, 500, 35);
     label_bar=new statusbar(sbrect,17);
     sbrect.origin.x=SCREEN_WIDTH/2-220+143+90-23;
@@ -45,7 +39,8 @@ ShareMenu::ShareMenu(){
     share_explain_rect.size.height=40;
     share_explain_rect.size.width=370;
     extern BOOL IS_WIDESCREEN;
-    if(IS_WIDESCREEN){
+    if(IS_WIDESCREEN)
+    {
         rect_submit.origin.x+=45;
         rect_cancel.origin.x+=45;
         share_explain_rect.origin.x+=45;
@@ -53,7 +48,6 @@ ShareMenu::ShareMenu(){
     share_explain_lbl=new statusbar(share_explain_rect,15);
     share_explain_lbl->setStatus(@"Note: Players will spawn where you last saved.  The last picture you took is used as a preview picture." ,9999);
     //starto=FALSE;
-    
 }
 void ShareMenu::activate(){
     share_explain_lbl->setStatus(@"Note: Players will spawn where you last saved.  The last picture you took is used as a preview picture." ,9999);
@@ -67,71 +61,74 @@ void ShareMenu::deactivate(){
     name_bar->clear();
     
 }
-void ShareMenu::keyTyped(char c){
-    
-    if(c==-1){
-        if(name.length>0){
+
+void ShareMenu::keyTyped(char c)
+{
+    if(c==-1)
+    {
+        if(name.length>0)
+        {
             [name replaceCharactersInRange:NSMakeRange(name.length-1, 1) withString:@""];
         }
-    }else if(name.length>35){
+    }
+    else if(name.length>35)
+    {
         return;
-    }else{
-       // char c=c;
+    }
+    else
+    {
         NSLog(@"%d",(int)[name length]);
         if(!isalnum(c)&&c!=' '&&c!='\'')return;
         [name appendFormat:@"%c",c];
     }
+    [displays release];
     displays=[NSMutableString stringWithString:name];
+    [displays retain];
     trimDisplay();
     
 }
-void ShareMenu::beginShare(WorldNode* world){
+
+void ShareMenu::beginShare(WorldNode* world)
+{
     node=world;
-    /*if(!World::getWorld->FLIPPED){
-        [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeRight;
-    }
-    else{
-        [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
-        
-    }*/
-    //starto=World::getWorld->FLIPPED;
     vkeyboard_begin(0);
     
-    
     name=[NSMutableString stringWithString:nsstring(*world->display_name)];
+    [name retain];
     
     displays=[NSMutableString stringWithString:name];
+    [displays retain];
     trimDisplay();
     name_bar->setStatus(displays,9999,NSTextAlignmentLeft);
-  
-
-    //[world_name_field release];
-    
-    
 }
-void ShareMenu::trimDisplay(){
+
+void ShareMenu::trimDisplay()
+{
     while([displays sizeWithAttributes:
            @{NSFontAttributeName: [UIFont systemFontOfSize:14]}].width>input_background.size.width-10){
         [displays deleteCharactersInRange:NSMakeRange(0,1)];
     }
     name_bar->setStatus(displays,9999,NSTextAlignmentLeft);
-    
 }
 
-
-void ShareMenu::endShare(BOOL cancel){
+void ShareMenu::endShare(BOOL cancel)
+{
     vkeyboard_end(0);
     
-    if(name==NULL||name.length==0||cancel){
+    if(name==NULL||name.length==0||cancel)
+    {
+        if(name!=NULL)
+        [name release];
         name=NULL;
         World::getWorld->menu->is_sharing=0;
         World::getWorld->menu->sbar->clear();
         return;
     }
+    
     delete node->display_name;
     node->display_name=new std::string(cpstring(name));
     
-    
+    [name release];
     name=NULL;
     World::getWorld->fm->setName(*node->file_name,*node->display_name);
     NSString* file_name=[NSString stringWithFormat:@"%s/%s",
@@ -140,7 +137,8 @@ void ShareMenu::endShare(BOOL cancel){
                                World::getWorld->fm->documents->c_str(),node->file_name->c_str()];
     NSFileManager* fm=[NSFileManager defaultManager];
     NSLog(@"Sharing \"%s\"",node->display_name->c_str());
-    if(![fm fileExistsAtPath:image_file_name]){
+    if(![fm fileExistsAtPath:image_file_name])
+    {
         World::getWorld->menu->is_sharing=0;
         World::getWorld->menu->sbar->setStatus(@"Error: No preview picture found",4);
         return;
@@ -148,13 +146,11 @@ void ShareMenu::endShare(BOOL cancel){
     
     [World::getWorld->menu->shareutil shareWorld:file_name];
     
-    
     World::getWorld->menu->is_sharing=2;
     World::getWorld->menu->refreshfn();
 
-    
-                
 }
+
 static const int usage_id=9001;
 static float cursor_blink=0;
 

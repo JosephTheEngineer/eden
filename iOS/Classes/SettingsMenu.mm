@@ -20,7 +20,7 @@ enum {
     S_PLAY_SOUND=3,
     S_HEALTH=2,
     S_AUTOJUMP=1,
-    S_CREATURES=0,
+    S_CREATURES=0
 };
 static NSString* pnames[NUM_PROP]=
 {

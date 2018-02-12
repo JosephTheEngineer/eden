@@ -22,21 +22,26 @@
 //@synthesize cam, terrain, player, hud,fm/*,FLIPPED*/,effects,realtime,bestGraphics,doneLoading;
 //@synthesize game_mode,menu;
 extern EAGLView* G_EAGL_VIEW;
- BOOL exit_to_menu=FALSE;
+BOOL exit_to_menu=FALSE;
+void RLETEST(void);
+void loadWorldThread(void);
 
-void RLETEST(){
-    
+/*
+void RLETEST()
+{
     BOOL passed=TRUE;
     printg("rleTest started\n");
     //rand init data;
-    for(int test=0;test<100;test++){
-    block8 blocks[CHUNK_SIZE3];
-    color8 colors[CHUNK_SIZE3];
+    for(int test=0;test<100;test++)
+    {
+        block8 blocks[CHUNK_SIZE3];
+        color8 colors[CHUNK_SIZE3];
     
-    for(int i=0;i<CHUNK_SIZE3;i++){
-        blocks[i]=arc4random()%2;
-        colors[i]=arc4random()%2;
-    }
+        for(int i=0;i<CHUNK_SIZE3;i++)
+        {
+            blocks[i]=arc4random()%2;
+            colors[i]=arc4random()%2;
+        }
     
     //compress
     
@@ -66,10 +71,9 @@ void RLETEST(){
             marker_color=c;
             marker=t;
             count++;
-            
-            
         }
     }
+        
     if(count>0){
         rledata[dataidx++]=marker;
         rledata[dataidx++]=marker_color;
@@ -83,9 +87,9 @@ void RLETEST(){
         printg("dataidx overflow\n");
     }
     else {
-      /*  if(dataidx/CHUNK_SIZE3>1)
+        if(dataidx/CHUNK_SIZE3>1)
             putchar('!');
-        else putchar('.');*/
+ else putchar('.');
         
         
       //  sfh->directory_offset+=dataidx;
@@ -108,9 +112,9 @@ void RLETEST(){
     int idx=0;
     int idx2=0;
     while(idx<n){
-        int marker=buf[idx++];
-        int marker_color=buf[idx++];
-        int count=buf[idx++];
+        marker=buf[idx++];
+        marker_color=buf[idx++];
+        count=buf[idx++];
         //printg("count %d\n",count);
         for(int i=0;i<count;i++){
             if(idx2>CHUNK_SIZE3){
@@ -152,6 +156,7 @@ void RLETEST(){
     
     
 }
+*/
 World* World::getWorld=NULL;
 World::World(){
    
@@ -307,12 +312,14 @@ World::World(){
  
 }*/
 //extern "C" loadWorldThread(void* ptr);
-void* loadWorldThread(void* ptr){
-    @autoreleasepool {
+void* loadWorldThread(void* ptr)
+{
+    @autoreleasepool
+    {
         World::getWorld->terrain->loadTerrain(cpstring((__bridge NSString*)ptr),TRUE);
         World::getWorld->doneLoading=2;
     }
-    
+    //[pool release];
     return NULL;
 }
 
@@ -336,8 +343,8 @@ void World::loadWorld(std::string name){
 
         //}else{
             terrain->allocateMemory();
-            //pthread_t foo;
-            //pthread_create(&foo,NULL,loadWorldThread, nsstring(name));
+            pthread_t foo;
+            pthread_create(&foo,NULL,loadWorldThread, nsstring(name));
            // std::thread first (loadWorldThread,name);
             //[NSThread detachNewThreadSelector:@selector(loadWorldThread:) toTarget:self withObject:name];
         //}

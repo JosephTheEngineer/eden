@@ -16,6 +16,8 @@
 #import "md5.h"
 #import "Model.h"
 
+Vector RGBtoYUV(Vector);
+
 // maxlength was 1000. temp
 std::string cpstring(NSString * str){
     char buf[1000];

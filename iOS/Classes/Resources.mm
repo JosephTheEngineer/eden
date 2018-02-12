@@ -14,7 +14,7 @@
 #import "SimpleAudioEngine.h"
 #import "World.h"
 
-
+void clearSkinCache(void);
 
 
 
@@ -31,7 +31,6 @@ static const char* songFiles[NUM_SONGS]={
     "Eden_4.mp3",
     "Eden_5.mp3",
     "Eden_6.mp3",
-       
 };
 
 static const char* ambientFiles[NUM_AMBIENT]={
@@ -94,7 +93,7 @@ S_JUMP=35,*/
 
 #define MAX_VARIATIONS2 6
 
-int lasteffectplayed=-1;;
+int lasteffectplayed=-1;
 static int sfxNumVariations[NUM_SOUNDS]={  
     [S_LADDER]=4,
     [S_VINE]=4,

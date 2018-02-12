@@ -11,7 +11,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface FileUpload : NSObject {
+@interface FileUpload : NSObject
+{
     NSURL *serverURL;
     NSString *filePath;
     NSString *imgPath;
@@ -21,6 +22,8 @@
     SEL progressSelector;
     BOOL uploadDidSucceed;
 }
+
+-   (instancetype)init NS_UNAVAILABLE;
 
 -   (instancetype)initWithURL: (NSURL *)serverURL 
            filePath: (NSString *)filePath 

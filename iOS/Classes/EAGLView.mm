@@ -145,8 +145,8 @@ extern EAGLView* G_EAGL_VIEW;
     
     return self;
 }
-- (BOOL)textField:(UITextField *)textField 
-        shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+- (BOOL)textField:(UITextField *) __unused textField
+        shouldChangeCharactersInRange:(NSRange) __unused range replacementString:(NSString *)string{
     Input::getInput()->keyTyped(string);
     return FALSE;
 }
@@ -237,14 +237,14 @@ extern EAGLView* G_EAGL_VIEW;
     }
 }
 
-- (void)textFieldDidEndEditing:(UITextField*)textField
+- (void)textFieldDidEndEditing:(UITextField*) __unused textField
 {
     //NSLog(@"%@",[textField text]);
     //[textField endEditing:YES];
     //[textField removeFromSuperview];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField*)texField
+- (BOOL)textFieldShouldReturn:(UITextField*) __unused texField
 {
     // end editing
     //[texField resignFirstResponder];

@@ -29,3 +29,4 @@ class MMM{
     public:
    static void ExplodeModels(Vector pos,int color);
 };
+

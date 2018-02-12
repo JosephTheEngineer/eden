@@ -15,6 +15,7 @@
 
 @interface EdenViewController ()
 @property (nonatomic, strong) EAGLContext *context;
+//@property(nonatomic, readonly) BOOL shouldAutorotate;
 @end
 
 @implementation EdenViewController
@@ -96,16 +97,6 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];    
-
-    // Tear down context.
-    if ([EAGLContext currentContext] == context)
-        [EAGLContext setCurrentContext:nil];
-    self.context = nil;    
-}
-
 - (NSInteger)animationFrameInterval
 {
     return animationFrameInterval;
@@ -175,6 +166,7 @@
         animating = FALSE;
     }
 }
+
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 
 {
@@ -183,7 +175,6 @@
 
 - (void)drawFrame
 {
-    
 
     now=-start.timeIntervalSinceNow;
       

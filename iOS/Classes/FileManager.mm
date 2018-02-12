@@ -63,7 +63,7 @@ FileManager::FileManager(){
     fmh_init(this);
 }
 
-BOOL FileManager::worldExists(std::string na,BOOL appendArchive)
+BOOL FileManager::worldExists(std::string na,BOOL __unused appendArchive)
 {
     std::string file_name=docs + "/" +na;
     
@@ -482,7 +482,7 @@ void FileManager::saveWorld(Vector warp){
     //[file writeData:[[NSData 
         
 }
-int saveColIdx(any_t passedIn,any_t colToSave){
+int saveColIdx(any_t __unused passedIn,any_t colToSave){
     count++;
     ColumnIndex* colIndex=(ColumnIndex*)colToSave;
     if(colIndex&&colIndex->chunk_offset<sfh->directory_offset){
@@ -656,7 +656,7 @@ void FileManager::saveGenColumn(int cx,int cz,int origin){
         color8 rledata[CHUNK_SIZE3*3+2];
         int marker=-1;
         int marker_color=-1;
-        int count =0;
+        count =0;
         int dataidx=2;
         for(int i=0;i<CHUNK_SIZE3;i++){
             int t=blocks[i];
@@ -797,7 +797,8 @@ void FileManager::saveColumn(int cx,int cz){
 extern block8* blockarray;
 extern int g_offcx;
 extern int g_offcz;
-void FileManager::readColumn(int cx,int cz,NSFileHandle* rcfile){
+void FileManager::readColumn(int cx,int cz,NSFileHandle* rcfile)
+{
     Terrain* ter=World::getWorld->terrain;
     ColumnIndex* colIndex=NULL;
     int n= twoToOne(cx,cz);
@@ -808,83 +809,41 @@ void FileManager::readColumn(int cx,int cz,NSFileHandle* rcfile){
     if(indexes_hmm!=indexes)printg("FATAL ERROR: indexes pointer corrupted!!!!\n");
     hashmap_get(indexes,n, (any_t*)&colIndex);
    
-    if(colIndex==NULL){
-        
-        Terrain* ter=World::getWorld->terrain;
-     //   int cx2=cx-chunkOffsetX;
-      //  int cz2=cz-chunkOffsetZ;
-     //   if(rcfile==saveFile){
+    if(colIndex==NULL)
+    {
+        //int cx2=cx-chunkOffsetX;
+        //int cz2=cz-chunkOffsetZ;
+        //if(rcfile==saveFile){
         //printg("loading column from gen %d,%d \n",cx,cz);
-     if(ter->tgen->LEVEL_SEED==DEFAULT_LEVEL_SEED){
-         fmh_readColumnFromDefault(cx,cz);
-            
+        if(ter->tgen->LEVEL_SEED==DEFAULT_LEVEL_SEED)
+        {
+            fmh_readColumnFromDefault(cx,cz);
             return;
-     }else{
-         ter->tgen->generateColumn(cx,cz,FALSE);
-              return;
-     }
+        }
+        else
+        {
+            ter->tgen->generateColumn(cx,cz,FALSE);
+            return;
+        }
     }
     //NSLog(@"reading col: %d, %d, %d",cx,cz,colIndex->chunk_offset);
         
     //cx-=chunkOffsetX;
     //cz-=chunkOffsetZ;
     
-     @autoreleasepool {   
+     @autoreleasepool {
         TerrainChunk* chunk=NULL;
-        //int oldcx,oldcz;
-        /*if(ter.oldChunkMap!=NULL){
-            oldcx=cx+(chunkOffsetX-oldOffsetX);
-            oldcz=cz+(chunkOffsetZ-oldOffsetZ);
-            
-            hashmap_get(ter.oldChunkMap, threeToOne(oldcx, 0, oldcz), (any_t)&chunk);
-            
-        }*/
-        
-        if(chunk!=NULL){
-            
+      
+        if(chunk!=NULL)
+        {
             printg("nononono123 abort!\n");
-            /*for(int cy=0;cy<CHUNKS_PER_COLUMN ;cy++){
-                //hashmap_get(ter.oldChunkMap, threeToOne(oldcx, cy, oldcz), (any_t)&chunk);
-                [chunk retain];
-                int bounds[6];            
-                bounds[0]=cx*CHUNK_SIZE;
-                bounds[1]=cy*CHUNK_SIZE;
-                bounds[2]=cz*CHUNK_SIZE;
-                bounds[3]=(cx+1)*CHUNK_SIZE;
-                bounds[4]=(cy+1)*CHUNK_SIZE;
-                bounds[5]=(cz+1)*CHUNK_SIZE;        
-                [chunk setBounds:bounds];
-                if(chunk.needsGen){
-                    //printg("adding background loaded chunk\n");
-                    [ter addChunk:chunk:cx:cy:cz:TRUE];
-                }else
-                [ter readdChunk:chunk:cx:cy:cz];    
-                
-                for(int x=0;x<CHUNK_SIZE;x++){
-                    for(int z=0;z<CHUNK_SIZE;z++){
-                        memcpy(blockarray+((x+bounds[0])*T_SIZE*T_HEIGHT+(z+bounds[2])*T_HEIGHT+bounds[1]),
-                               chunk.pblocks+(x*CHUNK_SIZE*CHUNK_SIZE+z*CHUNK_SIZE),
-                               CHUNK_SIZE);
-                        
-                        
-                        
-                    }            
-                }
-                
-            }*/
-            
-            
-            
-        }else{
-          //  printg("loading column from file\n");
-           /* if(saveFile==rcfile)
-            printg("loading column from file\n");
-            else 
-                printg("attempting to load col from file for bgthread\n");
-*/
+        }
+        else
+        {
             [rcfile seekToFileOffset:colIndex->chunk_offset];
             TerrainChunk* columns[CHUNKS_PER_COLUMN];
-             for(int cy=0;cy<CHUNKS_PER_COLUMN ;cy++){
+             for(int cy=0;cy<CHUNKS_PER_COLUMN ;cy++)
+             {
                 int bounds[6];
                 
                 bounds[0]=cx*CHUNK_SIZE;
@@ -901,17 +860,19 @@ void FileManager::readColumn(int cx,int cz,NSFileHandle* rcfile){
                     chunk->setBounds(bounds);
 
                 }
-                else{
+                else
+                {
                     printf("crittcler error re-allocating terrain chunk\n");
               // chunk=new TerrainChunk(bounds,cx,cz,ter,TRUE);
-                }
+            }
                  
                  
                 columns[cy]=chunk;
                 
                
                  BOOL rle=false;
-                 if(rle){
+                 if(rle)
+                 {
                      
                      block8 tblocks[CHUNK_SIZE3];
                      color8 tcolors[CHUNK_SIZE3];
@@ -923,7 +884,8 @@ void FileManager::readColumn(int cx,int cz,NSFileHandle* rcfile){
                      int chunk_data_length= buft[0]*256+buft[1]-2;
                      NSData* data=[rcfile readDataOfLength:chunk_data_length];
                      int n=(int)data.length;
-                     if(n<chunk_data_length){
+                     if(n<chunk_data_length)
+                     {
                          printg("not enough file left, only read %d bytes\n",n);
                      }//else
                       //   printg("all good %d, %d  sizeofcolor8:%d\n",(int)n,(int)chunk_data_length,(int)sizeof(color8));
@@ -996,17 +958,10 @@ void FileManager::readColumn(int cx,int cz,NSFileHandle* rcfile){
                             
                         }            
                     }
-                    
-                      
                     ter->addChunk(chunk,cx,cy,cz,TRUE);
-                 
             }
-            
         }
-    
     }
-    
-    
 }
 std::string fullPathForFilename(const char* fn){
     return cpstring([[NSBundle mainBundle] pathForResource:nsstring(fn) ofType:nil]);
@@ -1062,7 +1017,9 @@ void FileManager::setImageHash(std::string h){
     NSString* hash=nsstring(h);
     NSString* name=nsstring(World::getWorld->terrain->world_name);
     NSString* file_name=[NSString stringWithFormat:@"%s/%@",documents->c_str(),name];
-    if(imgHash!=NULL){
+    if(imgHash!=NULL)
+    {
+        [imgHash release];
         imgHash=NULL;
     }
     imgHash=hash;
@@ -1349,6 +1306,7 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive)
     Player* player=World::getWorld->player;
     if(imgHash!=NULL)
     {
+        [imgHash release];
         imgHash=NULL;
     }
     World::getWorld->player->reset();
@@ -1553,6 +1511,7 @@ void FileManager::loadWorld(std::string name,BOOL fromArchive)
             NSLog(@"image hash is %s",sfh->hash);
         if(imgHash!=NULL)
         {
+            [imgHash release];
             imgHash=NULL;
         }
         imgHash=[[NSString alloc] initWithCString:sfh->hash encoding:NSUTF8StringEncoding];

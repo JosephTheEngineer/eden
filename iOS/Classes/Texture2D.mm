@@ -13,8 +13,6 @@
 
 //CLASS IMPLEMENTATIONS:
 
-
-
 //@synthesize contentSize=_size, pixelFormat=_format, pixelsWide=_width, pixelsHigh=_height, name=name, maxS=_maxS, maxT=_maxT;
 
 Texture2D::Texture2D(const void* data, Texture2DPixelFormat pixelFormat, int width,int height,CGSize size){
@@ -448,7 +446,7 @@ struct rgb_color hslToRgb(float h, float s, float l){
 }
 
 
-CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int mode)
+CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int __unused mode)
 {
     // Create the bitmap context
     CGContextRef cgctx = CreateARGBBitmapContext(inImage);
@@ -1062,19 +1060,16 @@ Texture2D::Texture2D(NSString* string, CGSize dimensions, NSTextAlignment alignm
     initFromString(string,dimensions,alignment,font);
 }
 
-void Texture2D::initFromString(NSString* string, CGSize dimensions, NSTextAlignment alignment, UIFont* font)
+void Texture2D::initFromString(NSString* string, CGSize dimensions, NSTextAlignment __unused alignment, UIFont* font)
 {
+    int width, height, i;
+    CGContextRef context;
+    void* data;
+    CGColorSpaceRef colorSpace;
     
-    int                width,
-                            height,
-                            i;
-    CGContextRef            context;
-    void*                    data;
-    CGColorSpaceRef            colorSpace;
-    
-    if(font == nil) {
+    if(font == nil)
+    {
         REPORT_ERROR(@"Invalid font", NULL);
-        
         return;
     }
     

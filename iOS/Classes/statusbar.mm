@@ -13,7 +13,6 @@
 
 static const int thresh=1000; //beyond this don't erase text ever.
 
-
 statusbar::statusbar(CGRect rect, float font_size_in){
     
     pos=rect;
@@ -34,34 +33,39 @@ statusbar::statusbar(CGRect rect){
 void statusbar::setStatus(NSString* status,float time){
     this->setStatus(status,time,NSTextAlignmentCenter);
 }
-void statusbar::setStatus(NSString* status,float time,NSTextAlignment align){
-   if(message&&[status isEqualToString:message]){
+void statusbar::setStatus(NSString* status,float time,NSTextAlignment align)
+{
+   if(message&&[status isEqualToString:message])
+   {
         textlife=time;       
         return;
-                     
     }
     
     clear();
     if(CHECK_GL_ERROR()){}
+    [message retain];
     message=status;
-    if(IS_IPAD){
+    if(IS_IPAD)
+    {
         text=new Texture2D(status,
-                                    CGSizeMake(pos.size.width*SCALE_WIDTH,
-                                                          pos.size.height*SCALE_HEIGHT) ,
-                                    align,
-                                         [UIFont systemFontOfSize:font_size*2]);
+        CGSizeMake(pos.size.width*SCALE_WIDTH,
+        pos.size.height*SCALE_HEIGHT) ,
+        align,
+        [UIFont systemFontOfSize:font_size*2]);
     }
-    else{
+    else
+    {
     text=new Texture2D(status,
-                                CGSizeMake(pos.size.width,
-                                                      pos.size.height) ,
-                                 align,
-                                      [UIFont systemFontOfSize:font_size]);
+    CGSizeMake(pos.size.width,
+    pos.size.height) ,
+    align,
+    [UIFont systemFontOfSize:font_size]);
     }
     textlife=time;
    
     //printg("message set:%s time:%f\n",[message cString],textlife);
 }
+
 void statusbar::clear(){
     if(text!=NULL){
         delete text;
@@ -69,7 +73,9 @@ void statusbar::clear(){
         text=NULL;
         
     }    
-    if(message){
+    if(message)
+    {
+        [message release];
         message=NULL;
     }
 }

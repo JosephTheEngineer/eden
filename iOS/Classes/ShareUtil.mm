@@ -70,7 +70,7 @@ FileDownload* reportmanager=NULL;
     NSURL* url = [[NSURL alloc] initWithString:nsurl];
     if(reportmanager){
         [reportmanager cancel];
-        //[reportmanager release];
+        [reportmanager release];
         reportmanager=NULL;
     }
     
@@ -81,6 +81,8 @@ FileDownload* reportmanager=NULL;
                                   errorSelector:@selector(reportError:)
                                progressSelector:@selector(reportProgress:)                                       ];
 
+    [url release];
+    
     NSLog(@"report: %@\n",nsurl);
     
 }
@@ -93,6 +95,7 @@ FileDownload* reportmanager=NULL;
     NSURL* url = [[NSURL alloc] initWithString:fullString];
     if(dlmanager){
         [dlmanager cancel];
+        [dlmanager release];
         dlmanager=NULL;
     }
     dlmanager=[[FileDownload alloc] initWithURL:url
@@ -100,7 +103,8 @@ FileDownload* reportmanager=NULL;
                                        delegate:self 
                                    doneSelector:@selector(downloadSuccess:)
                                   errorSelector:@selector(downloadError:)
-                               progressSelector:@selector(downloadProgress:)                                       ];    
+                               progressSelector:@selector(downloadProgress:)                                       ];
+    [url release];
     World::getWorld->menu->sbar->clear();
     isPreview=TRUE;
     isWorldlist=FALSE;
@@ -124,6 +128,7 @@ FileDownload* reportmanager=NULL;
     NSURL* url = [[NSURL alloc] initWithString:fullString];
     if(dlmanager){
         [dlmanager cancel];
+        [dlmanager release];
         dlmanager=NULL;
     }
     dlmanager=[[FileDownload alloc] initWithURL:url
@@ -133,27 +138,29 @@ FileDownload* reportmanager=NULL;
                                   errorSelector:@selector(downloadError:)
                                progressSelector:@selector(downloadProgress:)                                       ];    
     
-    
-    
+    [url release];
     
     World::getWorld->menu->sbar->clear();
     isPreview=FALSE;
     isWorldlist=FALSE;
-    
 }
--(void)canceldl{
-    
-    if(dlmanager){
+
+-(void)canceldl
+{
+    if(dlmanager)
+    {
         [dlmanager cancel];
+        [dlmanager release];
         dlmanager=NULL;
         World::getWorld->menu->shared_list->sbar->setStatus(@"Download cancelled",1);
     }
 }
-- (void)shareWorld:(NSString*)file_name{
+
+- (void)shareWorld:(NSString*)file_name
+{
     NSLog(@"share world %@",file_name);
     
     NSLog(@"attempting upload");
-
 
     NSString* uuid=@"lowmem";
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0"))
@@ -169,47 +176,45 @@ FileDownload* reportmanager=NULL;
                                      errorSelector:@selector(uploadError:)
                                   progressSelector:@selector(uploadProgress:)];    
 
+    [fu release];
+    [serverUrl release];
 }
-- (void)getSharedWorldList{
+
+- (void)getSharedWorldList
+{
     World::getWorld->menu->shared_list->sbar->setStatus(@"Loading " ,9999);
     NSLog(@"getting shared world list");    
     NSString* nsurl;
-    if(World::getWorld->menu->shared_list->cur_sort==1){
+    if(World::getWorld->menu->shared_list->cur_sort==1)
+    {
         nsurl=POPULAR_URL;
-    }else
-    nsurl=[NSString stringWithFormat:@"%@?start=%d&sort=%d",LIST_URL,0,World::getWorld->menu->shared_list->cur_sort ] ;
-    
-    
-    NSURL* url = [[NSURL alloc] initWithString:nsurl];
-    if(dlmanager){
-        [dlmanager cancel];
-        dlmanager=NULL;
     }
+    else
+        nsurl=[NSString stringWithFormat:@"%@?start=%d&sort=%d",LIST_URL,0,World::getWorld->menu->shared_list->cur_sort ] ;
+    
+        NSURL* url = [[NSURL alloc] initWithString:nsurl];
+        if(dlmanager)
+        {
+            [dlmanager cancel];
+            [dlmanager release];
+            dlmanager=NULL;
+        }
     dlmanager=[[FileDownload alloc] initWithURL:url
                                        filePath:NULL
                                        delegate:self 
                                    doneSelector:@selector(downloadSuccess:)
                                   errorSelector:@selector(downloadError:)
-                               progressSelector:@selector(downloadProgress:)                                       ];    
+                               progressSelector:@selector(downloadProgress:)                                       ];
+    [url release];
     World::getWorld->menu->sbar->clear();
     isWorldlist=TRUE;
     isPreview=FALSE;
-    
-    
-    
-    /*NSData* theData = [FileDownload downloadFile:nsurl];
-    NSString *worldList = [[[NSString alloc] initWithData:theData
-                                             encoding:NSUTF8StringEncoding]
-                       autorelease];
-    [worldList retain];
-    NSLog(@"world list1:%@",worldList);
-   
-    [theData release];*/
-    
+
     return;
-    
 }
-- (NSString*)searchSharedWorlds:(NSString*)query{
+
+- (NSString*)searchSharedWorlds:(NSString*)query
+{
     NSLog(@"searching shared world list");
     NSString* urlString = [query stringByAddingPercentEscapesUsingEncoding:
                            NSASCIIStringEncoding];
@@ -219,100 +224,116 @@ FileDownload* reportmanager=NULL;
     NSData* theData = [FileDownload downloadFile:nsurl];
     NSString *worldList = [[NSString alloc] initWithData:theData
                                                  encoding:NSUTF8StringEncoding];
+    CFAutorelease;
+    [worldList retain];
     NSLog(@"world list:%@",worldList);
+    [theData release];
     
     return worldList;
-    
 }
 
-
--(void)uploadSuccess:(id)obj{
+-(void)uploadSuccess:(id)obj
+{
     World::getWorld->menu->is_sharing=FALSE;
     World::getWorld->menu->sbar->setStatus(@"Successfully shared world!",2);
     NSLog(@"upload success: %@",obj);
-    
 }
--(void)uploadError:(id)obj{
+
+-(void)uploadError:(id)obj
+{
     World::getWorld->menu->is_sharing=FALSE;
     World::getWorld->menu->sbar->setStatus(@"Connection error sharing world",3);
     NSLog(@"upload error: %@",obj);
 }
--(void)uploadProgress:(id)ipct{
+
+-(void)uploadProgress:(id)ipct
+{
     int pct=(int)(long)ipct;
     if(pct==100)
         World::getWorld->menu->sbar->setStatus(@"Upload Complete, Processing...",10);
     else
-      World::getWorld->menu->sbar->setStatus([NSString stringWithFormat:@"Uploading world %d%%",pct] ,5);
+        World::getWorld->menu->sbar->setStatus([NSString stringWithFormat:@"Uploading world %d%%",pct] ,5);
 }
--(void)downloadProgress:(id)ipct{
+
+-(void)downloadProgress:(id)ipct
+{
     int pct=(int)(long)ipct;
-    if(isWorldlist){
+    if(isWorldlist)
+    {
          World::getWorld->menu->shared_list->sbar->setStatus([NSString stringWithFormat:@"Getting List... %d%%",pct] ,5);
          World::getWorld->menu->sbar->setStatus([NSString stringWithFormat:@"Getting List... %d%%",pct] ,5);
-    }else
-    if(isPreview){
-      
-        World::getWorld->menu->shared_list->sbar->setStatus([NSString stringWithFormat:@"Fetching Preview %d%%",pct] ,5);
-    }else{
-       
-      
+    }
+    else
+        if(isPreview)
+        {
+            World::getWorld->menu->shared_list->sbar->setStatus([NSString stringWithFormat:@"Fetching Preview %d%%",pct] ,5);
+        }
+        else
+        {
             World::getWorld->menu->shared_list->sbar->setStatus([NSString stringWithFormat:@"Downloading World... %d%%",pct] ,5);
-        
     }
 }
--(void)downloadSuccess:(id)obj{
-    //
+
+-(void)downloadSuccess:(id)obj
+{
     World::getWorld->menu->sbar->setStatus(@"Successfully downloaded world",3);
-    if(isWorldlist){
+    if(isWorldlist)
+    {
         World::getWorld->menu->shared_list->finished_list_dl=true;
-        if(listresult){
+        if(listresult)
+        {
+            [listresult release];
             listresult=NULL;
         }
         listresult=[[NSString alloc] initWithData:dlmanager.result encoding:NSUTF8StringEncoding];
-        //NSLog(listresult);
-    }else
-    if(!isPreview)
-    World::getWorld->menu->shared_list->finished_dl=true;
-    else 
-    World::getWorld->menu->shared_list->finished_preview_dl=true;
+        [listresult retain];
+    }
+    else
+        if(!isPreview)
+                World::getWorld->menu->shared_list->finished_dl=true;
+        else
+            World::getWorld->menu->shared_list->finished_preview_dl=true;
     NSLog(@"dl success: %@",obj);
+    [dlmanager release];
     dlmanager=NULL;
-    
-    
 }
--(void)downloadError:(id)obj{
-    
-    if(isWorldlist){
+
+-(void)downloadError:(id)obj
+{
+    if(isWorldlist)
+    {
         World::getWorld->menu->shared_list->sbar->setStatus(@"Connection error getting shared world list.",4);
         World::getWorld->menu->sbar->setStatus(@"Connection error getting shared world list.",4);
-    }else{
+    }
+    else
+    {
         World::getWorld->menu->sbar->setStatus(@"Error downloading world!",4);
         World::getWorld->menu->shared_list->sbar->setStatus(@"Error downloading world!",4);
-
     }
+    
     NSLog(@"dl error: %@",obj);
+    [dlmanager release];
     dlmanager=NULL;
-     
 }
--(void)reportProgress:(id)ipct{
-   }
--(void)reportSuccess:(id)obj{
-    //
+
+-(void) reportProgress:(id) __unused ipct
+{
+   
+}
+
+-(void)reportSuccess:(id)obj
+{
     NSLog(@"report success: %@",obj);
-    //[reportmanager release];
+    [reportmanager release];
     reportmanager=NULL;
-    
-    
-}
--(void)reportError:(id)obj{
-    
-       NSLog(@"report error: %@",obj);
-    //[reportmanager release];
-    reportmanager=NULL;
-    
 }
 
-
+-(void)reportError:(id)obj
+{
+    NSLog(@"report error: %@",obj);
+    [reportmanager release];
+    reportmanager=NULL;
+}
 
 - (NSData *)gzipInflate:(NSData*) data
 {
@@ -346,6 +367,7 @@ FileDownload* reportmanager=NULL;
         if (status == Z_STREAM_END) done = YES;
         else if (status != Z_OK) break;
     }
+    
     if (inflateEnd (&strm) != Z_OK) return nil;
     
     // Set real length.

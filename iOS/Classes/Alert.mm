@@ -16,6 +16,7 @@ UIAlertView *alertDeleteConfirm;
 UIAlertView *alertWorldType;
 static UIAlertView *alertReportContent;
 static UIAlertView *alertReportConfirm;
+void alert_init(void);
 
 @interface PAlert : NSObject <UIAlertViewDelegate>
 {
@@ -105,7 +106,7 @@ static UIAlertView *alertReportConfirm;
                 World::getWorld->menu->shared_list->alertCallback();
                 break;
             }
-            default:
+                default:
                 break;
         }
     }

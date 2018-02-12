@@ -152,7 +152,7 @@ void fmh_readColumnFromDefault(int cx,int cz)
             [datat getBytes:buft length:2];
             int chunk_data_length= buft[0]*256+buft[1]-2;
             NSData* data=[saveFile readDataOfLength:chunk_data_length];
-            int n=(int)data.length;
+            n=(int)data.length;
             if(n<chunk_data_length)
             {
                 printg("not enough file left, only read %d bytes\n",n);

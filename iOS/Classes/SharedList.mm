@@ -6,7 +6,6 @@
 //  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
-
 #import "SharedList.h"
 #import "Graphics.h"
 #import "Globals.h"
@@ -17,7 +16,6 @@
 extern float SCREEN_WIDTH; 
 extern float SCREEN_HEIGHT;
 extern float P_ASPECT_RATIO;
-
 
 //@synthesize cur_sort,sbar,finished_dl,finished_preview_dl,sort_bar,finished_list_dl;
 #define NUM_SORTS 3
@@ -32,8 +30,10 @@ extern EAGLView* G_EAGL_VIEW;
 static float bsize;
 
 
-SharedList::SharedList(){
+SharedList::SharedList()
+{
     search_string=[NSMutableString stringWithString:@""];
+    [search_string retain];
     
     input_background=CGRectMake(SCREEN_WIDTH/2-100, SCREEN_HEIGHT-80, 200, 30);
     
@@ -41,20 +41,8 @@ SharedList::SharedList(){
     sbrrect.origin.x=SCREEN_WIDTH/2-220+143+90-23-85;
     sbrrect.origin.y-=3;
     
-         
-    
     name_bar=new statusbar(RectFromButton(sbrrect),14);
     
-   /* input_background=CGRectMake(SCREEN_WIDTH/2-15, SCREEN_HEIGHT-60, 200, 30);
-    
-    CGRect sbrect=CGRectMake(SCREEN_WIDTH/2-230+95-19, SCREEN_HEIGHT-67, 500, 35);
-    sbrect.origin.x=SCREEN_WIDTH/2-220+143+90-23;
-    sbrect.origin.y-=3;
-    name_bar=[[statusbar alloc] initWithRect:sbrect:14];*/
-    
-    
-    
-  
     bsize=43;
     finished_dl=finished_preview_dl=finished_list_dl=FALSE;
     CGRect sbrect2;
@@ -77,7 +65,7 @@ SharedList::SharedList(){
     rect_arrow_up.origin.x=SCREEN_WIDTH-rect_arrow_up.size.width-3;
     rect_arrow_up.origin.y=SCREEN_HEIGHT-67;
     
-        rect_arrow_down.size.width=45;
+    rect_arrow_down.size.width=45;
     rect_arrow_down.size.height=25;
     rect_arrow_down.origin.x=SCREEN_WIDTH-rect_arrow_down.size.width-3;
     rect_arrow_down.origin.y=3;
@@ -87,10 +75,13 @@ SharedList::SharedList(){
     preview_box.origin.y=SCREEN_HEIGHT-preview_box.size.height-57;
     preview_box.origin.x=(SCREEN_WIDTH-preview_box.size.width)/2.0f;
     
-    if(IS_IPAD){
+    if(IS_IPAD)
+    {
     rload_cancel=ButtonMake(95, 17, 90, 33);
     rload_go=ButtonMake(292, 17, 90, 33);
-    }else{
+    }
+    else
+    {
         rload_cancel=ButtonMake(95, 25, 90, 33);
         rload_go=ButtonMake(292, 25, 90, 33);
         
@@ -103,11 +94,11 @@ SharedList::SharedList(){
     rect_cancel.origin.y=SCREEN_HEIGHT-rect_cancel.size.height-10;
     if(IS_IPAD)rect_cancel.origin.y-=5;
     extern BOOL IS_WIDESCREEN;
-    if(IS_WIDESCREEN){
+    if(IS_WIDESCREEN)
+    {
         rload_cancel.origin.x+=25;
         rload_go.origin.x+=55;
     }
-    
     
     sbrect.size.width=320;
     sbrect.size.height=45;
@@ -132,113 +123,135 @@ SharedList::SharedList(){
     previewScreenshot=NULL;
     animation_offset=0;
     displays=[NSMutableString stringWithString:@""];
-    
+    [displays retain];
 }
 
-
-void SharedList::trimDisplay(){
+void SharedList::trimDisplay()
+{
     while([displays sizeWithAttributes:
-           @{NSFontAttributeName: [UIFont systemFontOfSize:14]}].width>input_background.size.width-10){
+           @{NSFontAttributeName: [UIFont systemFontOfSize:14]}].width>input_background.size.width-10)
+    {
         [displays deleteCharactersInRange:NSMakeRange(0,1)];
     }
     name_bar->setStatus(displays,9999,NSTextAlignmentLeft);
-    
 }
 
-void SharedList::keyTyped(char c){
-    if(c==-1){
-        if(search_string.length>0){
+void SharedList::keyTyped(char c)
+{
+    if(c==-1)
+    {
+        if(search_string.length>0)
+        {
             [search_string replaceCharactersInRange:NSMakeRange(search_string.length-1, 1) withString:@""];
         }
-    }else if(search_string.length>35){
+    }
+    else if(search_string.length>35)
+    {
         return;
-    }else{
-      
+    }
+    else
+    {
         NSLog(@"%d",(int)[search_string length]);
         if(!isalnum(c)&&c!=' '&&c!='\'')return;
         [search_string appendFormat:@"%c",c];
-               
     }
+    [displays release];
     displays=[NSMutableString stringWithString:search_string];
+    [displays retain];
     trimDisplay();
     name_bar->setStatus(displays,9999,NSTextAlignmentLeft);
     return ;
 }
 
-
-
-void SharedList::searchAndHide(BOOL nosearch){
+void SharedList::searchAndHide(BOOL nosearch)
+{
     vkeyboard_end(1);
     
-    if(search_string.length==0||nosearch){
+    if(search_string.length==0||nosearch)
+    {
         return;
     }
+    
     NSString* list=[World::getWorld->menu->shareutil searchSharedWorlds:search_string];
     
-    if(list.length==0){
+    if(list.length==0)
+    {
         sbar->setStatus(@"No Results Found. ",4);
-    }else{
+    }
+    else
+    {
         sbar->clear();
         setWorldList(list);
-        
-        
     }
-        
-    
-    
 }
 
-void SharedList::activate(){
+void SharedList::activate()
+{
     setSortStatus();
-    
 }
-void SharedList::deactivate(){
+
+void SharedList::deactivate()
+{
     sort_bar->clear();
     sbar->clear();
     name_bar->clear();
-    
 }
+
 static const int usage_id=42;
-void SharedList::setSortStatus(){
-    if(cur_sort==SORT_NAME){
+void SharedList::setSortStatus()
+{
+    if(cur_sort==SORT_NAME)
+    {
         sort_bar->setStatus(@"Search" ,99999);
-    }else if(cur_sort==SORT_DATE){
+    }
+    else if(cur_sort==SORT_DATE)
+    {
         sort_bar->setStatus(@"Recent" ,99999);
-    }else if(cur_sort==SORT_BEST){
+    }
+    else if(cur_sort==SORT_BEST)
+    {
         sort_bar->setStatus(@"Featured" ,99999);
     }    
 }
-void SharedList::clearWorldList(){
-    for(int i=0;i<num_files;i++){
+
+void SharedList::clearWorldList()
+{
+    for(int i=0;i<num_files;i++)
+    {
+        [file_list[i].name release];
+        [file_list[i].file_name release];
         if(file_list[i].nametex) delete file_list[i].nametex;
         if(file_list[i].datetex) delete file_list[i].datetex;
         file_list[i].nametex=file_list[i].datetex=NULL;
-        
     }
+    
     free(file_list);
     file_list=NULL;
     num_files=0;
     animation_offset=0;
-
 }
+
 NSString* reportedWorlds[100];
+
 int rwc_count=0;
-void SharedList::setWorldList(NSString* wlist){
+void SharedList::setWorldList(NSString* wlist)
+{
     animation_offset=0;
     setSortStatus();
     clearWorldList();
-        NSArray* list=[wlist componentsSeparatedByString:@"\n"];
+    NSArray* list=[wlist componentsSeparatedByString:@"\n"];
     cur_page=0;
     int n=0;
-    for(NSString* temp in list){
-        //NSLog(@":::%@",temp);
-        if([temp hasSuffix:@".eden"]){
+    for(NSString* temp in list)
+    {
+        if([temp hasSuffix:@".eden"])
+        {
             n++;
-         //   NSLog(@"%d sup",n);
         }
     }
     list_selection=0;
-    if(n==0){
+    if(n==0)
+    {
         file_list=NULL;
         num_files=0;
         return;
@@ -249,49 +262,42 @@ void SharedList::setWorldList(NSString* wlist){
     num_files=n;
     file_list=(SharedListNode*)malloc(sizeof(SharedListNode)*num_files);
     int idx=0;
-    for(int i=0;i<list.count;i++){
+    for(int i=0;i<list.count;i++)
+    {
         NSString* temp=list[i];
         
-        if([temp hasSuffix:@".eden"]){
+        if([temp hasSuffix:@".eden"])
+        {
             BOOL was_reported=FALSE;
-            for(int r=0;r<rwc_count;r++){
-                if([temp isEqualToString:reportedWorlds[r]]){
-                    //printg("culled reported world from list: %s\n",[reportedWorlds[r] cStringUsingEncoding:NSUTF8StringEncoding]);
+            for(int r=0;r<rwc_count;r++)
+            {
+                if([temp isEqualToString:reportedWorlds[r]])
+                {
                     was_reported=TRUE;
                     break;
-                    
                 }
             }
-            if(was_reported){
+            if(was_reported)
+            {
                 num_files--;
                 continue;
             }
             file_list[idx].file_name=list[i];
             file_list[idx].name=list[i+1];
-            file_list[idx].name=[file_list[idx].name 
+            file_list[idx].name=[file_list[idx].name
                                  substringToIndex:file_list[idx].name.length-5];
             
             temp=[temp substringToIndex:temp.length-5];
             file_list[idx].date=atoi([temp cStringUsingEncoding:NSUTF8StringEncoding]);
             
-            
-            
+            [file_list[idx].name retain];
+            [file_list[idx].file_name retain];
             
             file_list[idx].namerect.origin.x=80;
             file_list[idx].namerect.size.width=SCREEN_WIDTH-240;
             file_list[idx].namerect.size.height=40;
             file_list[idx].namerect.origin.y=SCREEN_HEIGHT-
                             ((idx%page_size)*(file_list[idx].namerect.size.height+3)+125);
-            
-            /*file_list[idx].nametex=
-            [[Texture2D alloc] initWithString:file_list[idx].name
-                                   dimensions:CGSizeMake(
-                                              file_list[idx].namerect.size.width
-                                            , file_list[idx].namerect.size.height)
-                                    alignment:UITextAlignmentLeft
-                                    font:[UIFont systemFontOfSize:17.0]];*/
-            
-            
             
             file_list[idx].daterect.origin.x=320;
             file_list[idx].daterect.size.width=150;
@@ -300,55 +306,21 @@ void SharedList::setWorldList(NSString* wlist){
                     ((idx%page_size)*(file_list[idx].daterect.size.height+3)+125);
             file_list[idx].datetex=NULL;
             file_list[idx].nametex=NULL;
-            /*NSString* fdate;
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:file_list[idx].date]; 
-            fdate=[dateFormat stringFromDate:date];
-            if(IS_IPAD){
-                
-                file_list[idx].nametex=[[Texture2D alloc] initWithString:file_list[idx].name
-                                                              dimensions:CGSizeMake(
-                                                                                    file_list[idx].namerect.size.width*SCALE_WIDTH
-                                                                                    , file_list[idx].namerect.size.height*SCALE_HEIGHT)
-                                                               alignment:UITextAlignmentLeft
-                                                                    font:[UIFont systemFontOfSize:17.0*2]];
-            }
-            else{
-                file_list[idx].nametex= [[Texture2D alloc] initWithString:file_list[idx].name
-                                                               dimensions:CGSizeMake(
-                                                                                     file_list[idx].namerect.size.width
-                                                                                     , file_list[idx].namerect.size.height)
-                                                                alignment:UITextAlignmentLeft
-                                                                     font:[UIFont systemFontOfSize:17.0]];
-            }
-            
-            if(IS_IPAD){
-                
-        file_list[idx].datetex=[[Texture2D alloc] initWithString:fdate
-                                        dimensions:CGSizeMake(
-                                file_list[idx].daterect.size.width*SCALE_WIDTH
-                                , file_list[idx].daterect.size.height*SCALE_HEIGHT)
-                            alignment:UITextAlignmentRight
-                                font:[UIFont systemFontOfSize:17.0*2]];
-            }
-            else{
-                file_list[idx].datetex= [[Texture2D alloc] initWithString:fdate
-                                                               dimensions:CGSizeMake(
-                file_list[idx].daterect.size.width
-            , file_list[idx].daterect.size.height)
-                alignment:UITextAlignmentRight
-                            font:[UIFont systemFontOfSize:17.0]];
-            }*/
             
             file_list[idx].blockrect.origin.x=20;
             file_list[idx].blockrect.pressed=FALSE;
-            if(IS_IPAD){
+            if(IS_IPAD)
+            {
                 file_list[idx].blockrect.size.width=40;
                 file_list[idx].blockrect.size.height=40;  
                 
-            }else{
+            }
+            else
+            {
             file_list[idx].blockrect.size.width=50;
             file_list[idx].blockrect.size.height=50;
-            }file_list[idx].blockrect.origin.y=SCREEN_HEIGHT-
+            }
+            file_list[idx].blockrect.origin.y=SCREEN_HEIGHT-
                     ((idx%page_size)*(file_list[idx].namerect.size.height+3)+116);
             
             file_list[idx].blocktex=Resources::getResources->getMenuTex(MENU_BLOCK_UNSELECTED);
@@ -356,6 +328,8 @@ void SharedList::setWorldList(NSString* wlist){
             idx++;
         }
     }
+    [dateFormat release];
+    [wlist release];
 }
 static int is_loading=0;
 static int loading_world=0;
@@ -462,7 +436,8 @@ void SharedList::update(float etime){
     }
     if(cur_sort==SORT_NAME){
         
-        if(cursor_blink>=0&&cursor_blink-etime<0){
+        if(cursor_blink>=0&&cursor_blink-etime<0)
+        {
             name_bar->setStatus(displays,9999,NSTextAlignmentLeft);
         }
         cursor_blink-=etime;
@@ -486,7 +461,6 @@ void SharedList::update(float etime){
             
             if(previewScreenshot==NULL){
                 inbox3(touches[i].mx,touches[i].my,&rect_arrow_up);    
-               
                 inbox3(touches[i].mx,touches[i].my,&rect_arrow_down);
                 
                 if(cur_sort==SORT_NAME)inbox3(touches[i].mx,touches[i].my,&sbrrect);                
@@ -867,6 +841,6 @@ void SharedList::render(){
     rselect.origin.y+=5;
     */
     glEnable(GL_TEXTURE_2D);
-    
+    [dateFormat release];
 }
 

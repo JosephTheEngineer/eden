@@ -14,7 +14,7 @@
 
 enum wet_types{
     WT_SOURCE=0,
-    WT_NORMAL=1,
+    WT_NORMAL=1
 };
 #define MAX_SPREAD 4
 

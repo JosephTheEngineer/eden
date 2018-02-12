@@ -25,7 +25,7 @@ typedef NS_ENUM(unsigned int, Texture2DPixelFormat) {
 typedef struct _Button {
     CGPoint origin;
     CGSize size;
-    BOOL pressed=FALSE;
+    BOOL pressed;
 }Button;
 //CLASS INTERFACES:
 

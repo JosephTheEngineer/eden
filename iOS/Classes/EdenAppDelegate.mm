@@ -21,7 +21,7 @@
 /*void uncaughtExceptionHandler(NSException *exception) {
    // [FlurryAPI logError:@"Uncaught" message:@"Crash!" exception:exception];
 }*/
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
+- (BOOL)application:(UIApplication *) __unused application didFinishLaunchingWithOptions:(NSDictionary *) __unused launchOptions {
 
     // [TestFlight takeOff:@"04fc0d12-af7e-44ca-852f-bad7a896ba6c"];
     
@@ -31,34 +31,31 @@
     (self.window).rootViewController = viewController;
     [window makeKeyAndVisible];
     //NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-//    [Flurry startSession:@"LUWB9P4UZU1K1A4YUT9V"];
-    
-    
-   // [Appirater rateApp];
+
     return YES;
 }
-- (void)applicationWillResignActive:(UIApplication *)application
+- (void)applicationWillResignActive:(UIApplication *) __unused application
 {
     [viewController stopAnimation];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)applicationDidBecomeActive:(UIApplication *) __unused application
 {
     
     [viewController startAnimation];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
+- (void)applicationWillTerminate:(UIApplication *) __unused application
 {
     [viewController stopAnimation];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
+- (void)applicationDidEnterBackground:(UIApplication *) __unused application
 {
     // Handle any background procedures not related to animation here.
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
+- (void)applicationWillEnterForeground:(UIApplication *) __unused application
 {
     // Handle any foreground procedures not related to animation here.
 }

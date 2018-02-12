@@ -27,7 +27,7 @@ public:
 	statusbar* share_explain_lbl;
 	statusbar* label_bar;
 	statusbar* name_bar;
-      NSMutableString* displays;
+    NSMutableString* __strong displays;
 	NSMutableString* name;
  
 	//BOOL starto;
@@ -41,7 +41,5 @@ public:
     void render();
     void keyTyped(char c);
 };
-
-
 
 #endif

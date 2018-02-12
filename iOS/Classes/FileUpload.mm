@@ -37,8 +37,6 @@ static NSString * const FORM_FLE_INPUT2 = @"uploaded2";
 
 @implementation FileUpload
 
-
-
 - (instancetype)initWithURL: (NSURL *)aServerURL   // IN
          filePath: (NSString *)aFilePath // IN
           imgPath: (NSString *)aimgPath
@@ -50,10 +48,10 @@ progressSelector: (SEL)aProgressSelector
     if ((self = [super init])) {
         
         
-        serverURL = aServerURL;
-        filePath = aFilePath;
-        delegate = aDelegate;
-        imgPath=aimgPath;
+        serverURL = [aServerURL retain];
+        filePath = [aFilePath retain];
+        delegate = [aDelegate retain];
+        imgPath=[aimgPath retain];
         doneSelector = aDoneSelector;
         errorSelector = anErrorSelector;
         progressSelector= aProgressSelector;
@@ -66,13 +64,17 @@ progressSelector: (SEL)aProgressSelector
 
 - (void)dealloc
 {
+    [serverURL release];
     serverURL = nil;
+    [filePath release];
     filePath = nil;
+    [imgPath release];
     imgPath=nil;
+    [delegate release];
     delegate = nil;
     doneSelector = NULL;
     errorSelector = NULL;
-    
+    [super dealloc];
 }
 
 - (NSString *)filePath
@@ -277,14 +279,13 @@ progressSelector: (SEL)aProgressSelector
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection // IN
 {
     NSLog(@"%s: self:0x%p\n", __func__, self);
+    [connection release];
     [self uploadSucceeded:uploadDidSucceed];
 }
 
-- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite{
-    //[delegate performSelector:progressSelector withObject:(id)(100*totalBytesWritten /totalBytesExpectedToWrite)];
-    [delegate performSelector:progressSelector withObject:[NSNumber numberWithLong:(100*dataSize/downloadSize)]];
-   // NSLog(@"uploading %f%%",((float)totalBytesWritten /totalBytesExpectedToWrite));
-    
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    [delegate performSelector:progressSelector withObject:(id)(100*totalBytesWritten /totalBytesExpectedToWrite)];
 }
 
 
@@ -293,12 +294,14 @@ progressSelector: (SEL)aProgressSelector
 {
     NSLog(@"%s: self:0x%p, connection error:%s\n",
           __func__, self, [[error description] UTF8String]);
+    [connection release];
     [self uploadSucceeded:NO];
 }
 
 
 static int downloadSize=0;
 static int dataSize=0;
+
 -(void)       connection:(NSURLConnection *)connection // IN
       didReceiveResponse:(NSURLResponse *)response     // IN
 {
@@ -308,7 +311,6 @@ static int dataSize=0;
     
 }
 
-
 - (void)connection:(NSURLConnection *)connection // IN
     didReceiveData:(NSData *)data                // IN
 {
@@ -316,19 +318,20 @@ static int dataSize=0;
     
     NSString *reply = [[NSString alloc] initWithData:data
                                              encoding:NSUTF8StringEncoding];
+    CFAutorelease;
     NSLog(@"%s: data: %s\n", __func__, [reply UTF8String]);
     dataSize+=data.length;
     NSLog(@"%d,%d",downloadSize,dataSize);
     
-    if ([reply hasPrefix:@"YES"]) {
+    if ([reply hasPrefix:@"YES"])
+    {
         uploadDidSucceed = YES;
     }
-    if([reply hasPrefix:@"NOTHX"]){
+    
+    if([reply hasPrefix:@"NOTHX"])
+    {
         uploadDidSucceed=NO;
-        
     }
 }
-
-
 
 @end

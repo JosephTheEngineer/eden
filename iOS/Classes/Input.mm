@@ -69,7 +69,7 @@ itouch* Input::getTouches(){
 	return touches;
 	
 }
-void Input::touchesBegan(NSSet* mtouches, UIEvent* event){
+void Input::touchesBegan(NSSet* mtouches, UIEvent* __unused event){
 	for(UITouch* touch in mtouches){
 		
 		int idx=-1;
@@ -115,7 +115,7 @@ void Input::touchesBegan(NSSet* mtouches, UIEvent* event){
 	}
 }
 
-void Input::touchesMoved(NSSet* mtouches, UIEvent* event){
+void Input::touchesMoved(NSSet* mtouches, UIEvent* __unused event){
 	for(UITouch* touch in mtouches){
 	//	NSLog(@"touchm %@",touch);
 		int idx=-1;
@@ -147,7 +147,7 @@ void Input::touchesMoved(NSSet* mtouches, UIEvent* event){
         }
 	}		
 }
-void Input::touchesEnded(NSSet* mtouches, UIEvent* event){
+void Input::touchesEnded(NSSet* mtouches, UIEvent* __unused event){
 	for(UITouch* touch in mtouches){
 		//
 		int idx=-1;
@@ -186,7 +186,7 @@ void Input::touchesEnded(NSSet* mtouches, UIEvent* event){
 
 	}
 }
-void Input::touchesCancelled(NSSet* mtouches, UIEvent* event){
+void Input::touchesCancelled(NSSet* mtouches, UIEvent* __unused event){
     this->clearAll();
 	
 }

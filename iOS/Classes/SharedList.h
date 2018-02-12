@@ -27,7 +27,8 @@ typedef struct{
 	CGRect daterect;
 	Texture2D* datetex;
 	
-}SharedListNode;
+}
+SharedListNode;
 
 class SharedList {
 public:
@@ -58,11 +59,11 @@ public:
     Button rect_flag;
 	SharedListNode* file_list;
 	int list_selection;
-	int num_files;
+	unsigned long num_files;
     NSMutableString* search_string;
     
     statusbar* name_bar;
-    NSMutableString* displays;
+    NSMutableString* __strong displays;
     Texture2D* previewScreenshot;
     float animation_offset;
     void update(float etime);
