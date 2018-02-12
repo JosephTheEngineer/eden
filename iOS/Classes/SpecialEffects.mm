@@ -15,10 +15,6 @@
 vertexpStruct pbuffer[pbuffer_size];
 static int pvbi_counter;
 
-
-
-
-
 SpecialEffects::SpecialEffects(){
    
 	memset(pbuffer,0,sizeof(vertexpStruct)*pbuffer_size);
@@ -26,10 +22,8 @@ SpecialEffects::SpecialEffects(){
 
     bb=new BlockBreak();
     fire=new Fire();
-	
-	
-	
 }
+
 void setParticle(Vector p, int pvbi){
 	
 	pbuffer[pvbi].position[0]=p.x;

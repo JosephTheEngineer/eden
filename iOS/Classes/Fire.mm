@@ -8,21 +8,22 @@
 // This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
-
 #import "Fire.h"
 #import "Globals.h"
 #import "Terrain.h"
 #import "SpecialEffects.h"
 
-extern "C" {
+extern "C"
+{
 #define n_particles 7
 #define max_fparticles 6000
-#define max_bb 50
+#define max_bb 500
 #define SMOKE_SIZER 90
 
 static unsigned short pindices[max_fparticles];
-    
-typedef struct{
+
+typedef struct
+{
 	Vector pos;
 	int pvbi; //particle vertex buffer index
 	float vx,vy,vz;
@@ -38,8 +39,7 @@ typedef struct
 	int pid;
     BOOL type;
 	float x,z,y;
-    }
-    
+}
     firenode;
     
     static firenode list[max_bb];
@@ -194,7 +194,7 @@ void Fire::removeFire(int ppid)
     for(int k=0;k<list_size;k++)
 		if(list[k].pid==ppid)
         {
-			list[k].life=.2f;
+			list[k].life=.1f;
 			 break;
 		}
 }
