@@ -16,7 +16,6 @@ UIAlertView *alertDeleteConfirm;
 UIAlertView *alertWorldType;
 static UIAlertView *alertReportContent;
 static UIAlertView *alertReportConfirm;
-void alert_init(void);
 
 @interface PAlert : NSObject <UIAlertViewDelegate>
 {
@@ -106,7 +105,7 @@ void alert_init(void);
                 World::getWorld->menu->shared_list->alertCallback();
                 break;
             }
-                default:
+            default:
                 break;
         }
     }
@@ -151,7 +150,7 @@ void showAlertWarpHome(){
     [alertWarpHome show];
 }
 void showAlertDeleteConfirm(NSString* name){
-    alertDeleteConfirm.message = name ;
+    [alertDeleteConfirm setMessage: name ];
     [alertDeleteConfirm show];
 }
 void showAlertWorldType(){

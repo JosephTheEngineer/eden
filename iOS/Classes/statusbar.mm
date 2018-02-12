@@ -13,14 +13,15 @@
 
 static const int thresh=1000; //beyond this don't erase text ever.
 
+
 statusbar::statusbar(CGRect rect, float font_size_in){
     
-    pos=rect;
-    text=NULL;
+	pos=rect;
+	text=NULL;
     message=NULL;
-    textlife=0;
-    font_size=font_size_in;
-    
+	textlife=0;
+	font_size=font_size_in;
+	
 }
 statusbar::statusbar(CGRect rect){
     pos=rect;
@@ -31,64 +32,59 @@ statusbar::statusbar(CGRect rect){
 }
 
 void statusbar::setStatus(NSString* status,float time){
-    this->setStatus(status,time,NSTextAlignmentCenter);
+	this->setStatus(status,time,NSTextAlignmentCenter);
 }
-void statusbar::setStatus(NSString* status,float time,NSTextAlignment align)
-{
-   if(message&&[status isEqualToString:message])
-   {
+void statusbar::setStatus(NSString* status,float time,NSTextAlignment align){
+   if(message&&[status isEqualToString:message]){
         textlife=time;       
         return;
+                     
     }
     
     clear();
     if(CHECK_GL_ERROR()){}
+	message=status;
     [message retain];
-    message=status;
-    if(IS_IPAD)
-    {
-        text=new Texture2D(status,
-        CGSizeMake(pos.size.width*SCALE_WIDTH,
-        pos.size.height*SCALE_HEIGHT) ,
-        align,
-        [UIFont systemFontOfSize:font_size*2]);
-    }
-    else
-    {
-    text=new Texture2D(status,
-    CGSizeMake(pos.size.width,
-    pos.size.height) ,
-    align,
-    [UIFont systemFontOfSize:font_size]);
-    }
-    textlife=time;
+    if(IS_IPAD){
+		text=new Texture2D(status,
+									CGSizeMake(pos.size.width*SCALE_WIDTH,
+														  pos.size.height*SCALE_HEIGHT) ,
+									align,
+										 [UIFont systemFontOfSize:font_size*2]);
+	}
+	else{
+	text=new Texture2D(status,
+								CGSizeMake(pos.size.width,
+													  pos.size.height) ,
+								 align,
+									  [UIFont systemFontOfSize:font_size]);
+	}
+	textlife=time;
    
-    //printg("message set:%s time:%f\n",[message cString],textlife);
+	//printg("message set:%s time:%f\n",[message cString],textlife);
 }
-
 void statusbar::clear(){
-    if(text!=NULL){
+	if(text!=NULL){
         delete text;
+		
+		text=NULL;
         
-        text=NULL;
-        
-    }    
-    if(message)
-    {
+	}	
+    if(message){
         [message release];
         message=NULL;
     }
 }
 void statusbar::update(float etime){
-    if(textlife<thresh)
-    textlife-=etime;
+	if(textlife<thresh)
+	textlife-=etime;
     
    // printg("message update set:%s time:%f\n",[message cString],textlife);
 }
 void statusbar::render(){
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    if(text!=NULL&&textlife>0){
-        glColor4f(0.0, 0.0, 0.0, 1.0);
+	if(text!=NULL&&textlife>0){
+		glColor4f(0.0, 0.0, 0.0, 1.0);
         
         CGPoint p=CGPointMake(pos.origin.x,pos.origin.y);
         if(IS_IPAD){
@@ -97,23 +93,23 @@ void statusbar::render(){
             p.y+=pos.size.height;
         }else
         p.y+=pos.size.height/2;
-        text->drawAtPoint(p);
+		text->drawAtPoint(p);
         if(IS_IPAD){
             p.x-=1;
             p.y+=1;
         }
-        p.x-=1;
-        p.y+=1;
-        glColor4f(1.0, 1.0, 1.0, 1.0);
-        text->drawAtPoint(p);
+		p.x-=1;
+		p.y+=1;
+		glColor4f(1.0, 1.0, 1.0, 1.0);
+		text->drawAtPoint(p);
         //printg("text: %s\n",[message cString]);
-    }
+	}
    // printg("text null or textlif<=0\n");
-    
+	
 }
 void statusbar::renderPlain(){
     if(text!=NULL&&textlife>0){
-        
+		
         CGPoint p=CGPointMake(pos.origin.x,pos.origin.y);
         if(IS_IPAD){
             p.x*=SCALE_WIDTH;
@@ -121,12 +117,12 @@ void statusbar::renderPlain(){
             p.y+=pos.size.height*SCALE_HEIGHT/2;
         }else
             p.y+=pos.size.height/2;
-        
-        p.x-=1;
-        p.y+=1;
-        
-        text->drawAtPoint(p);
+		
+		p.x-=1;
+		p.y+=1;
+		
+		text->drawAtPoint(p);
        
-    }
+	}
     }
 

@@ -8,20 +8,23 @@
 
 
 #import <assert.h>
+
 #import "Frustum.h"
 
-void ComputeIndex(void);
-void ComputeExtremes(void);
+
 
 enum PlaneBit
 {
 	PLANE_X = (1<<0),
 	PLANE_Y = (1<<1),
-    PLANE_Z = (1<<2)
+	PLANE_Z = (1<<2),
 };
 
 
 //static const float mElement[4][4];
+
+
+
 
 void ComputeIndex(FrustumPlane* p)
 {
@@ -169,7 +172,7 @@ void ComputeExtremes(const FrustumPlane* p,const float *source,float *minExtreme
 
 static FrustumPlane   *m_frustumPlanes;    // view frustum
 static const float    *mViewProjectionMatrix;
-const float * GetViewProjectionMatrix(void) { return mViewProjectionMatrix; }
+const float * GetViewProjectionMatrix(void) { return mViewProjectionMatrix; };
 void initFrustum(void)
 {
 	mViewProjectionMatrix = 0;

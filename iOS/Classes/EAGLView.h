@@ -31,10 +31,10 @@
     GLuint defaultFramebuffer, colorRenderbuffer;
 }
 
-@property (nonatomic, strong) EAGLContext *context;
+@property (nonatomic, retain) EAGLContext *context;
 
 - (void)setFramebuffer;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL presentFramebuffer;
+- (BOOL)presentFramebuffer;
 - (void)createFramebuffer;
 - (void)deleteFramebuffer;
 

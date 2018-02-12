@@ -18,11 +18,11 @@
 @interface EdenAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
     EdenViewController *viewController;
-    
+	
 }
 
-@property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) IBOutlet EdenViewController *viewController;
+@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet EdenViewController *viewController;
 
 
 @end

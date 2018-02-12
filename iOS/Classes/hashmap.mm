@@ -9,9 +9,8 @@
 
 #import "hashmap.h"
 
-#define INITIAL_SIZE 2048
 
-unsigned int hashmap_hash_int(int);
+#define INITIAL_SIZE 2048
 
 // We need to keep keys and values
 typedef struct _hashmap_element{

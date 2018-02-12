@@ -42,6 +42,7 @@ static int hudBlocks[NUM_DISPLAY_BLOCKS]={
 	TYPE_TREE,
 	TYPE_LEAVES,
 	
+	
 	TYPE_BRICK,
 	TYPE_COBBLESTONE,
     TYPE_VINE,
@@ -58,11 +59,16 @@ static int hudBlocks[NUM_DISPLAY_BLOCKS]={
     TYPE_SHINGLE_RAMP1,
     TYPE_WEAVE,
     
+    
+    
+    
+   
+    
     TYPE_WATER,
     TYPE_LAVA,
     
     TYPE_BLOCK_TNT,
-    TYPE_FIREWORK,
+     TYPE_FIREWORK,
     
     TYPE_DOOR_TOP,
     TYPE_GOLDEN_CUBE,
@@ -535,13 +541,13 @@ BOOL Hud::update(float etime){
 	
 	for(int i=0;i<MAX_TOUCHES;i++){
         if(touches[i].inuse==usage_id2&&touches[i].down==M_RELEASE){
-            BOOL handled = FALSE;
+            BOOL handled;
             if(inmenu){
                 if(handlePickMenu(touches[i].mx,touches[i].my)){
                     
                     handled=TRUE;
                 }
-
+                
             }
             if(inbox2(touches[i].mx,touches[i].my,&rmenu)){	
                 inmenu=!inmenu;

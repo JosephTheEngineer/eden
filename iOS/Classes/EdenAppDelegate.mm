@@ -21,44 +21,54 @@
 /*void uncaughtExceptionHandler(NSException *exception) {
    // [FlurryAPI logError:@"Uncaught" message:@"Crash!" exception:exception];
 }*/
-- (BOOL)application:(UIApplication *) __unused application didFinishLaunchingWithOptions:(NSDictionary *) __unused launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions { 
 
     // [TestFlight takeOff:@"04fc0d12-af7e-44ca-852f-bad7a896ba6c"];
-    
+	
     // Override point for customization after app launch.
     // Add your cool controller's view to the window.
    // [window addSubview:viewController.view];
-    (self.window).rootViewController = viewController;
+    [self.window setRootViewController:viewController];
     [window makeKeyAndVisible];
-    //NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-
+	//NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+//	[Flurry startSession:@"LUWB9P4UZU1K1A4YUT9V"];
+    
+    
+   // [Appirater rateApp];
     return YES;
 }
-- (void)applicationWillResignActive:(UIApplication *) __unused application
+- (void)applicationWillResignActive:(UIApplication *)application
 {
     [viewController stopAnimation];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *) __unused application
+- (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    
+	
     [viewController startAnimation];
 }
 
-- (void)applicationWillTerminate:(UIApplication *) __unused application
+- (void)applicationWillTerminate:(UIApplication *)application
 {
     [viewController stopAnimation];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *) __unused application
+- (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // Handle any background procedures not related to animation here.
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *) __unused application
+- (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Handle any foreground procedures not related to animation here.
 }
 
+- (void)dealloc
+{
+    [viewController release];
+    [window release];
+    
+    [super dealloc];
+}
 
 @end

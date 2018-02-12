@@ -27,7 +27,7 @@ public:
 private:
 	
 	Texture2D* text;
-    NSString* __weak message;
+    NSString* message;
 	float textlife;
 	float font_size;
 };

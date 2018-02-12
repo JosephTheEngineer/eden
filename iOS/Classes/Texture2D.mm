@@ -9,9 +9,11 @@
 #import "ColorUtilc.h"
 //CONSTANTS:
 
-#define kMaxTextureSize        1024
+#define kMaxTextureSize		1024
 
 //CLASS IMPLEMENTATIONS:
+
+
 
 //@synthesize contentSize=_size, pixelFormat=_format, pixelsWide=_width, pixelsHigh=_height, name=name, maxS=_maxS, maxT=_maxT;
 
@@ -26,120 +28,120 @@ Texture2D::Texture2D(const void* data, Texture2DPixelFormat pixelFormat, int wid
 
 void Texture2D::initData(const void* data, Texture2DPixelFormat pixelFormat, int width,int height,CGSize size,BOOL genMips){
 
-    GLint                    saveName;
-    
-    if(TRUE) {
-        glGenTextures(1, &name);
-        glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
-        glBindTexture(GL_TEXTURE_2D, name);
-        if(genMips){
+	GLint					saveName;
+	
+	if(TRUE) {
+		glGenTextures(1, &name);
+		glGetIntegerv(GL_TEXTURE_BINDING_2D, &saveName);
+		glBindTexture(GL_TEXTURE_2D, name);
+		if(genMips){
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		}else{
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        }else{
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);    
-            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);    
-        }
-        //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);    
-        
-        switch(pixelFormat) {
-            
-            case kTexture2DPixelFormat_RGBA8888:
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);	
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	
+		}
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	
+		
+		switch(pixelFormat) {
+			
+			case kTexture2DPixelFormat_RGBA8888:
                
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGBA4444:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGBA4444:
                 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGBA5551:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGB565:
-                
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (int)width, (int)height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
-        
-            break;
-            
-            case kTexture2DPixelFormat_RGB888:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,(int)width, (int)height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            break;
-            
-            case kTexture2DPixelFormat_L8:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, (int)width, (int)height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
-            break;
-            
-            case kTexture2DPixelFormat_A8:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, (int)width, (int)height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
-            break;
-            
-            case kTexture2DPixelFormat_LA88:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, (int)width, (int)height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGB_PVRTC2:
-            glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 4, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGB_PVRTC4:
-            glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 2, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGBA_PVRTC2:
-            glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 4, data);
-            break;
-            
-            case kTexture2DPixelFormat_RGBA_PVRTC4:
-            glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 2, data);
-            break;
-            
-            default:
-            [NSException raise:NSInternalInconsistencyException format:@""];
-            
-        }
-        glBindTexture(GL_TEXTURE_2D, saveName);
-        
-        if(!CHECK_GL_ERROR()) {            
-            
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGBA5551:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGB565:
+				
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (int)width, (int)height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+		
+			break;
+			
+			case kTexture2DPixelFormat_RGB888:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,(int)width, (int)height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			break;
+			
+			case kTexture2DPixelFormat_L8:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, (int)width, (int)height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
+			break;
+			
+			case kTexture2DPixelFormat_A8:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, (int)width, (int)height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+			break;
+			
+			case kTexture2DPixelFormat_LA88:
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, (int)width, (int)height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGB_PVRTC2:
+			glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 4, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGB_PVRTC4:
+			glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 2, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGBA_PVRTC2:
+			glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 4, data);
+			break;
+			
+			case kTexture2DPixelFormat_RGBA_PVRTC4:
+			glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG, (int)width, (int)height, 0, ((int)width * (int)height) / 2, data);
+			break;
+			
+			default:
+			[NSException raise:NSInternalInconsistencyException format:@""];
+			
+		}
+		glBindTexture(GL_TEXTURE_2D, saveName);
+		
+		if(!CHECK_GL_ERROR()) {			
+			
             printf("err initing texture");
-            return;
-        }
-        
-        _size = size;
-        _width = width;
-        _height = height;
-        _format = pixelFormat;
-        _maxS = size.width / (float)width;
-        _maxT = size.height / (float)height;
-    }
-    
+			return;
+		}
+		
+		_size = size;
+		_width = width;
+		_height = height;
+		_format = pixelFormat;
+		_maxS = size.width / (float)width;
+		_maxT = size.height / (float)height;
+	}
+	
 
 }
 Texture2D::~Texture2D()
 {
-    
-    if(name){
-        
-    glDeleteTextures(1, &name);
-    }
-    
+	
+	if(name){
+		
+	glDeleteTextures(1, &name);
+	}
+	
 }
 
 NSString* Texture2D::description(){
 
-    return [NSString stringWithFormat:@"< Texture2D| Name = %i | Dimensions = %ix%i | Coordinates = (%.2f, %.2f)>",  name, (int)_width, (int)_height,(double) _maxS, (double)_maxT];
+	return [NSString stringWithFormat:@"< Texture2D| Name = %i | Dimensions = %ix%i | Coordinates = (%.2f, %.2f)>",  name, (int)_width, (int)_height,(double) _maxS, (double)_maxT];
 }
 
 
@@ -207,24 +209,18 @@ CGContextRef CreateARGBBitmapContext (CGImageRef inImage)
 
 CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int tint)
 {
+    
     //CGDataProvider re
     
     // Create the bitmap context
     CGContextRef cgctx = CreateARGBBitmapContext(inImage);
     CGContextRef cgctx2 = CreateARGBBitmapContext(inImage);
-    /*if (cgctx == NULL)
+    if (cgctx == NULL)
     {
         // error creating context
         printg("error creating context for manipulation\n");
         return NULL;
     }
-    
-    if (cgctx2 == NULL)
-    {
-        // error creating context
-        printg("error creating context for manipulation\n");
-        return NULL;
-    }*/
     
     // Get image width, height. We'll use the entire image.
     size_t w = CGImageGetWidth(inImage);
@@ -253,8 +249,7 @@ CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int tin
     
     if (data != NULL)
     {
-        for(int i=0;i<w*h;i++)
-        {
+        for(int i=0;i<w*h;i++){
             if(data2[i]==0xFFFFFFFF){
                 //outputRed = (foregroundRed * foregroundAlpha) + (backgroundRed * (1.0 - foregroundAlpha));
                 int rr,gg,bb;
@@ -300,11 +295,11 @@ CGImageRef ManipulateImagePixelData(CGImageRef inImage,CGImageRef inMask,int tin
     {
         free(data);
     }
-    if(data2)
-    {
+    if(data2){
         free(data2);
     }
     return ref;
+    
 }
 #define MIN3(x,y,z)  ((y) <= (z) ? \
 ((x) <= (y) ? (x) : (y)) \
@@ -446,7 +441,7 @@ struct rgb_color hslToRgb(float h, float s, float l){
 }
 
 
-CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int __unused mode)
+CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int mode)
 {
     // Create the bitmap context
     CGContextRef cgctx = CreateARGBBitmapContext(inImage);
@@ -490,46 +485,55 @@ CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int __unused mo
     unsigned int HSL2RGB(unsigned int h,unsigned int s,unsigned int l);
     unsigned int utint=((tint>>8)&0x00FFFFFF);
     
+    
     RGB2HSL(utint,&hh,&ss,&ll);
     unsigned int ret=HSL2RGB(hh,ss,ll);
         
-    if(ret!=utint)
-    {
+    if(ret!=utint){
         printg("conversion off: %X != %X\n",utint,ret);
-    }
-    else
-    {
+    }else{
         printg("convert success!");
     }
-    
     if (data != NULL)
     {
-        for(int i=0;i<w*h;i++)
-        {
-            //outputRed = (foregroundRed * foregroundAlpha) + (backgroundRed * (1.0 - foregroundAlpha));
-            int rr,gg,bb;
-            int rgba=data[i];
-            rr =  (rgba >> 8) & 255;
-            gg = (rgba >> 16) & 255;
-            bb =   (rgba >> 24) & 255;
+        for(int i=0;i<w*h;i++){
+           
+                //outputRed = (foregroundRed * foregroundAlpha) + (backgroundRed * (1.0 - foregroundAlpha));
+                int rr,gg,bb;
+                int rgba=data[i];
+                rr =  (rgba >> 8) & 255;
+                gg = (rgba >> 16) & 255;
+                bb =   (rgba >> 24) & 255;
+                
+                
+                // int color= (()<<24) | (b<<16) | (b<<8)  | 0xFF;
+                // int igrey= (bb<<24) | (bb<<16) | (bb<<8)  | 0xFF;
             
-            // int color= (()<<24) | (b<<16) | (b<<8)  | 0xFF;
-            // int igrey= (bb<<24) | (bb<<16) | (bb<<8)  | 0xFF;
             
             float grey=bb/255.0f;
-            float r,g,b;
-
+            //grey*=100;
+           float r,g,b;
+           /*
+            unsigned int ret=HSL2RGB(hh,ss,(4.0f*grey+ll)/5.0f);
+            data[i]=(ret<<8)|0xFF;*/
+           
             r=(grey*fr);
             g=(grey*fg);
             b=(grey*fb);
             
-            rr=r*255;
-            gg=g*255;
-            bb=b*255;
-            data[i]= (bb<<24) | (gg<<16) | (rr<<8)  | 0xFF;
+            
+            
+          
+              
+                rr=r*255;
+                gg=g*255;
+                bb=b*255;
+                data[i]= (bb<<24) | (gg<<16) | (rr<<8)  | 0xFF;
+                
         }
+       
+        
     }
-    
     CGImageRef ref=CGBitmapContextCreateImage(cgctx);
     // When finished, release the context
     CGContextRelease(cgctx);
@@ -540,6 +544,7 @@ CGImageRef ManipulateImagePixelData2(CGImageRef inImage,int tint,int __unused mo
         free(data);
     }
     return ref;
+    
 }
 
 
@@ -602,7 +607,7 @@ Texture2D::Texture2D(NSString* path, BOOL sizeToFit, Texture2DPixelFormat pixelF
 
 void Texture2D::initFromPath(NSString* path, BOOL sizeToFit, Texture2DPixelFormat pixelFormat, BOOL genMips)
 {
-    UIImage*                uiImage;
+	UIImage*				uiImage;
     BOOL isMask=FALSE;
     BOOL isDoor=FALSE;
     BOOL isPaint=FALSE;
@@ -686,10 +691,10 @@ void Texture2D::initFromPath(NSString* path, BOOL sizeToFit, Texture2DPixelForma
         }
         
     }
-    //NSString* opath=[NSString stringWithString:path];
-    if(!path.absolutePath)
-    path = [[NSBundle mainBundle] pathForResource:path ofType:nil];
-    
+	//NSString* opath=[NSString stringWithString:path];
+	if(![path isAbsolutePath])
+	path = [[NSBundle mainBundle] pathForResource:path ofType:nil];
+	
     
     //cocos2d::Image* limage=new   cocos2d::Image();
    /* char csta[100];
@@ -698,12 +703,12 @@ void Texture2D::initFromPath(NSString* path, BOOL sizeToFit, Texture2DPixelForma
                encoding:NSUTF8StringEncoding];
     std::string mstring(csta);
     limage->initWithImageFile(csta);*/
-    uiImage = [[UIImage alloc] initWithContentsOfFile:path];
+	uiImage = [[UIImage alloc] initWithContentsOfFile:path];
    
-     initFromImage(uiImage.CGImage,uiImage.imageOrientation,sizeToFit,pixelFormat,genMips);
+     initFromImage([uiImage CGImage],[uiImage imageOrientation],sizeToFit,pixelFormat,genMips);
     
     
-    
+	
     
     if(storeImage){
         /* BOOL isGoldcubeico=FALSE;
@@ -753,300 +758,300 @@ void Texture2D::initFromPath(NSString* path, BOOL sizeToFit, Texture2DPixelForma
             storedSkins[realStoredSkinCounter/2][realStoredSkinCounter%2]=uiImage;
             realStoredSkinCounter++;}
     }else
-    ;
-    
-    //if(self == nil)
-    //REPORT_ERROR(@"Failed loading image at path \"%@\" %@", path,path);
+	[uiImage release];
+	
+	//if(self == nil)
+	//REPORT_ERROR(@"Failed loading image at path \"%@\" %@", path,path);
     //else
    // REPORT_ERROR(@"loaded image at path \"%@\" %@", path,opath);
-    
-    
+	
+	
 }
 Texture2D::Texture2D(CGImageRef image,UIImageOrientation orientation, BOOL sizeToFit,Texture2DPixelFormat pixelFormat, BOOL genMips){
     initFromImage(image,orientation,sizeToFit,pixelFormat,genMips);
 }
 void Texture2D::initFromImage(CGImageRef image,UIImageOrientation orientation, BOOL sizeToFit,Texture2DPixelFormat pixelFormat, BOOL genMips){
 
-    NSUInteger                width,
-                            height,
-                            i;
-    CGContextRef            context = nil;
-    void*                    data = nil;;
-    CGColorSpaceRef            colorSpace;
-    void*                    tempData;
-    unsigned char*            inPixel8;
-    unsigned int*            inPixel32;
-    unsigned char*            outPixel8;
-    unsigned short*            outPixel16;
-    BOOL                    hasAlpha;
-    CGImageAlphaInfo        info;
-    CGAffineTransform        transform;
-    CGSize                    imageSize;
-    
-    if(image == NULL) {
+	NSUInteger				width,
+							height,
+							i;
+	CGContextRef			context = nil;
+	void*					data = nil;;
+	CGColorSpaceRef			colorSpace;
+	void*					tempData;
+	unsigned char*			inPixel8;
+	unsigned int*			inPixel32;
+	unsigned char*			outPixel8;
+	unsigned short*			outPixel16;
+	BOOL					hasAlpha;
+	CGImageAlphaInfo		info;
+	CGAffineTransform		transform;
+	CGSize					imageSize;
+	
+	if(image == NULL) {
         return;
-    }
-    
-    if(pixelFormat == kTexture2DPixelFormat_Automatic) {
-        info = CGImageGetAlphaInfo(image);
-        hasAlpha = ((info == kCGImageAlphaPremultipliedLast) || (info == kCGImageAlphaPremultipliedFirst) || (info == kCGImageAlphaLast) || (info == kCGImageAlphaFirst) ? YES : NO);
-        if(CGImageGetColorSpace(image)) {
-            if(CGColorSpaceGetModel(CGImageGetColorSpace(image)) == kCGColorSpaceModelMonochrome) {
-                if(hasAlpha) {
-                    pixelFormat = kTexture2DPixelFormat_LA88;
+	}
+	
+	if(pixelFormat == kTexture2DPixelFormat_Automatic) {
+		info = CGImageGetAlphaInfo(image);
+		hasAlpha = ((info == kCGImageAlphaPremultipliedLast) || (info == kCGImageAlphaPremultipliedFirst) || (info == kCGImageAlphaLast) || (info == kCGImageAlphaFirst) ? YES : NO);
+		if(CGImageGetColorSpace(image)) {
+			if(CGColorSpaceGetModel(CGImageGetColorSpace(image)) == kCGColorSpaceModelMonochrome) {
+				if(hasAlpha) {
+					pixelFormat = kTexture2DPixelFormat_LA88;
 #if __DEBUG__
-                    if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 16))
-                    REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%@\"", path);
+					if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 16))
+					REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%@\"", path);
 #endif
-                }
-                else {
-                    pixelFormat = kTexture2DPixelFormat_L8;
+				}
+				else {
+					pixelFormat = kTexture2DPixelFormat_L8;
 #if __DEBUG__
-                    if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 8))
-                    REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%@\"", path);
+					if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 8))
+					REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%@\"", path);
 #endif
-                }
-            }
-            else {
-                if((CGImageGetBitsPerPixel(image) == 16) && !hasAlpha)
-                pixelFormat = kTexture2DPixelFormat_RGBA5551;
-                else {
-                    if(hasAlpha)
-                    pixelFormat = kTexture2DPixelFormat_RGBA8888;
-                    else {
-                        pixelFormat = kTexture2DPixelFormat_RGB565;
+				}
+			}
+			else {
+				if((CGImageGetBitsPerPixel(image) == 16) && !hasAlpha)
+				pixelFormat = kTexture2DPixelFormat_RGBA5551;
+				else {
+					if(hasAlpha)
+					pixelFormat = kTexture2DPixelFormat_RGBA8888;
+					else {
+						pixelFormat = kTexture2DPixelFormat_RGB565;
 #if __DEBUG__
-                        if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 24))
-                        REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%s\"", path);
+						if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 24))
+						REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%s\"", path);
 #endif
-                    }
-                }
-            }        
-        }
-        else { //NOTE: No colorspace means a mask image
-            pixelFormat = kTexture2DPixelFormat_A8;
+					}
+				}
+			}		
+		}
+		else { //NOTE: No colorspace means a mask image
+			pixelFormat = kTexture2DPixelFormat_A8;
 #if __DEBUG__
-            if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 8))
-            REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%@\"", path);
+			if((CGImageGetBitsPerComponent(image) != 8) && (CGImageGetBitsPerPixel(image) != 8))
+			REPORT_ERROR(@"Unoptimal image pixel format for image at path \"%@\"", path);
 #endif
-        }
-    }
-    
-    imageSize = CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image));
-    switch(orientation) {
-        
-        case UIImageOrientationUp: //EXIF = 1
-        transform = CGAffineTransformIdentity;
-        break;
-        
-        case UIImageOrientationUpMirrored: //EXIF = 2
-        transform = CGAffineTransformMakeTranslation(imageSize.width, 0.0);
-        transform = CGAffineTransformScale(transform, -1.0, 1.0);
-        break;
-        
-        case UIImageOrientationDown: //EXIF = 3
-        transform = CGAffineTransformMakeTranslation(imageSize.width, imageSize.height);
-        transform = CGAffineTransformRotate(transform, M_PI);
-        break;
-        
-        case UIImageOrientationDownMirrored: //EXIF = 4
-        transform = CGAffineTransformMakeTranslation(0.0, imageSize.height);
-        transform = CGAffineTransformScale(transform, 1.0, -1.0);
-        break;
-        
-        case UIImageOrientationLeftMirrored: //EXIF = 5
-        transform = CGAffineTransformMakeTranslation(imageSize.height, imageSize.width);
-        transform = CGAffineTransformScale(transform, -1.0, 1.0);
-        transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
-        break;
-        
-        case UIImageOrientationLeft: //EXIF = 6
-        transform = CGAffineTransformMakeTranslation(0.0, imageSize.width);
-        transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
-        break;
-        
-        case UIImageOrientationRightMirrored: //EXIF = 7
-        transform = CGAffineTransformMakeScale(-1.0, 1.0);
-        transform = CGAffineTransformRotate(transform, M_PI / 2.0);
-        break;
-        
-        case UIImageOrientationRight: //EXIF = 8
-        transform = CGAffineTransformMakeTranslation(imageSize.height, 0.0);
-        transform = CGAffineTransformRotate(transform, M_PI / 2.0);
-        break;
-        
-        default:
-        [NSException raise:NSInternalInconsistencyException format:@"Invalid image orientation"];
-        
-    }
-    if((orientation == UIImageOrientationLeftMirrored) || (orientation == UIImageOrientationLeft) || (orientation == UIImageOrientationRightMirrored) || (orientation == UIImageOrientationRight))
-    imageSize = CGSizeMake(imageSize.height, imageSize.width);
-    
-    width = imageSize.width;
-    if((width != 1) && (width & (width - 1))) {
-        i = 1;
-        while((sizeToFit ? 2 * i : i) < width)
-        i *= 2;
-        width = i;
-    }
-    height = imageSize.height;
-    if((height != 1) && (height & (height - 1))) {
-        i = 1;
-        while((sizeToFit ? 2 * i : i) < height)
-        i *= 2;
-        height = i;
-    }
-    while((width > kMaxTextureSize) || (height > kMaxTextureSize)) {
+		}
+	}
+	
+	imageSize = CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image));
+	switch(orientation) {
+		
+		case UIImageOrientationUp: //EXIF = 1
+		transform = CGAffineTransformIdentity;
+		break;
+		
+		case UIImageOrientationUpMirrored: //EXIF = 2
+		transform = CGAffineTransformMakeTranslation(imageSize.width, 0.0);
+		transform = CGAffineTransformScale(transform, -1.0, 1.0);
+		break;
+		
+		case UIImageOrientationDown: //EXIF = 3
+		transform = CGAffineTransformMakeTranslation(imageSize.width, imageSize.height);
+		transform = CGAffineTransformRotate(transform, M_PI);
+		break;
+		
+		case UIImageOrientationDownMirrored: //EXIF = 4
+		transform = CGAffineTransformMakeTranslation(0.0, imageSize.height);
+		transform = CGAffineTransformScale(transform, 1.0, -1.0);
+		break;
+		
+		case UIImageOrientationLeftMirrored: //EXIF = 5
+		transform = CGAffineTransformMakeTranslation(imageSize.height, imageSize.width);
+		transform = CGAffineTransformScale(transform, -1.0, 1.0);
+		transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+		break;
+		
+		case UIImageOrientationLeft: //EXIF = 6
+		transform = CGAffineTransformMakeTranslation(0.0, imageSize.width);
+		transform = CGAffineTransformRotate(transform, 3.0 * M_PI / 2.0);
+		break;
+		
+		case UIImageOrientationRightMirrored: //EXIF = 7
+		transform = CGAffineTransformMakeScale(-1.0, 1.0);
+		transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+		break;
+		
+		case UIImageOrientationRight: //EXIF = 8
+		transform = CGAffineTransformMakeTranslation(imageSize.height, 0.0);
+		transform = CGAffineTransformRotate(transform, M_PI / 2.0);
+		break;
+		
+		default:
+		[NSException raise:NSInternalInconsistencyException format:@"Invalid image orientation"];
+		
+	}
+	if((orientation == UIImageOrientationLeftMirrored) || (orientation == UIImageOrientationLeft) || (orientation == UIImageOrientationRightMirrored) || (orientation == UIImageOrientationRight))
+	imageSize = CGSizeMake(imageSize.height, imageSize.width);
+	
+	width = imageSize.width;
+	if((width != 1) && (width & (width - 1))) {
+		i = 1;
+		while((sizeToFit ? 2 * i : i) < width)
+		i *= 2;
+		width = i;
+	}
+	height = imageSize.height;
+	if((height != 1) && (height & (height - 1))) {
+		i = 1;
+		while((sizeToFit ? 2 * i : i) < height)
+		i *= 2;
+		height = i;
+	}
+	while((width > kMaxTextureSize) || (height > kMaxTextureSize)) {
 #if __DEBUG__
-        REPORT_ERROR(@"Image at %ix%i pixels is too big to fit in texture", width, height);
+		REPORT_ERROR(@"Image at %ix%i pixels is too big to fit in texture", width, height);
 #endif
-        width /= 2;
-        height /= 2;
-        transform = CGAffineTransformScale(transform, 0.5, 0.5);
-        imageSize.width *= 0.5;
-        imageSize.height *= 0.5;
-    }
-    
-    switch(pixelFormat) {
-        
-        case kTexture2DPixelFormat_RGBA8888:
-        case kTexture2DPixelFormat_RGBA4444:
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        data = malloc(height * width * 4);
-        context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
-        CGColorSpaceRelease(colorSpace);
-        break;
-        
-        case kTexture2DPixelFormat_RGBA5551:
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        data = malloc(height * width * 2);
-        context = CGBitmapContextCreate(data, width, height, 5, 2 * width, colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder16Little);
-        CGColorSpaceRelease(colorSpace);
-        break;
-        
-        case kTexture2DPixelFormat_RGB888:
-        case kTexture2DPixelFormat_RGB565:
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        data = malloc(height * width * 4);
-        context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
-        CGColorSpaceRelease(colorSpace);
-        break;
-        
-        case kTexture2DPixelFormat_L8:
-        colorSpace = CGColorSpaceCreateDeviceGray();
-        data = malloc(height * width);
-        context = CGBitmapContextCreate(data, width, height, 8, width, colorSpace, kCGImageAlphaNone);
-        CGColorSpaceRelease(colorSpace);
-        break;
-        
-        case kTexture2DPixelFormat_A8:
-        data = malloc(height * width);
-        context = CGBitmapContextCreate(data, width, height, 8, width, NULL, kCGImageAlphaOnly);
-        break;
-        
-        case kTexture2DPixelFormat_LA88:
-        colorSpace = CGColorSpaceCreateDeviceRGB();
-        data = malloc(height * width * 4);
-        context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
-        CGColorSpaceRelease(colorSpace);
-        break;
-        
-        default:
-        [NSException raise:NSInternalInconsistencyException format:@"Invalid pixel format"];
-        
-    }
-    if(context == NULL) {
-        REPORT_ERROR(@"Failed creating CGBitmapContext", NULL);
-        free(data);
-        
-        return;
-    }
-    
-    if(sizeToFit)
-    CGContextScaleCTM(context, (CGFloat)width / imageSize.width, (CGFloat)height / imageSize.height);
-    else {
-        CGContextClearRect(context, CGRectMake(0, 0, width, height));
-        CGContextTranslateCTM(context, 0, height - imageSize.height);
-    }
-    if(!CGAffineTransformIsIdentity(transform))
-    CGContextConcatCTM(context, transform);
+		width /= 2;
+		height /= 2;
+		transform = CGAffineTransformScale(transform, 0.5, 0.5);
+		imageSize.width *= 0.5;
+		imageSize.height *= 0.5;
+	}
+	
+	switch(pixelFormat) {
+		
+		case kTexture2DPixelFormat_RGBA8888:
+		case kTexture2DPixelFormat_RGBA4444:
+		colorSpace = CGColorSpaceCreateDeviceRGB();
+		data = malloc(height * width * 4);
+		context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+		CGColorSpaceRelease(colorSpace);
+		break;
+		
+		case kTexture2DPixelFormat_RGBA5551:
+		colorSpace = CGColorSpaceCreateDeviceRGB();
+		data = malloc(height * width * 2);
+		context = CGBitmapContextCreate(data, width, height, 5, 2 * width, colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder16Little);
+		CGColorSpaceRelease(colorSpace);
+		break;
+		
+		case kTexture2DPixelFormat_RGB888:
+		case kTexture2DPixelFormat_RGB565:
+		colorSpace = CGColorSpaceCreateDeviceRGB();
+		data = malloc(height * width * 4);
+		context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+		CGColorSpaceRelease(colorSpace);
+		break;
+		
+		case kTexture2DPixelFormat_L8:
+		colorSpace = CGColorSpaceCreateDeviceGray();
+		data = malloc(height * width);
+		context = CGBitmapContextCreate(data, width, height, 8, width, colorSpace, kCGImageAlphaNone);
+		CGColorSpaceRelease(colorSpace);
+		break;
+		
+		case kTexture2DPixelFormat_A8:
+		data = malloc(height * width);
+		context = CGBitmapContextCreate(data, width, height, 8, width, NULL, kCGImageAlphaOnly);
+		break;
+		
+		case kTexture2DPixelFormat_LA88:
+		colorSpace = CGColorSpaceCreateDeviceRGB();
+		data = malloc(height * width * 4);
+		context = CGBitmapContextCreate(data, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+		CGColorSpaceRelease(colorSpace);
+		break;
+		
+		default:
+		[NSException raise:NSInternalInconsistencyException format:@"Invalid pixel format"];
+		
+	}
+	if(context == NULL) {
+		REPORT_ERROR(@"Failed creating CGBitmapContext", NULL);
+		free(data);
+		
+		return;
+	}
+	
+	if(sizeToFit)
+	CGContextScaleCTM(context, (CGFloat)width / imageSize.width, (CGFloat)height / imageSize.height);
+	else {
+		CGContextClearRect(context, CGRectMake(0, 0, width, height));
+		CGContextTranslateCTM(context, 0, height - imageSize.height);
+	}
+	if(!CGAffineTransformIsIdentity(transform))
+	CGContextConcatCTM(context, transform);
     CGContextSetBlendMode(context, kCGBlendModeCopy);
-    CGContextDrawImage(context, CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
-    
-    //Convert "-RRRRRGGGGGBBBBB" to "RRRRRGGGGGBBBBBA"
-    if(pixelFormat == kTexture2DPixelFormat_RGBA5551) {
-        outPixel16 = (unsigned short*)data;
-        for(i = 0; i < width * height; ++i, ++outPixel16)
-        *outPixel16 = *outPixel16 << 1 | 0x0001;
+	CGContextDrawImage(context, CGRectMake(0, 0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
+	
+	//Convert "-RRRRRGGGGGBBBBB" to "RRRRRGGGGGBBBBBA"
+	if(pixelFormat == kTexture2DPixelFormat_RGBA5551) {
+		outPixel16 = (unsigned short*)data;
+		for(i = 0; i < width * height; ++i, ++outPixel16)
+		*outPixel16 = *outPixel16 << 1 | 0x0001;
 #if __DEBUG__
-        REPORT_ERROR(@"Falling off fast-path converting pixel data from ARGB1555 to RGBA5551", NULL);
+		REPORT_ERROR(@"Falling off fast-path converting pixel data from ARGB1555 to RGBA5551", NULL);
 #endif
-    }
-    //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRRRRRGGGGGGGGBBBBBBBB"
-    else if(pixelFormat == kTexture2DPixelFormat_RGB888) {
-        tempData = malloc(height * width * 3);
-        inPixel8 = (unsigned char*)data;
-        outPixel8 = (unsigned char*)tempData;
-        for(i = 0; i < width * height; ++i) {
-            *outPixel8++ = *inPixel8++;
-            *outPixel8++ = *inPixel8++;
-            *outPixel8++ = *inPixel8++;
-            inPixel8++;
-        }
-        free(data);
-        data = tempData;
+	}
+	//Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRRRRRGGGGGGGGBBBBBBBB"
+	else if(pixelFormat == kTexture2DPixelFormat_RGB888) {
+		tempData = malloc(height * width * 3);
+		inPixel8 = (unsigned char*)data;
+		outPixel8 = (unsigned char*)tempData;
+		for(i = 0; i < width * height; ++i) {
+			*outPixel8++ = *inPixel8++;
+			*outPixel8++ = *inPixel8++;
+			*outPixel8++ = *inPixel8++;
+			inPixel8++;
+		}
+		free(data);
+		data = tempData;
 #if __DEBUG__
-        REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to RGB888", NULL);
+		REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to RGB888", NULL);
 #endif
-    }
-    //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGGBBBBB"
-    else if(pixelFormat == kTexture2DPixelFormat_RGB565) {
-        tempData = malloc(height * width * 2);
-        inPixel32 = (unsigned int*)data;
-        outPixel16 = (unsigned short*)tempData;
-        for(i = 0; i < width * height; ++i, ++inPixel32)
-        *outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);
-        free(data);
-        data = tempData;
+	}
+	//Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGGGBBBBB"
+	else if(pixelFormat == kTexture2DPixelFormat_RGB565) {
+		tempData = malloc(height * width * 2);
+		inPixel32 = (unsigned int*)data;
+		outPixel16 = (unsigned short*)tempData;
+		for(i = 0; i < width * height; ++i, ++inPixel32)
+		*outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);
+		free(data);
+		data = tempData;
 #if __DEBUG__
-        REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to RGB565", NULL);
+		REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to RGB565", NULL);
 #endif
-    }
-    //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGBBBBAAAA"
-    else if(pixelFormat == kTexture2DPixelFormat_RGBA4444) {
-        tempData = malloc(height * width * 2);
-        inPixel32 = (unsigned int*)data;
-        outPixel16 = (unsigned short*)tempData;
-        for(i = 0; i < width * height; ++i, ++inPixel32)
-        *outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 4) << 12) | ((((*inPixel32 >> 8) & 0xFF) >> 4) << 8) | ((((*inPixel32 >> 16) & 0xFF) >> 4) << 4) | ((((*inPixel32 >> 24) & 0xFF) >> 4) << 0);
-        free(data);
-        data = tempData;
+	}
+	//Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "RRRRRGGGGBBBBAAAA"
+	else if(pixelFormat == kTexture2DPixelFormat_RGBA4444) {
+		tempData = malloc(height * width * 2);
+		inPixel32 = (unsigned int*)data;
+		outPixel16 = (unsigned short*)tempData;
+		for(i = 0; i < width * height; ++i, ++inPixel32)
+		*outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 4) << 12) | ((((*inPixel32 >> 8) & 0xFF) >> 4) << 8) | ((((*inPixel32 >> 16) & 0xFF) >> 4) << 4) | ((((*inPixel32 >> 24) & 0xFF) >> 4) << 0);
+		free(data);
+		data = tempData;
 #if __DEBUG__
-        REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to RGBA4444", NULL);
+		REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to RGBA4444", NULL);
 #endif
-    }
-    //Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "LLLLLLLLAAAAAAAA"
-    else if(pixelFormat == kTexture2DPixelFormat_LA88) {
-        tempData = malloc(height * width * 3);
-        inPixel8 = (unsigned char*)data;
-        outPixel8 = (unsigned char*)tempData;
-        for(i = 0; i < width * height; ++i) {
-            *outPixel8++ = *inPixel8++;
-            inPixel8 += 2;
-            *outPixel8++ = *inPixel8++;
-        }
-        free(data);
-        data = tempData;
+	}
+	//Convert "RRRRRRRRRGGGGGGGGBBBBBBBBAAAAAAAA" to "LLLLLLLLAAAAAAAA"
+	else if(pixelFormat == kTexture2DPixelFormat_LA88) {
+		tempData = malloc(height * width * 3);
+		inPixel8 = (unsigned char*)data;
+		outPixel8 = (unsigned char*)tempData;
+		for(i = 0; i < width * height; ++i) {
+			*outPixel8++ = *inPixel8++;
+			inPixel8 += 2;
+			*outPixel8++ = *inPixel8++;
+		}
+		free(data);
+		data = tempData;
 #if __DEBUG__
-        REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to LA88", NULL);
+		REPORT_ERROR(@"Falling off fast-path converting pixel data from RGBA8888 to LA88", NULL);
 #endif
-    }
+	}
    // printg("%d,",pixelFormat);
-    initData(data,pixelFormat,(int)width,(int)height,imageSize,genMips);
-    
-    CGContextRelease(context);
-    free(data);
-    
+	initData(data,pixelFormat,(int)width,(int)height,imageSize,genMips);
+	
+	CGContextRelease(context);
+	free(data);
+	
 
 }
 
@@ -1060,69 +1065,72 @@ Texture2D::Texture2D(NSString* string, CGSize dimensions, NSTextAlignment alignm
     initFromString(string,dimensions,alignment,font);
 }
 
-void Texture2D::initFromString(NSString* string, CGSize dimensions, NSTextAlignment __unused alignment, UIFont* font)
+void Texture2D::initFromString(NSString* string, CGSize dimensions, NSTextAlignment alignment, UIFont* font)
 {
-    int width, height, i;
-    CGContextRef context;
-    void* data;
-    CGColorSpaceRef colorSpace;
     
-    if(font == nil)
-    {
-        REPORT_ERROR(@"Invalid font", NULL);
-        return;
-    }
-    
-    width = dimensions.width;
-    if((width != 1) && (width & (width - 1))) {
-        i = 1;
-        while(i < width)
-        i *= 2;
-        width = i;
-    }
+	int				width,
+							height,
+							i;
+	CGContextRef			context;
+	void*					data;
+	CGColorSpaceRef			colorSpace;
+	
+	if(font == nil) {
+		REPORT_ERROR(@"Invalid font", NULL);
+		
+		return;
+	}
+	
+	width = dimensions.width;
+	if((width != 1) && (width & (width - 1))) {
+		i = 1;
+		while(i < width)
+		i *= 2;
+		width = i;
+	}
     if(width>1024)width=1024;
-    height = dimensions.height;
-    if((height != 1) && (height & (height - 1))) {
-        i = 1;
-        while(i < height)
-        i *= 2;
-        height = i;
-    }
+	height = dimensions.height;
+	if((height != 1) && (height & (height - 1))) {
+		i = 1;
+		while(i < height)
+		i *= 2;
+		height = i;
+	}
    // printf("created (%d,%d)",width,height);
-    /*colorSpace = CGColorSpaceCreateDeviceGray();
-    data = calloc(height, width);
-    context = CGBitmapContextCreate(data, width, height, 8, width, colorSpace, kCGImageAlphaNone);
-    CGColorSpaceRelease(colorSpace);
-    if(context == NULL) {
-        REPORT_ERROR(@"Failed creating CGBitmapContext", NULL);
-        free(data);
-        
-    }
-    
-    CGContextSetGrayFillColor(context, 1.0, 1.0);
-    CGContextTranslateCTM(context, 0.0, height);
-    CGContextScaleCTM(context, 1.0, -1.0); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
-    UIGraphicsPushContext(context);
-        [string drawInRect:CGRectMake(0, 0, dimensions.width, dimensions.height) withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:alignment];
-    UIGraphicsPopContext();
-    
-    initData(data,kTexture2DPixelFormat_L8,(int)width,(int)height ,dimensions,FALSE);
-    
-    CGContextRelease(context);
-    free(data);*/
-    
-    
-    
-    colorSpace = CGColorSpaceCreateDeviceRGB();
-     data = calloc(1, width * height * 4);
-     context = CGBitmapContextCreate(data, width, height, 8, width * 4, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
-     CGColorSpaceRelease(colorSpace);
-     
-     
-     CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0,1.0);
-     CGContextTranslateCTM(context, 0.0, height);
-     CGContextScaleCTM(context, 1.0, -1.0); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
-     UIGraphicsPushContext(context);
+	/*colorSpace = CGColorSpaceCreateDeviceGray();
+	data = calloc(height, width);
+	context = CGBitmapContextCreate(data, width, height, 8, width, colorSpace, kCGImageAlphaNone);
+	CGColorSpaceRelease(colorSpace);
+	if(context == NULL) {
+		REPORT_ERROR(@"Failed creating CGBitmapContext", NULL);
+		free(data);
+		
+	}
+	
+	CGContextSetGrayFillColor(context, 1.0, 1.0);
+	CGContextTranslateCTM(context, 0.0, height);
+	CGContextScaleCTM(context, 1.0, -1.0); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
+	UIGraphicsPushContext(context);
+		[string drawInRect:CGRectMake(0, 0, dimensions.width, dimensions.height) withFont:font lineBreakMode:UILineBreakModeWordWrap alignment:alignment];
+	UIGraphicsPopContext();
+	
+	initData(data,kTexture2DPixelFormat_L8,(int)width,(int)height ,dimensions,FALSE);
+	
+	CGContextRelease(context);
+	free(data);*/
+	
+	
+	
+	colorSpace = CGColorSpaceCreateDeviceRGB();
+	 data = calloc(1, width * height * 4);
+	 context = CGBitmapContextCreate(data, width, height, 8, width * 4, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+	 CGColorSpaceRelease(colorSpace);
+	 
+	 
+	 CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0,1.0);
+	 CGContextTranslateCTM(context, 0.0, height);
+	 CGContextScaleCTM(context, 1.0, -1.0); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
+	 UIGraphicsPushContext(context);
      NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
      paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
      paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -1130,105 +1138,105 @@ void Texture2D::initFromString(NSString* string, CGSize dimensions, NSTextAlignm
                                    NSParagraphStyleAttributeName: paragraphStyle };
      [string drawInRect:CGRectMake(0, 0, dimensions.width, dimensions.height) withAttributes:attributes];
     UIGraphicsPopContext();
-     
+	 
     initData(data,kTexture2DPixelFormat_RGBA8888,width,height,dimensions,FALSE);
-     
-     CGContextRelease(context);
-     free(data);
-     
-     
+	 
+	 CGContextRelease(context);
+	 free(data);
+	 
+	 
 }
 
 void Texture2D::drawTexture(Texture2D* texture, CGPoint point, CGFloat depth){
 
-    GLfloat                maxS = texture->_maxS,
+	GLfloat				maxS = texture->_maxS,
     maxT = texture->_maxT,
     pixelsWide = texture->_width,
     pixelsHigh = texture->_height;
-    GLfloat                coordinates[] = {
-        0,                maxT,
-        maxS,            maxT,
-        0,                0,
-        maxS,            0
+	GLfloat				coordinates[] = {
+        0,				maxT,
+        maxS,			maxT,
+        0,				0,
+        maxS,			0
     };
-    GLfloat                width = (GLfloat)pixelsWide * maxS,
+	GLfloat				width = (GLfloat)pixelsWide * maxS,
     height = (GLfloat)pixelsHigh * maxT;
-    GLfloat                vertices[] = {
-        -width / 2 + point.x,        -height / 2 + point.y,        depth,
-        width / 2 + point.x,        -height / 2 + point.y,        depth,
-        -width / 2 + point.x,        height / 2 + point.y,        depth,
-        width / 2 + point.x,        height / 2 + point.y,        depth
+	GLfloat				vertices[] = {
+        -width / 2 + point.x,		-height / 2 + point.y,		depth,
+        width / 2 + point.x,		-height / 2 + point.y,		depth,
+        -width / 2 + point.x,		height / 2 + point.y,		depth,
+        width / 2 + point.x,		height / 2 + point.y,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, texture->name);
+	
+	glBindTexture(GL_TEXTURE_2D, texture->name);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
     glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void Texture2D::preload(){
 
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-    
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	
     drawInRect(CGRectMake(-2, -2, 0.1, 0.1));
-    
-    glPopMatrix();
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
+	
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
 }
 void Texture2D::drawAtPoint(CGPoint point){
 
-    drawAtPoint(point ,0.0 ,FALSE);
+	drawAtPoint(point ,0.0 ,FALSE);
 }
 
 void Texture2D::drawAtPoint(CGPoint point, CGFloat depth, BOOL center){
-    GLfloat                coordinates[] = {
-                            0,                _maxT,
-                            _maxS,            _maxT,
-                            0,                0,
-                            _maxS,            0
-                        };
-    GLfloat                width = (GLfloat)_width * _maxS,
-                        height = (GLfloat)_height * _maxT;
-    GLfloat                cvertices[] = {
-                            -width / 2 + point.x,        -height / 2 + point.y,        depth,
-                            width / 2 + point.x,        -height / 2 + point.y,        depth,
-                            -width / 2 + point.x,        height / 2 + point.y,        depth,
-                            width / 2 + point.x,        height / 2 + point.y,        depth
-                        };
-    GLfloat                zvertices[] = {
-        point.x,        -height / 2 + point.y,        depth,
-        width+ point.x,    -height / 2 + point.y,        depth,
-        point.x,        height / 2 + point.y,        depth,
-        width + point.x,height / 2 + point.y,        depth
-    };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    if(center)
-        glVertexPointer(3, GL_FLOAT, 0, cvertices);
-    else
-        glVertexPointer(3, GL_FLOAT, 0, zvertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	GLfloat				coordinates[] = {
+							0,				_maxT,
+							_maxS,			_maxT,
+							0,				0,
+							_maxS,			0
+						};
+	GLfloat				width = (GLfloat)_width * _maxS,
+						height = (GLfloat)_height * _maxT;
+	GLfloat				cvertices[] = {
+							-width / 2 + point.x,		-height / 2 + point.y,		depth,
+							width / 2 + point.x,		-height / 2 + point.y,		depth,
+							-width / 2 + point.x,		height / 2 + point.y,		depth,
+							width / 2 + point.x,		height / 2 + point.y,		depth
+						};
+	GLfloat				zvertices[] = {
+	    point.x,		-height / 2 + point.y,		depth,
+		width+ point.x,	-height / 2 + point.y,		depth,
+		point.x,		height / 2 + point.y,		depth,
+		width + point.x,height / 2 + point.y,		depth
+	};
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	if(center)
+		glVertexPointer(3, GL_FLOAT, 0, cvertices);
+	else
+		glVertexPointer(3, GL_FLOAT, 0, zvertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void Texture2D::drawInRect(CGRect rect){
-    drawInRect(rect,0.0);
+	drawInRect(rect,0.0);
 }
 void Texture2D::drawTextHalfsies(CGRect rect){
     CGFloat depth=0.0;
-    GLfloat                coordinates[] = {
-        0,                _maxT,
-        _maxS,            _maxT,
-        0,                0,
-        _maxS,            0
+	GLfloat				coordinates[] = {
+        0,				_maxT,
+        _maxS,			_maxT,
+        0,				0,
+        _maxS,			0
     };
-    GLfloat                width = roundf((GLfloat)_width * _maxS),
+    GLfloat				width = roundf((GLfloat)_width * _maxS),
     height = roundf((GLfloat)_height * _maxT);
     if(!IS_RETINA&&SUPPORTS_RETINA){
         width/=2;
@@ -1242,46 +1250,46 @@ void Texture2D::drawTextHalfsies(CGRect rect){
         rect.origin.x=roundf(rect.origin.x);
         rect.origin.y=roundf(rect.origin.y);
     }
-    GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + height,        depth,
-        rect.origin.x + width,        rect.origin.y + height,        depth
+	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + height,		depth,
+        rect.origin.x + width,		rect.origin.y + height,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     
     
 }
 void Texture2D::drawTextNoScale(CGRect rect){
     CGFloat depth=0.0;
-    GLfloat                coordinates[] = {
-        0,                _maxT,
-        _maxS,            _maxT,
-        0,                0,
-        _maxS,            0
+	GLfloat				coordinates[] = {
+        0,				_maxT,
+        _maxS,			_maxT,
+        0,				0,
+        _maxS,			0
     };
-    GLfloat                width = roundf((GLfloat)_width * _maxS),
+    GLfloat				width = roundf((GLfloat)_width * _maxS),
     height = roundf((GLfloat)_height * _maxT);
     if(!IS_RETINA&&SUPPORTS_RETINA){
         width/=2;
         height/=2;
     }
-      GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + height,        depth,
-        rect.origin.x + width,        rect.origin.y + height,        depth
+  	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + height,		depth,
+        rect.origin.x + width,		rect.origin.y + height,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     
 }
@@ -1303,13 +1311,13 @@ void Texture2D::drawButton(Button button){
         CGRect rect=CGRectMake(button.origin.x+offx,button.origin.y+offy,
                                button.size.width-offx*2,button.size.height-offy*2);
         CGFloat depth=0.0;
-        GLfloat                coordinates[] = {
-            0,                _maxT,
-            _maxS,            _maxT,
-            0,                0,
-            _maxS,            0
+        GLfloat				coordinates[] = {
+            0,				_maxT,
+            _maxS,			_maxT,
+            0,				0,
+            _maxS,			0
         };
-        GLfloat                width = rect.size.width;
+        GLfloat				width = rect.size.width;
         GLfloat height = rect.size.height;
         
         if(IS_IPAD){
@@ -1320,11 +1328,11 @@ void Texture2D::drawButton(Button button){
             rect.origin.x=roundf(rect.origin.x);
             rect.origin.y=roundf(rect.origin.y);
         }
-        GLfloat                vertices[] = {
-            rect.origin.x,                            rect.origin.y,                            depth,
-            rect.origin.x + width,        rect.origin.y,                            depth,
-            rect.origin.x,                            rect.origin.y + height,        depth,
-            rect.origin.x + width,        rect.origin.y + height,        depth
+        GLfloat				vertices[] = {
+            rect.origin.x,							rect.origin.y,							depth,
+            rect.origin.x + width,		rect.origin.y,							depth,
+            rect.origin.x,							rect.origin.y + height,		depth,
+            rect.origin.x + width,		rect.origin.y + height,		depth
         };
         
         glBindTexture(GL_TEXTURE_2D, name);
@@ -1349,13 +1357,13 @@ void Texture2D::drawNumbers(CGRect rect,int num){
     float xoff=num*1/16.0f;
     float xwidth=1;
     if(num==10)xwidth=2;
-    GLfloat                coordinates[] = {
-        xoff,                _maxT,
-        xoff+_maxS/16.0f*xwidth,    _maxT,
-        xoff,                0,
-        xoff+_maxS/16.0f*xwidth,    0
+	GLfloat				coordinates[] = {
+        xoff,				_maxT,
+        xoff+_maxS/16.0f*xwidth,	_maxT,
+        xoff,				0,
+        xoff+_maxS/16.0f*xwidth,	0
     };
-    GLfloat                width = roundf((GLfloat)_width * _maxS/16.0f),
+    GLfloat				width = roundf((GLfloat)_width * _maxS/16.0f),
     height = roundf((GLfloat)_height * _maxT);
     
     if(num==10){
@@ -1371,24 +1379,24 @@ void Texture2D::drawNumbers(CGRect rect,int num){
         rect.origin.x=roundf(rect.origin.x);
         rect.origin.y=roundf(rect.origin.y);
     }
-    GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + height,        depth,
-        rect.origin.x + width,        rect.origin.y + height,        depth
+	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + height,		depth,
+        rect.origin.x + width,		rect.origin.y + height,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     
 }
 void Texture2D::drawTextM(CGRect rect){
     CGFloat depth=0.0;
-    
-    GLfloat                width = 480,
+	
+    GLfloat				width = 480,
     height = roundf((GLfloat)_height * _maxT);
     
     if(IS_IPAD){
@@ -1398,35 +1406,35 @@ void Texture2D::drawTextM(CGRect rect){
         rect.origin.x=roundf(rect.origin.x);
         rect.origin.y=roundf(rect.origin.y);
     }
-    GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + height,        depth,
-        rect.origin.x + width,        rect.origin.y + height,        depth
+	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + height,		depth,
+        rect.origin.x + width,		rect.origin.y + height,		depth
     };
-    GLfloat                coordinates[] = {
-        0,                _maxT,
-        _maxS,            _maxT,
-        0,                0,
-        _maxS,            0
+	GLfloat				coordinates[] = {
+        0,				_maxT,
+        _maxS,			_maxT,
+        0,				0,
+        _maxS,			0
     };
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     
 }
 
 void Texture2D::drawText(CGRect rect){
     CGFloat depth=0.0;
-    GLfloat                coordinates[] = {
-        0,                _maxT,
-        _maxS,            _maxT,
-        0,                0,
-        _maxS,            0
+	GLfloat				coordinates[] = {
+        0,				_maxT,
+        _maxS,			_maxT,
+        0,				0,
+        _maxS,			0
     };
-    GLfloat                width = roundf((GLfloat)_width * _maxS),
+    GLfloat				width = roundf((GLfloat)_width * _maxS),
                         height = roundf((GLfloat)_height * _maxT);
     if(!IS_RETINA&&SUPPORTS_RETINA){
         width/=2;
@@ -1438,27 +1446,27 @@ void Texture2D::drawText(CGRect rect){
          rect.origin.x=roundf(rect.origin.x);
         rect.origin.y=roundf(rect.origin.y);
     }
-    GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + height,        depth,
-        rect.origin.x + width,        rect.origin.y + height,        depth
+	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + height,		depth,
+        rect.origin.x + width,		rect.origin.y + height,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     
 }
 void Texture2D::drawInRect2(CGRect rect){
-    CGFloat depth=0.0;
-    GLfloat                coordinates[] = {
-        0,                _maxT,
-        _maxS,            _maxT,
-        0,                0,
-        _maxS,            0
+	CGFloat depth=0.0;
+	GLfloat				coordinates[] = {
+        0,				_maxT,
+        _maxS,			_maxT,
+        0,				0,
+        _maxS,			0
     };
     if(IS_IPAD){
         rect.origin.x*=SCALE_WIDTH;
@@ -1466,17 +1474,17 @@ void Texture2D::drawInRect2(CGRect rect){
         rect.size.width*=2;
         rect.size.height*=2;
     }
-    GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + rect.size.width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + rect.size.height,        depth,
-        rect.origin.x + rect.size.width,        rect.origin.y + rect.size.height,        depth
+	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + rect.size.width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + rect.size.height,		depth,
+        rect.origin.x + rect.size.width,		rect.origin.y + rect.size.height,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void Texture2D::drawSky(CGRect rect, CGFloat depth){
@@ -1496,57 +1504,57 @@ void Texture2D::drawSky(CGRect rect, CGFloat depth){
         if(ety<.2)ety=.2;
     }
     
-    
+	
     if(IS_IPAD){
         rect.origin.x*=SCALE_WIDTH;
         rect.origin.y*=SCALE_HEIGHT;
         rect.size.width*=SCALE_WIDTH;
         rect.size.height*=SCALE_HEIGHT;
     }
-    GLfloat                coordinates[] = {
-        0,                ety*32,
-        _maxS*rect.size.width/128,            ety*32,
-        0,                sty*32,
-        _maxS*rect.size.width/128,            sty*32
+    GLfloat				coordinates[] = {
+        0,				ety*32,
+        _maxS*rect.size.width/128,			ety*32,
+        0,				sty*32,
+        _maxS*rect.size.width/128,			sty*32
     };
-    GLfloat                vertices[] = {
-        rect.origin.x,                            rect.origin.y,                            depth,
-        rect.origin.x + rect.size.width,        rect.origin.y,                            depth,
-        rect.origin.x,                            rect.origin.y + rect.size.height,        depth,
-        rect.origin.x + rect.size.width,        rect.origin.y + rect.size.height,        depth
+	GLfloat				vertices[] = {
+        rect.origin.x,							rect.origin.y,							depth,
+        rect.origin.x + rect.size.width,		rect.origin.y,							depth,
+        rect.origin.x,							rect.origin.y + rect.size.height,		depth,
+        rect.origin.x + rect.size.width,		rect.origin.y + rect.size.height,		depth
     };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     //glDrawArrays(GL_LINE_LOOP, 0, 4);
 }
 
 void Texture2D::drawInRect(CGRect rect, CGFloat depth){
-    GLfloat                coordinates[] = {
-                            0,                _maxT,
-                            _maxS,            _maxT,
-                            0,                0,
-                            _maxS,            0
-                        };
+	GLfloat				coordinates[] = {
+							0,				_maxT,
+							_maxS,			_maxT,
+							0,				0,
+							_maxS,			0
+						};
     if(IS_IPAD){
         rect.origin.x*=SCALE_WIDTH;
         rect.origin.y*=SCALE_HEIGHT;
         rect.size.width*=SCALE_WIDTH;
         rect.size.height*=SCALE_HEIGHT;
     }
-    GLfloat                vertices[] = {
-                            rect.origin.x,                            rect.origin.y,                            depth,
-                            rect.origin.x + rect.size.width,        rect.origin.y,                            depth,
-                            rect.origin.x,                            rect.origin.y + rect.size.height,        depth,
-                            rect.origin.x + rect.size.width,        rect.origin.y + rect.size.height,        depth
-                        };
-    
-    glBindTexture(GL_TEXTURE_2D, name);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	GLfloat				vertices[] = {
+							rect.origin.x,							rect.origin.y,							depth,
+							rect.origin.x + rect.size.width,		rect.origin.y,							depth,
+							rect.origin.x,							rect.origin.y + rect.size.height,		depth,
+							rect.origin.x + rect.size.width,		rect.origin.y + rect.size.height,		depth
+						};
+	
+	glBindTexture(GL_TEXTURE_2D, name);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glTexCoordPointer(2, GL_FLOAT, 0, coordinates);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     //glDrawArrays(GL_LINE_LOOP, 0, 4);
 }
 

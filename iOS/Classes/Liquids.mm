@@ -14,7 +14,7 @@
 
 enum wet_types{
     WT_SOURCE=0,
-    WT_NORMAL=1
+    WT_NORMAL=1,
 };
 #define MAX_SPREAD 4
 
@@ -34,8 +34,9 @@ Liquids::Liquids(){
     plist=NULL;
     plist2=NULL;
     
-    start = [NSDate date];        
+    start = [NSDate date];		
    
+    [start retain];
   //  last=-[start timeIntervalSinceNow];
   
 
@@ -491,12 +492,12 @@ static int removeUnfed(any_t passedIn,any_t wnode){
 
     
 
-    
+	
 BOOL Liquids::update(float etime){
     
     delay+=etime;
     if(delay>.5f){
-        last=-start.timeIntervalSinceNow;
+        last=-[start timeIntervalSinceNow];
         delay=0;
        /* hashmap_iterate(wetmap, resetFeedCount, NULL);
         hashmap_iterate(wetmap, updateNode, NULL);
@@ -527,7 +528,7 @@ BOOL Liquids::update(float etime){
             }
         }
        
-         now=-start.timeIntervalSinceNow;
+         now=-[start timeIntervalSinceNow];
         float eetime=(float)(now-last);
         eetime++;
         if(n!=0){

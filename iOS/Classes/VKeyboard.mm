@@ -25,10 +25,10 @@ UITextField* search_field;
 static int caller=-1;
 - (BOOL)textField:(UITextField *)textField
 shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-   if(string.length>1)return FALSE;
+   if([string length]>1)return FALSE;
     
     char c=' ';
-    if(string.length==0){
+    if([string length]==0){
         c=-1;
        
     }else{
@@ -84,7 +84,7 @@ void vkeyboard_init(){
     
     
     [G_EAGL_VIEW insertSubview: world_name_field atIndex:0];
-    world_name_field.delegate = pptext;
+    [world_name_field setDelegate:pptext];
     
 }
 void vkeyboard_begin(int tcaller){

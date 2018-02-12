@@ -153,7 +153,7 @@ void Player::setSpeed(Vector walk_dir, float walk_speed){
 
 extern bool hitCustom;
 
-void Player::processInput(float __unused etime){
+void Player::processInput(float etime){
 	Input* input=Input::getInput();
 	int mode=World::getWorld->hud->mode;
 	itouch* touches=input->getTouches();
@@ -412,7 +412,7 @@ void Player::processInput(float __unused etime){
                              collidesWithPlayer=test(testpoint.x,testpoint.y,testpoint.z,1);
                                 
 							if(!collidesWithPlayer){
-                                type=World::getWorld->hud->blocktype;
+                                int type=World::getWorld->hud->blocktype;
                                 if(type==TYPE_STONE||type==TYPE_DARK_STONE||type==TYPE_COBBLESTONE||type==TYPE_BRICK||type==TYPE_VINE){
                                     
                                     Resources::getResources->playSound(S_BUILD_STONE);

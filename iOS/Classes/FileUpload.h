@@ -11,29 +11,26 @@
 #import <Foundation/Foundation.h>
 
 
-@interface FileUpload : NSObject
-{
-    NSURL *serverURL;
+@interface FileUpload : NSObject {
+	NSURL *serverURL;
     NSString *filePath;
     NSString *imgPath;
     id delegate;
     SEL doneSelector;
     SEL errorSelector;
-    SEL progressSelector;
+	SEL progressSelector;
     BOOL uploadDidSucceed;
 }
 
--   (instancetype)init NS_UNAVAILABLE;
-
--   (instancetype)initWithURL: (NSURL *)serverURL 
-           filePath: (NSString *)filePath 
+-   (id)initWithURL: (NSURL *)serverURL 
+		   filePath: (NSString *)filePath 
             imgPath: (NSString *)aimgPath
-           delegate: (id)delegate 
-       doneSelector: (SEL)doneSelector 
-      errorSelector: (SEL)errorSelector
-   progressSelector: (SEL)progressSelector NS_DESIGNATED_INITIALIZER;
+		   delegate: (id)delegate 
+	   doneSelector: (SEL)doneSelector 
+	  errorSelector: (SEL)errorSelector
+   progressSelector: (SEL)progressSelector;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *filePath;
+-   (NSString *)filePath;
 
 @end
 

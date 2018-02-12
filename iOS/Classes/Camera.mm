@@ -49,7 +49,7 @@ Camera::~Camera(){
 	destroyFrustum();
 	
 }
-BOOL Camera::update (float __unused etime){
+BOOL Camera::update(float etime){
 	//FREE Movement/ NO COLLISION DETECTION/GRAVITY
 	/*Input* input=[Input getInput];
 	if(input.down){

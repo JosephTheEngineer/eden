@@ -6,6 +6,7 @@
 //  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
 
+
 #import "FileDownload.h"
 
 @interface FileDownload (Private)
@@ -15,6 +16,7 @@
                              boundry: (NSString *)boundry
                                 data: (NSData *)data;
 
+//- (NSData *)gzipDeflate: (NSData *)data;
 - (void)downloadSucceeded: (BOOL)success;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
@@ -23,77 +25,66 @@
 
 @implementation FileDownload
 @synthesize result;
--(instancetype)init
-{
+-(id)init{
     result=NULL;
     return self;
 }
-
 + (NSData*)downloadFile:(NSString*)file_name{
     NSURL* url = [[NSURL alloc] initWithString:file_name];
     NSData *theData = [[NSData alloc] initWithContentsOfURL:url];
     [url release];
     return theData;
+    
+   
+    
 }
-
--(void)cancel
-{
-    if(connection)
-    {
+-(void)cancel{
+    if(connection){
         NSLog(@"connection cancelled");
         [connection cancel];
         [connection release];
     }
-    if(fileStream)
-    {
+    if(fileStream){
         [fileStream close];
         fileStream=NULL;
     }
 }
-
-- (void)download
-{
+- (void)download{
     downloadDidSucceed=FALSE;
-    if(filePath!=NULL)
-    {
+    if(filePath!=NULL){
     fileStream = [NSOutputStream outputStreamToFileAtPath:filePath append:NO];
     if(fileStream == nil)[self downloadSucceeded:NO];
     
     [fileStream retain];
     [fileStream open];
-    }
-    else
-    {
+    }else{
         fileStream = [NSOutputStream outputStreamToMemory];
         if(fileStream == nil)[self downloadSucceeded:NO];
         
         [fileStream retain];
         [fileStream open];
+       // fileStream=NULL;
     }
-    
     NSURLRequest* request = [NSURLRequest requestWithURL:serverURL];
     if(request == nil)[self downloadSucceeded:NO];
     connection =
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if(connection==nil)[self downloadSucceeded:NO];
+    
 }
-
-- (instancetype)initWithURL: (NSURL *)aServerURL   // IN
+- (id)initWithURL: (NSURL *)aServerURL   // IN
          filePath: (NSString *)aFilePath // IN
          delegate: (id)aDelegate         // IN
      doneSelector: (SEL)aDoneSelector    // IN
     errorSelector: (SEL)anErrorSelector  // IN
 progressSelector: (SEL)aProgressSelector
 {
-    if ((self = [super init]))
-    {
+    if ((self = [super init])) {
+       
+		
         serverURL = [aServerURL retain];
-        if(aFilePath==NULL)
-        {
-            filePath=NULL;
-            if(result)
-            {
-                [result release];
+        if(aFilePath==NULL){filePath=NULL;
+            if(result){[result release];
                 result=NULL;
             }
         }
@@ -101,18 +92,19 @@ progressSelector: (SEL)aProgressSelector
         delegate = [aDelegate retain];
         doneSelector = aDoneSelector;
         errorSelector = anErrorSelector;
-        progressSelector= aProgressSelector;
+		progressSelector= aProgressSelector;
         [self download];
     }
     return self;
 }
+
 
 - (void)dealloc
 {
     [serverURL release];
     serverURL = nil;
     if(filePath)
-        [filePath release];
+    [filePath release];
     if(result)
         [result release];
     result=NULL;
@@ -121,9 +113,9 @@ progressSelector: (SEL)aProgressSelector
     delegate = nil;
     doneSelector = NULL;
     errorSelector = NULL;
+	
     [super dealloc];
 }
-
 - (void)downloadSucceeded: (BOOL)success // IN
 {
     [delegate performSelector:success ? doneSelector : errorSelector
@@ -134,15 +126,16 @@ progressSelector: (SEL)aProgressSelector
   didFailWithError:(NSError *)error              // IN
 {
     NSLog(@"%s: self:0x%p, connection error:%s\n",
-          __func__, self, [[error description] UTF8String]);
+		  __func__, self, [[error description] UTF8String]);
     [con release];
-    if(fileStream)
-    {
-        [fileStream close];
-        [fileStream release];
+    if(fileStream){
+    [fileStream close];
+     [fileStream release];
     }
     [self downloadSucceeded:NO];
 }
+
+
 
 static int downloadSize=0;
 static int dataSize=0;
@@ -151,7 +144,7 @@ static int dataSize=0;
 {
     NSLog(@"%s: self:0x%p\n", __func__, self);
     dataSize=0;
-    downloadSize = (int)response.expectedContentLength;
+    downloadSize = (int)[response expectedContentLength];
      NSLog(@"%d,%d  %f%%",downloadSize,dataSize,((float)dataSize/downloadSize));
     
 }
@@ -162,10 +155,9 @@ static int dataSize=0;
     result=(NSData*)[fileStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
     [result retain];
     [connection release];
-    if(fileStream)
-    {
-        [fileStream close];
-        [fileStream release];
+    if(fileStream){
+    [fileStream close];
+    [fileStream release];
     }
     [self downloadSucceeded:downloadDidSucceed];
 }
@@ -179,35 +171,32 @@ static int dataSize=0;
     NSInteger       bytesWritten;
     NSInteger       bytesWrittenSoFar;
     
-    dataLength = data.length;
-    dataBytes  = (const uint8_t * )data.bytes;
+        
+    dataLength = [data length];
+    dataBytes  = (const uint8_t * )[data bytes];
     
     bytesWrittenSoFar = 0;
-    if(fileStream!=NULL)
-    {
+    if(fileStream!=NULL){
     do {
         NSLog(@"%d",(int)bytesWrittenSoFar);
         bytesWritten = [fileStream write:&dataBytes[bytesWrittenSoFar] maxLength:dataLength - bytesWrittenSoFar];
         assert(bytesWritten != 0);
-        if (bytesWritten == -1)
-        {
+        if (bytesWritten == -1) {
              [self downloadSucceeded:NO];
             break;
-        }
-        else
-        {
+        } else {
             bytesWrittenSoFar += bytesWritten;
         }
+    } while (bytesWrittenSoFar != dataLength);
     }
-        while (bytesWrittenSoFar != dataLength);
-    }
-    dataSize+=data.length;
-    if(dataSize==downloadSize)
-    {
+	
+    dataSize+=[data length];
+    if(dataSize==downloadSize){
         downloadDidSucceed=TRUE;
     }
     [delegate performSelector:progressSelector withObject:(id)(long)(100*dataSize/downloadSize)];
-    //[delegate performSelector:progressSelector withObject:(id)(100*totalBytesWritten /totalBytesExpectedToWrite)];
-    //[delegate performSelector:progressSelector withObject:[NSNumber numberWithLong:(100*dataSize/downloadSize)]];
+ 
+	
+    
 }
 @end

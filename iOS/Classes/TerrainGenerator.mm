@@ -138,7 +138,7 @@ void TerrainGenerator::generateEmptyColumn(int cx,int cz){
         ter->addChunk(column[cy],ocx,cy,ocz,TRUE);
     }
 }
-void TerrainGenerator::generateColumn(int cx,int cz,BOOL __unused bgthread){
+void TerrainGenerator::generateColumn(int cx,int cz,BOOL bgthread){
 	int ocx=cx;
 	int ocz=cz;
     boundx=ocx*CHUNK_SIZE;
