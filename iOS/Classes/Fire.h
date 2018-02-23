@@ -3,14 +3,15 @@
 //  prototype
 //
 //  Created by Ari Ronen on 11/3/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
-
 #ifndef Eden_Fire_h
 #define Eden_Fire_h
 
+
+
 #import "Vector.h"
+
 
 class Fire
 {
@@ -29,5 +30,6 @@ private:
     void renderFireSprites();
     
 };
+
 
 #endif

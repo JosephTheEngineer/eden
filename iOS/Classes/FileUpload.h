@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 11/12/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 #ifndef Eden_FileUpload_h
 #define Eden_FileUpload_h
 #import <Foundation/Foundation.h>

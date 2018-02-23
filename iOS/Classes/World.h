@@ -3,14 +3,12 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/10/10.
-//  Modified on 20/01/18 by Jasper Follas
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-// This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
-//
-
-
 #ifndef Eden_World_h
 #define Eden_World_h
+
+
 
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
@@ -25,6 +23,8 @@
 #import "FileManager.h"
 #import "SpecialEffects.h"
 
+
+
 class FileManager;
 class Player;
 class Terrain;
@@ -34,8 +34,7 @@ class Menu;
 #define GAME_MODE_WAIT 2
 #define GAME_MODE_PLAY 1
 #define JUST_TERRAIN_GEN 0
-class World
-{
+class World{
 public:
 	Terrain* terrain;
 	Camera* cam;
@@ -47,12 +46,11 @@ public:
 	SpecialEffects* effects;
     int target_game_mode;
 	int game_mode;
-	BOOL FLIPPED;
+	//BOOL FLIPPED;
     int doneLoading;
     float realtime;
     BOOL bestGraphics;
     BOOL sanityCheck;
-    BOOL classicMode;
     
     World();
     ~World();
@@ -61,6 +59,8 @@ public:
     void loadWorld(std::string name);
     void render();
     void exitToMenu();
+    
+    
 };
 
 #endif

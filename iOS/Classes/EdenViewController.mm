@@ -3,7 +3,7 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/3/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>
@@ -195,12 +195,12 @@
 	float etime=(float)(now-last);
 	last=now;	
     [(EAGLView *)self.view setFramebuffer];
-	// NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	 NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     if(world->update(etime)){
         retinaSwap=TRUE;
     }
 	world->render();
-	//[pool release];
+	[pool release];
     
     
     [(EAGLView *)self.view presentFramebuffer];

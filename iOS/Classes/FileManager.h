@@ -3,16 +3,13 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/25/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 #ifndef Eden_FileManager_h
 #define Eden_FileManager_h
 
 
 #import "Terrain.h"
-
-
 
 #define FILE_VERSION 4
 #define SIZEOF_COLUMN CHUNK_SIZE*CHUNK_SIZE*CHUNK_SIZE*CHUNKS_PER_COLUMN*(sizeof(block8)+sizeof(color8))

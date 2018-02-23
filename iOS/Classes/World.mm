@@ -3,7 +3,7 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/10/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "World.h"
@@ -307,24 +307,24 @@ World::World(){
    
 }*/
 //extern "C" loadWorldThread(void* ptr);
-void* loadWorldThread(void* ptr)
-{
-    World::getWorld->terrain->loadTerrain(cpstring((__bridge NSString*)ptr),TRUE);
+void* loadWorldThread(void* ptr){
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    World::getWorld->terrain->loadTerrain(cpstring((NSString*)ptr),TRUE);
     World::getWorld->doneLoading=2;
+    [pool release];
+    
     return NULL;
 }
 
 
 extern int chunk_load_count;
 
-void World::loadWorld(std::string name)
-{
-    if(doneLoading==0)
-    {
+void World::loadWorld(std::string name){
+    if(doneLoading==0){
+        
         doneLoading=1;
         Resources::getResources->stopMenuTune();
-        if(LOW_MEM_DEVICE)
-        {
+        if(LOW_MEM_DEVICE){
             menu->deactivate();
             
             Resources::getResources->unloadMenuTextures();
@@ -332,37 +332,46 @@ void World::loadWorld(std::string name)
             terrain->loadTerrain(name,TRUE);
             doneLoading=2;
             hud->fade_out=1;
-        }
-        else
-        {
+
+
+        }else{
             terrain->allocateMemory();
             pthread_t foo;
             pthread_create(&foo,NULL,loadWorldThread, nsstring(name));
+           // std::thread first (loadWorldThread,name);
+            //[NSThread detachNewThreadSelector:@selector(loadWorldThread:) toTarget:self withObject:name];
         }
+        
+        
     }
     if(doneLoading>=1){
         int pct=100.0f*(float)(terrain->counter)/324.0f;
         
         if(pct>100)pct=100;
-        if(fm->convertingWorld)
-        {
+        if(fm->convertingWorld){
             menu->sbar->setStatus(@"Converting World...",100);
+        }else{
+            //if(pct==100){
+               // [menu.sbar setStatus:[NSString stringWithFormat:@"Reticulating Splines... "]:20];
+           // }else{
+                menu->sbar->setStatus([NSString stringWithFormat:@"Loading World... %d%%",pct],20);
+           // }
         }
-        else
-        {
-            menu->sbar->setStatus([NSString stringWithFormat:@"Loading World... %d%%",pct],20);
-        }
-
-        if(doneLoading==2)
-        {
-            if(!LOW_MEM_DEVICE)
-            {
-                menu->deactivate();
-                Resources::getResources->unloadMenuTextures();
+        
+        
+        
+        if(doneLoading==2){
+         //   printg("done loading !\n");
+            
+            if(!LOW_MEM_DEVICE){
+            menu->deactivate();
+        
+            Resources::getResources->unloadMenuTextures();
             }
             
             Resources::getResources->loadGameAssets();
             
+            // [terrain loadTerrain:name];
             doneLoading=0;
             cam->reset();
         
@@ -372,12 +381,17 @@ void World::loadWorld(std::string name)
             menu->loading=0;
             menu->sbar->clear();
             
-            if(CREATURES_ON)
-            {
+            
+            
+             
+            if(CREATURES_ON){
+               
                 LoadModels([[NSString stringWithFormat:@"%@/",[[NSBundle mainBundle] resourcePath]] cStringUsingEncoding:NSUTF8StringEncoding]);
             }
+            
         }
     }
+	
 }
 void World::exitToMenu(){
     exit_to_menu=FALSE;

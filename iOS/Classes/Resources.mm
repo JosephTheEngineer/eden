@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/13/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 
 #import "Resources.h"
 #import "glu.h"

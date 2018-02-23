@@ -3,8 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 1/1/11.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
-
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
 
 #import "Menu_background.h"
 #import "Graphics.h"
@@ -15,21 +15,19 @@ extern float SCREEN_HEIGHT;
 float pinwheelr=0;
 float groundx=0;
 float mountainx=0;
-extern "C"
-{
-typedef struct _cloud
-    {
+extern "C"{
+typedef struct _cloud{
 	CGRect rect;
 	struct _cloud* next;	
 	int type;
 	float speed;
-}
-    cloud;
+}cloud;
 }
 static cloud* cloud_list;
 
-Menu_background::Menu_background()
-{
+
+
+Menu_background::Menu_background(){
 	cloud_list=NULL;
 	clouds[0].origin.x=15;
     clouds[1].origin.x=300;
@@ -39,62 +37,52 @@ Menu_background::Menu_background()
     clouds[2].origin.y=90;
     for(int i=0;i<150;i++)
         this->update(1.0f);
+	
 }
-
 static float counter=0;
-void Menu_background::update(float etime)
-{
+void Menu_background::update(float etime){
+    
 	pinwheelr+=10*etime;
 	groundx+=22*etime;
 	if(groundx>480)groundx-=480;
-    if(!IS_IPAD)
-    {
+    if(!IS_IPAD){
         mountainx+=10*etime;
         if(mountainx>835*2)mountainx-=835*2;
     }
-    else
-    {
+    else{
 	mountainx+=11*etime;
         if(mountainx>835*2)mountainx-=835*2;
+
     }
     clouds[2].origin.x+=12*etime;
     clouds[1].origin.x+=18*etime;
     clouds[0].origin.x+=20*etime;
-	for(int i=0;i<3;i++)
-    {
-        if(clouds[i].origin.x>480)
-        {
+	for(int i=0;i<3;i++){
+        if(clouds[i].origin.x>480){
             clouds[i].origin.x=-75;
         }
     }
 	cloud* node=cloud_list;
 	cloud* prev=NULL;
-	while(node!=NULL)
-    {
+	while(node!=NULL){
 		node->rect.origin.x+=node->speed*etime;
-        if(node->rect.origin.x>SCREEN_WIDTH)
-        {
-			if(prev)
-            {
+        if(node->rect.origin.x>SCREEN_WIDTH){			
+			if(prev){
 				prev->next=node->next;
-			}
-            else
-            {
+			}else{
                 cloud_list=node->next;
             }
             cloud* next=node->next;
+
 			free(node);	
             node=next;
-		}
-        else
-        {
+		}else{
             prev=node;
             node=node->next;
         }
     }
     counter+=etime;
-	if(counter>5)
-    {
+	if(counter>5){
         counter=0;
 		int cloudoffsety=115;
         
@@ -104,28 +92,28 @@ void Menu_background::update(float etime)
 		//new_cloud->rect.origin.x=-122;
 		//new_cloud->rect.origin.y=arc4random()%((int)(SCREEN_HEIGHT-85-44))+85;
 		new_cloud->rect.origin.x=-175;
-        if(new_cloud->type==0)
-        {
+        if(new_cloud->type==0){
 		new_cloud->rect.origin.y=cloudoffsety+(float)arc4random()/UINT_MAX*30;
             new_cloud->speed=12;
         }
-        if(new_cloud->type==1)
-        {
+        if(new_cloud->type==1){
         new_cloud->rect.origin.y=cloudoffsety+30+(float)arc4random()/UINT_MAX*40;
              new_cloud->speed=16;
         }
-        if(new_cloud->type==2)
-        {
+        if(new_cloud->type==2){
             new_cloud->rect.origin.y=cloudoffsety+80+(float)arc4random()/UINT_MAX*60;
              new_cloud->speed=20;
         }
+		
+		
 		cloud_list=new_cloud;
+		
 	}
+    
 }
-
 extern BOOL IS_WIDESCREEN;
-void Menu_background::render()
-{
+void Menu_background::render(){
+	
 	CGRect bkg;
 	bkg.origin.x=0;
 	bkg.origin.y=0;
@@ -144,12 +132,10 @@ void Menu_background::render()
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE);
     if(!IS_IPAD)
         glTranslatef(SCREEN_WIDTH/2,0,0);
-    else if(IS_WIDESCREEN)
-    {
+    else if(IS_WIDESCREEN){
       //  printg("Wtf\n");
         glTranslatef(SCREEN_WIDTH,130,0);
-    }
-    else
+    }else
         glTranslatef(IPAD_WIDTH/2,0,0);
 	glRotatef(pinwheelr,0,0,-1);
 	glScalef(2.5,2.5,2.5);
@@ -196,11 +182,13 @@ void Menu_background::render()
     mountain.origin.x-=835;
     
     mountain.origin.x-=835*2;
-    Resources::getResources->getMenuTex(MENU_TREESLEFT)->drawTextNoScale(mountain);
+   Resources::getResources->getMenuTex(MENU_TREESLEFT)->drawTextNoScale(mountain);
     mountain.origin.x+=835;
-    Resources::getResources->getMenuTex(MENU_TREESRIGHT)->drawTextNoScale(mountain);
+  Resources::getResources->getMenuTex(MENU_TREESRIGHT)->drawTextNoScale(mountain);
     mountain.origin.x-=835;
+    
     mountain.origin.x+=835*2;
+    
     
 	CGRect ground;
 	ground.origin.x=groundx;
@@ -210,15 +198,21 @@ void Menu_background::render()
 	Resources::getResources->getMenuTex(MENU_GROUND)->drawTextM(ground);
 	ground.origin.x-=480;
 	Resources::getResources->getMenuTex(MENU_GROUND)->drawTextM(ground);
-    if(IS_WIDESCREEN)
-    {
+    if(IS_WIDESCREEN){
         ground.origin.x+=480*2;
         Resources::getResources->getMenuTex(MENU_GROUND)->drawTextM(ground);
          ground.origin.x-=480*2;
+
     }
-    
 	ground.origin.x+=480;
 	
+    
+   
+    
+    
+    
+
+    
     /*else{
         mountain.origin.y=139.0f/SCALE_HEIGHT;
         mountain.size.height=85;
@@ -237,4 +231,9 @@ void Menu_background::render()
    
     }
     */
+   
+    
+   
+	
 }
+

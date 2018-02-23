@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/23/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 
 #import "TerrainGenerator.h"
 #import "Terrain.h"
@@ -38,8 +37,7 @@ void tgenInit(){
 }
 static TerrainChunk* column[CHUNKS_PER_COLUMN];
 
-inline static int getCustomct(int x,int z,int y)
-{
+inline static int getCustomct(int x,int z,int y){
      return  tcolors[x*CHUNKS_PER_COLUMN*CHUNK_SIZE*CHUNK_SIZE*2*2+z*CHUNKS_PER_COLUMN*CHUNK_SIZE*2+y];
     
 }

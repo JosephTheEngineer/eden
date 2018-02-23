@@ -3,8 +3,7 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/3/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
-
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import "EdenAppDelegate.h"
@@ -33,6 +32,7 @@
 	//NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 //	[Flurry startSession:@"LUWB9P4UZU1K1A4YUT9V"];
     
+    //[Appirater appLaunched:YES];
     
    // [Appirater rateApp];
     return YES;
@@ -60,6 +60,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    //[Appirater appEnteredForeground:YES];
     // Handle any foreground procedures not related to animation here.
 }
 

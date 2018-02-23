@@ -3,9 +3,8 @@
 //  Eden
 //
 //  Created by Ari Ronen on 6/23/11.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
-
 
 #include "zpipe.h"
 #include <stdio.h>

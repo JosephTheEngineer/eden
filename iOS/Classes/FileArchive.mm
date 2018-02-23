@@ -4,9 +4,7 @@
 //
 //  Created by Ari Ronen on 5/10/14.
 //
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
 //
-
 
 /*
 #include <stdio.h>

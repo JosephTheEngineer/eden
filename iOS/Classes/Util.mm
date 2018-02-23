@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/11/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 #import "Globals.h"
 #import "Util.h"
 #import <OpenGLES/ES1/gl.h>
@@ -16,7 +15,6 @@
 #import "md5.h"
 #import "Model.h"
 
-// maxlength was 1000. temp
 std::string cpstring(NSString * str){
     char buf[1000];
     [str getCString:buf maxLength:1000 encoding:NSUTF8StringEncoding];
@@ -24,12 +22,11 @@ std::string cpstring(NSString * str){
     return std::string(buf);
     
 }
-NSString* nsstring(std::string s)
-{
-    //NSString *nsstring = [nsstring retain];
+NSString* nsstring(std::string s){
+    
     return [NSString stringWithCString:s.c_str() encoding:NSUTF8StringEncoding];;
+    
 }
-
 float dotProduct(Vector A,Vector B){
     
     return A.x*B.x + A.y*B.y + A.z*B.z;
@@ -426,10 +423,10 @@ void takeScreenshot(){
     [data writeToFile:file_name atomically:FALSE];
     
     CFStringRef md5hash = 
-    FileMD5HashCreateWithPath((__bridge CFStringRef)file_name,
+    FileMD5HashCreateWithPath((CFStringRef)file_name, 
                               FileHashDefaultChunkSizeForReadingData);
   
-    World::getWorld->fm->setImageHash(cpstring((__bridge NSString *)md5hash));
+    World::getWorld->fm->setImageHash(cpstring((NSString *)md5hash));
     //CFRelease(md5hash);
 
 }

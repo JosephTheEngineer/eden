@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 11/2/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 
 #import "SpecialEffects.h"
 #import "Graphics.h"
@@ -15,6 +14,10 @@
 vertexpStruct pbuffer[pbuffer_size];
 static int pvbi_counter;
 
+
+
+
+
 SpecialEffects::SpecialEffects(){
    
 	memset(pbuffer,0,sizeof(vertexpStruct)*pbuffer_size);
@@ -22,8 +25,10 @@ SpecialEffects::SpecialEffects(){
 
     bb=new BlockBreak();
     fire=new Fire();
+	
+	
+	
 }
-
 void setParticle(Vector p, int pvbi){
 	
 	pbuffer[pvbi].position[0]=p.x;

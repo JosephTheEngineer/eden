@@ -3,9 +3,8 @@
 //  prototype
 //
 //  Created by Ari Ronen on 10/14/10.
-//  This project is licensed under the GNU General Public License v3. See https://github.com/JosephTheEngineer/Eden for more info.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
-
 
 #import "Player.h"
 #import "Util.h"
@@ -484,9 +483,6 @@ void Player::processInput(float etime){
                             if(type==TYPE_FIREWORK){
                                 Resources::getResources->playSound(S_FIREWORK_FUSE);
                             }else
-                                if (type==TYPE_VINE) {
-                                } else {
-                                }
 							Resources::getResources->playSound(S_FIRE_SUCCEED);
 						}else{
                             World::getWorld->effects->addSmoke(point.x,point.z,point.y);
@@ -1026,25 +1022,19 @@ BOOL Player::update(float etime){
 	lpos.z=pos.z;
     this->move(etime);
 	
-    if(World::getWorld->terrain->tgen->LEVEL_SEED==DEFAULT_LEVEL_SEED)
-    {
-        if(pos.x<4096*CHUNK_SIZE-GSIZE/2)
-        {
+    if(World::getWorld->terrain->tgen->LEVEL_SEED==DEFAULT_LEVEL_SEED){
+        if(pos.x<4096*CHUNK_SIZE-GSIZE/2){
            pos.x=4096*CHUNK_SIZE-GSIZE/2;
-        }else if(pos.x>=4096*CHUNK_SIZE+GSIZE/2)
-        {
+        }else if(pos.x>=4096*CHUNK_SIZE+GSIZE/2){
             pos.x=4096*CHUNK_SIZE+GSIZE/2;
         }
-        if(pos.z<4096*CHUNK_SIZE-GSIZE/2)
-        {
+        
+        if(pos.z<4096*CHUNK_SIZE-GSIZE/2){
             pos.z=4096*CHUNK_SIZE-GSIZE/2;
-        }
-        else if(pos.z>=4096*CHUNK_SIZE+GSIZE/2)
-        {
+        }else if(pos.z>=4096*CHUNK_SIZE+GSIZE/2){
             pos.z=4096*CHUNK_SIZE+GSIZE/2;
         }
     }
-    
     updateSkyColor2(this,FALSE,etime);
 	//NSLog(@"%f %f %f",pos.x,pos.y,pos.z);
 	
@@ -1057,8 +1047,7 @@ BOOL Player::update(float etime){
     
 	cam->mode=0;
 	//NSLog(@"%d %d %d",pos.x,pos.y,pos.z);
-	if(THIRD_PERSON)
-    {
+	if(THIRD_PERSON){
 	cam->pitch=0;
 	cam->mode=1;
 	}
