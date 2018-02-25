@@ -20,7 +20,7 @@
 #define GRAVITY 20.0f
 #define THIRD_PERSON 0
 
-#define EXPLOSION_RADIUS 5
+#define EXPLOSION_RADIUS 6
 
 #define NUM_BLOCKS 111
 
@@ -32,7 +32,7 @@
 #define M_STUMPY 4
 #define M_CHARGER 5
 #define M_STALKER 6
-#define MAX_CREATURES_SAVED 200
+#define MAX_CREATURES_SAVED 400
 
 #define CHUNK_SIZE 16
 #define CHUNK_SIZE2 (CHUNK_SIZE*CHUNK_SIZE)
@@ -47,7 +47,7 @@
 #define CHUNKS_PER_SIDE (T_SIZE/CHUNK_SIZE)
 #define BLOCK_SIZE 1.0f
 
-#define LIGHT_RADIUS 5.0f
+#define LIGHT_RADIUS 15.0f
 
 enum BLOCK_TYPES{
 	TYPE_NONE=0,
