@@ -1,18 +1,6 @@
 # Eden Development
 We are developing Eden World Builder, a block based building game created by Ari Ronen for iOS.
 
-## Current Project
-We are currently working on version 2.1.1. This update will include:
-* New texture for vine block.
-* Increased brightness of lamps.
-* iTunes file sharing for easily copying worlds to and from your computer.
-* Made door noises quieter.
-* Made fire slightly bigger, and burn for longer.
-* New launch screen
-* Minor bug fixes and code modernizations.
-* More creatures can exist in one world.
-* Small changes to world gen. 
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
