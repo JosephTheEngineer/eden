@@ -1,3 +1,6 @@
+This repo is not updated anymore!
+Please see [this link](https://gitlab.com/edenproject/engine) for the cross-platform remaster.
+
 # Eden Development
 We are developing Eden World Builder, a block based building game created by Ari Ronen for iOS.
 
